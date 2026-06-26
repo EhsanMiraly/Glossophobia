@@ -1,0 +1,6 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/UI/BasicElements/Exit_VisualElement/Exit_VisualElement_Template_StyleSheet.uss?fileID=7433441132597879392&amp;guid=f2b6e1465469d9640a9f509d0eb26251&amp;type=3#Exit_VisualElement_Template_StyleSheet"/>
+    <ui:VisualElement name="Background_VisualElement" class="Background_VisualElement">
+        <ui:Label text="Exit" name="Exit_Label" class="Exit_Label"/>
+    </ui:VisualElement>
+</ui:UXML>

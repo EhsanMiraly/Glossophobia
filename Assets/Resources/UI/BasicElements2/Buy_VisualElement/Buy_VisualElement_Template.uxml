@@ -1,0 +1,6 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/UI/BasicElements/Buy_VisualElement/Buy_VisualElement_Template_StyleSheet.uss?fileID=7433441132597879392&amp;guid=488949b87ad621a4fb8a90ac4c834854&amp;type=3#Buy_VisualElement_Template_StyleSheet"/>
+    <ui:VisualElement name="Background_VisualElement" class="Background_VisualElement">
+        <ui:Label text="Buy" name="Buy_Label" class="Buy_Label"/>
+    </ui:VisualElement>
+</ui:UXML>
