@@ -40,11 +40,6 @@ public class LoadingWindow : IDisposable
 
         loading_Label = this.root.Q<Label>("Loading_Label");
 
-        Debug.Log(loading_Label);
-        Debug.Log(LanguageTextsData.loading);
-        Debug.Log(LanguageTextsData.languages);
-        Debug.Log(SettingsData.currentLanguageIndex);
-
         loading_Label.text =
             LanguageTextsData.loading[SettingsData.currentLanguageIndex];
         loading_Label.languageDirection =
