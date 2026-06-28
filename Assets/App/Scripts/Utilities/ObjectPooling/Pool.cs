@@ -1,32 +1,35 @@
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 public class Pool<T> where T : IObjectInPool
 {
-    private GameObject Prefab;
+    public List<GameObject> PoolList { get; private set; }
+    public int MaxObjectsInPool { get; private set; }
+    public int CurrentObjectsInPool { get; set; }
 
-    private List<GameObject> PoolList;
-    private int MaxObjectsInPool;
-    private int CurrentObjectsInPool;
 
-    public Pool(GameObject prefab, int maxObjectsInPool)
+    public Pool(int maxObjectsInPool)
     {
-        Prefab = prefab;
         PoolList = new List<GameObject>();
         MaxObjectsInPool = maxObjectsInPool;
         CurrentObjectsInPool = 0;
     }
 
-    public bool CanGetGameObject()
+    public void AddToPool(GameObject gameObject)
     {
-        for (int i = 0; i < PoolList.Count; i++)
-        {
+        PoolList.Add(gameObject);
+        CurrentObjectsInPool++;
+    }
 
+    public bool IsThereDisabledGameObjectInPool()
+    {
+        for (int i = 0; i < CurrentObjectsInPool; i++)
+        {
             if (PoolList[i] == null)
             {
                 return false;
             }
-
 
             if (!PoolList[i].GetComponent<T>().IsEnable)
             {
@@ -34,15 +37,20 @@ public class Pool<T> where T : IObjectInPool
             }
         }
 
-        if (CurrentObjectsInPool < MaxObjectsInPool)
-        {
-            return true;
-        }
-
         return false;
     }
 
-    public GameObject GetGameObject()
+    public bool IsPoolFull()
+    {
+        if (CurrentObjectsInPool < MaxObjectsInPool)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public GameObject GetGameObjectFromPool()
     {
         for (int i = 0; i < PoolList.Count; i++)
         {
@@ -51,15 +59,31 @@ public class Pool<T> where T : IObjectInPool
                 return PoolList[i];
             }
         }
-        return AddGameObjectToPool();
+
+        return null;
     }
 
-    private GameObject AddGameObjectToPool()
+    public GameObject GetGameObjectFromPool(int index)
     {
-        GameObject gameObject = MonoBehaviour.Instantiate(Prefab);
-        PoolList.Add(gameObject);
-        CurrentObjectsInPool++;
-        return gameObject;
+        return PoolList[index];
+    }
+
+    public bool IsThereEnabledGameObjectInPool()
+    {
+        for (int i = 0; i < CurrentObjectsInPool; i++)
+        {
+            if (PoolList[i] == null)
+            {
+                return false;
+            }
+
+            if (PoolList[i].GetComponent<T>().IsEnable)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
