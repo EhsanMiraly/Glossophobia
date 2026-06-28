@@ -10,6 +10,7 @@ public class Brain : MonoBehaviour
     private async void OnEnable()
     {
         //loop every 5 second to change env
+        ChairsUtilities.UpdateChairPossibility();
 
         while (true)
         {

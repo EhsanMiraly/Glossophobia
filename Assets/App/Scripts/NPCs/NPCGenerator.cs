@@ -5,29 +5,14 @@ using UnityEngine;
 public class NPCGenerator : MonoBehaviour
 {
     [SerializeField] GameObject NPCPointPrefab;
-    [SerializeField] List<GameObject> NPCsPrefabs;
-    //IsUsed????
+    [SerializeField] List<GameObject> NPCsPrefabs;//Add a List to see witch one is used to generate ne one
     private Pool<NPCController> npcsPool;
-
-
-    #region Points
-
-    Vector3 initialPoint;
-    Vector3 inClassPoint;
-    Vector3[] rowEntryPoints;
-    Vector3[,] rowColomnPoints;
-
-    #endregion
 
 
 
     private void OnEnable()
     {
         npcsPool = new Pool<NPCController>(5);//Change Later
-
-
-        GeneratePoints();
-        GeneratePointsToSee();
 
         SubscribeToEvents();
     }
@@ -37,58 +22,6 @@ public class NPCGenerator : MonoBehaviour
         UnSubscribeToEvents();
     }
 
-
-    #region Points
-
-    private void GeneratePoints()
-    {
-        initialPoint = new Vector3(0, 0, 0);
-        inClassPoint = new Vector3(9, 0, 0);
-
-        rowEntryPoints = new Vector3[5];
-
-        rowColomnPoints = new Vector3[5, 10];
-
-        for (int i = 0; i < 5; i++)
-        {
-            rowEntryPoints[i] = inClassPoint + new Vector3(0, 0, i * -2);
-        }
-
-        for (int i = 0; i < 5; i++)
-        {
-            for (int j = 0; j < 10; j++)
-            {
-                rowColomnPoints[i, j] = rowEntryPoints[i] + new Vector3((j + 1) + 0.35f, 0, 0);
-            }
-        }
-
-    }
-
-    private void GeneratePointsToSee()
-    {
-        GameObject initialPoint_GO = Instantiate(NPCPointPrefab);
-        initialPoint_GO.transform.parent = this.transform;
-        initialPoint_GO.transform.localPosition = initialPoint;
-
-        for (int i = 0; i < 5; i++)
-        {
-            GameObject point = Instantiate(NPCPointPrefab);
-            point.transform.parent = this.transform;
-            point.transform.localPosition = rowEntryPoints[i];
-        }
-
-        for (int i = 0; i < 5; i++)
-        {
-            for (int j = 0; j < 10; j++)
-            {
-                GameObject point = Instantiate(NPCPointPrefab);
-                point.transform.parent = this.transform;
-                point.transform.localPosition = rowColomnPoints[i, j];
-            }
-        }
-    }
-
-    #endregion
 
     #region Events
 
@@ -106,6 +39,12 @@ public class NPCGenerator : MonoBehaviour
 
     private void AddNPC()
     {
+        if (!ChairsUtilities.isThereEmptyChair())
+        {
+            Debug.Log("Chairs are fUll!!!");
+            return;
+        }
+
         if (npcsPool.IsThereDisabledGameObjectInPool())
         {
             GameObject npc = npcsPool.GetGameObjectFromPool();
@@ -119,19 +58,13 @@ public class NPCGenerator : MonoBehaviour
             npcsPool.AddToPool(npc);
             npc.transform.parent = this.transform;
             NPCController npcController = npc.GetComponent<NPCController>();
-            npcController.Points = new Vector3[]//Select Random
-            {
-                initialPoint,
-                inClassPoint,
-                rowEntryPoints[3],
-                rowColomnPoints[3,5]
-            };
             npcController.ResetNPC();
             npcController.GoToChair();
         }
         else
         {
             Debug.Log("Pool is fUll!!!");
+            return;
         }
     }
 

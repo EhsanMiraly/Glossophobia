@@ -83,6 +83,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0af92d91be0974083d7001beb7cc85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCController
+  NPCPointPrefab: {fileID: 4113946887345002626, guid: e1de59273d78daa4d8781dde62a1576f, type: 3}
+  duration: 0
 --- !u!1 &8738466786115010658
 GameObject:
   m_ObjectHideFlags: 0

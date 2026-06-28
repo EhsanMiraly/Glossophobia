@@ -1,8 +1,11 @@
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using UnityEngine;
 
 public class NPCController : MonoBehaviour, IObjectInPool
 {
+    [SerializeField] GameObject NPCPointPrefab;
+
     public bool IsEnable { get; set; }
 
 
@@ -20,11 +23,23 @@ public class NPCController : MonoBehaviour, IObjectInPool
 
     #endregion
 
+
+
+
+    #region Movement
+    private Vector2 chairLocation;
     [HideInInspector] public Vector3[] Points { get; set; }
-
+    int currentDestinationIndex;
+    Vector3 currentDestination;
     public float duration;
-
     private float timer = 0f;
+    #endregion
+
+    #region NPC State
+    private bool goingToChair;
+    private bool sitting;
+    private bool goingToInitialPoint;
+    #endregion
 
 
     private void OnEnable()
@@ -34,49 +49,57 @@ public class NPCController : MonoBehaviour, IObjectInPool
 
     private void Update()
     {
-        GoForward(Points[0], Points[1]);
-    }
+        if (goingToChair)
+        {
+            GoToChair();
+        }
+        else if (sitting)
+        {
+            //Sitting();
+        }
+        else if (goingToInitialPoint)
+        {
+            //GoingToInitial();
+        }
 
-
-    private void SetAnimation(int animation_Hash)
-    {
-        animator.SetBool(isStandingIdle_Hash, false);
-        animator.SetBool(isWalking_Hash, false);
-        animator.SetBool(isTurningRight_Hash, false);
-        animator.SetBool(isTurningLeft_Hash, false);
-        animator.SetBool(isSittingToStanding_Hash, false);
-        animator.SetBool(isStandingToSitting_Hash, false);
-        animator.SetBool(isSittingIdle_Hash, false);
-
-        animator.SetBool(animation_Hash, true);
+        //GoForward(Points[0], Points[1]);
     }
 
 
     public void ResetNPC()
     {
+        IsEnable = true;
+
+        chairLocation = ChairsUtilities.FindRandomEmptyChairBasedOnChairPossibility();
+        ChairsUtilities.UpdateChairOccupied(chairLocation, true);
+        Debug.Log(chairLocation);
+
+        Points = new Vector3[]
+        {
+                new Vector3(0,0,0),
+                new Vector3(9,0,0),
+                new Vector3(9,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2),
+                new Vector3(9,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2) +
+                 new Vector3(((int)chairLocation.y + 1) + 0.35f, 0, 0)
+        };
+
+        GeneratePointsToSee();//Delete Later
+
         transform.localPosition = Points[0];
         transform.localRotation = Quaternion.identity;
         transform.localRotation *= Quaternion.Euler(0, 90, 0);
 
-        IsEnable = true;
 
-        /*
-        chairLocation = Utilities.FindRandomEmptyChairBasedOnChairPossibility();
-        GameData.chairsOccupied[(int)chairLocation.x, (int)chairLocation.y] = true;
-        finalDestination = Utilities.TurnEmptyChairLocationIntoGamePosition(chairLocation);
-
-        myPoints[0] = NavigationData.initialPoint;
-        myPoints[1] = NavigationData.outDoorPoint;
-        myPoints[2] = NavigationData.rowsEntryPoints[(int)chairLocation.y];
-        myPoints[3] = finalDestination + new Vector3(0f, 0f, 0.5f);
-        myPoints[4] = finalDestination + new Vector3(0f, 0f, 2f);
-
-        currentDestinationIndex = 0;
-        currentDestination = myPoints[currentDestinationIndex];
 
         goingToChair = true;
         sitting = false;
         goingToInitialPoint = false;
+
+        /*
+        currentDestinationIndex = 0;
+        currentDestination = myPoints[currentDestinationIndex];
+
+
 
         transform.localRotation = NavigationData.initialDirection;
 
@@ -89,99 +112,18 @@ public class NPCController : MonoBehaviour, IObjectInPool
         */
     }
 
+    //Delete Later
+    private void GeneratePointsToSee()
+    {
+        for (int i = 0; i < Points.Length; i++)
+        {
+            GameObject point = Instantiate(NPCPointPrefab);
+            point.transform.parent = this.transform.parent;
+            point.transform.localPosition = Points[i];
+        }
+    }
+
     public void GoToChair()
-    {
-
-    }
-
-    public void GoToInitialPoint()
-    {
-
-    }
-
-
-    public void GoForward(Vector3 start, Vector3 end)
-    {
-        duration = Vector3.Distance(Points[0], Points[1]) / 2f;
-
-        timer += Time.deltaTime;
-
-        float t = timer / duration;
-        t = Mathf.Clamp01(t);
-
-        transform.localPosition = Vector3.Slerp(start, end, t);
-
-        //transform.Translate(0f, 0f, 5 * Time.deltaTime, Space.Self);//walkSpeed
-        if (!animator.GetBool(isWalking_Hash))
-        {
-            SetAnimation(isWalking_Hash);
-        }
-    }
-
-
-    /*
-//Brain and Pool Changes this;
-    bool isActive;
-    int id;
-
-
-    AnimationEventReceiver animationEventReceiver;
-
-
-
-    [SerializeField] GameObject testPrefab;
-    [HideInInspector] public Vector2 chairLocation = Vector2.zero;
-    [HideInInspector] public Vector3 finalDestination = Vector3.zero;
-    public Vector3[] myPoints = new Vector3[5];
-
-    //General States
-    public bool goingToChair;
-    public bool sitting;
-    public bool goingToInitialPoint;
-
-
-
-
-    float walkSpeed = 6f;
-    float distanceToTeleport = 0.3f;
-
-
-    int currentDestinationIndex;
-    Vector3 currentDestination;
-
-    float distanceToDestination;
-
-
-
-
-    private void Start()
-    {
-        animator = GetComponent<Animator>();
-        animationEventReceiver = GetComponent<AnimationEventReceiver>();
-
-        ResetNPCState();
-    }
-
-
-    void Update()
-    {
-        if (goingToChair)
-        {
-            GoingToChair();
-        }
-        else if (sitting)
-        {
-            Sitting();
-        }
-        else if (goingToInitialPoint)
-        {
-            GoingToInitial();
-        }
-    }
-
-
-
-    public void GoingToChair()
     {
         if (!isAnimationBusy())
         {
@@ -240,6 +182,81 @@ public class NPCController : MonoBehaviour, IObjectInPool
             }
         }
     }
+
+
+    public void GoToInitialPoint()
+    {
+
+
+
+
+
+        //When Reaches initial
+        ChairsUtilities.UpdateChairOccupied(chairLocation, false);
+    }
+
+
+    public void GoForward(Vector3 start, Vector3 end)
+    {
+        duration = Vector3.Distance(Points[0], Points[1]) / 2f;
+
+        timer += Time.deltaTime;
+
+        float t = timer / duration;
+        t = Mathf.Clamp01(t);
+
+        transform.localPosition = Vector3.Slerp(start, end, t);
+
+        //transform.Translate(0f, 0f, 5 * Time.deltaTime, Space.Self);//walkSpeed
+        if (!animator.GetBool(isWalking_Hash))
+        {
+            SetAnimation(isWalking_Hash);
+        }
+    }
+
+
+
+    private void SetAnimation(int animation_Hash)
+    {
+        animator.SetBool(isStandingIdle_Hash, false);
+        animator.SetBool(isWalking_Hash, false);
+        animator.SetBool(isTurningRight_Hash, false);
+        animator.SetBool(isTurningLeft_Hash, false);
+        animator.SetBool(isSittingToStanding_Hash, false);
+        animator.SetBool(isStandingToSitting_Hash, false);
+        animator.SetBool(isSittingIdle_Hash, false);
+
+        animator.SetBool(animation_Hash, true);
+    }
+
+
+
+    //Brain and Pool Changes this;
+    int id;
+
+
+    AnimationEventReceiver animationEventReceiver;
+
+
+
+
+
+    float distanceToDestination;
+
+
+
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+        animationEventReceiver = GetComponent<AnimationEventReceiver>();
+
+        ResetNPCState();
+    }
+
+
+
+
 
     public void Sitting()
     {
@@ -321,7 +338,7 @@ public class NPCController : MonoBehaviour, IObjectInPool
 
 
 
-    
+
 
     public void TurnRight()
     {
@@ -398,6 +415,6 @@ public class NPCController : MonoBehaviour, IObjectInPool
     {
         this.id = id;
     }
-    */
+
 
 }
