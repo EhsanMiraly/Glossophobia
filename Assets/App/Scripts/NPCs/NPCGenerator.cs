@@ -55,6 +55,7 @@ public class NPCGenerator : MonoBehaviour
         else if (!npcsPool.IsPoolFull())
         {
             GameObject npc = Instantiate(NPCsPrefabs[RandomNPCPrefabIndex()]);
+            npc.gameObject.SetActive(false);
             npcsPool.AddToPool(npc);
             npc.transform.parent = this.transform;
             NPCController npcController = npc.GetComponent<NPCController>();

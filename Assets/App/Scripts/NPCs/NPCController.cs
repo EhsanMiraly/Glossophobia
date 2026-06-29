@@ -10,6 +10,7 @@ public class NPCController : MonoBehaviour, IObjectInPool
 
 
     Animator animator;
+    RuntimeAnimatorController runtimeAnimatorController;
 
     #region Animation Names
 
@@ -24,51 +25,125 @@ public class NPCController : MonoBehaviour, IObjectInPool
     #endregion
 
 
-
-
-    #region Movement
-    private Vector2 chairLocation;
-    [HideInInspector] public Vector3[] Points { get; set; }
-    int currentDestinationIndex;
-    Vector3 currentDestination;
-    public float duration;
-    private float timer = 0f;
-    #endregion
-
     #region NPC State
     private bool goingToChair;
     private bool sitting;
     private bool goingToInitialPoint;
+    private bool isTurningRight;
+    private bool isTurningLeft;
+    private bool isSitting;
+    private bool isStanding;
     #endregion
+
+
+    #region Rotating Properties
+
+    private Quaternion startRotation;
+    private Quaternion targetRotation;
+    private float turnSpeed;
+
+    #endregion
+
+
+    #region Sitting and Standing Properties
+
+    private float moveTimer;
+    private float animationLength;
+    private Vector3 startPosition;
+    private Vector3 targetPosition;
+
+    public AnimationCurve sittingCurve = new AnimationCurve(
+        new Keyframe(0.0f, 0.0f),
+        new Keyframe(0.5f, 0.5f),
+        new Keyframe(0.8f, 1f),
+        new Keyframe(1f, 1f));
+
+    public AnimationCurve standingCurve = new AnimationCurve(
+    new Keyframe(0.0f, 0.0f),
+    new Keyframe(0.3f, 0.1f),
+    new Keyframe(0.5f, 0.4f),
+    new Keyframe(0.9f, 1.0f),
+    new Keyframe(1f, 1f));
+
+    #endregion
+
+
+    #region Movement
+
+    private Vector2 chairLocation;
+    [HideInInspector] public Vector3[] Points { get; set; }
+    int currentDestinationIndex;
+    float distanceToDestination;
+    public float duration;
+    private float timer = 0f;
+
+    #endregion
+
+
 
 
     private void OnEnable()
     {
         animator = GetComponentInChildren<Animator>();
+        runtimeAnimatorController = animator.runtimeAnimatorController;
     }
 
     private void Update()
     {
+        if (isTurningRight || isTurningLeft)
+        {
+            transform.rotation = Quaternion.RotateTowards(
+                transform.rotation,
+                targetRotation,
+                turnSpeed * Time.deltaTime
+            );
+        }
+
+        if (isSitting)
+        {
+            moveTimer += Time.deltaTime;
+            float t = Mathf.Clamp01(moveTimer / animationLength);
+            float curvedT = sittingCurve.Evaluate(t);
+            transform.localPosition = Vector3.Lerp(startPosition, targetPosition, curvedT);
+
+            if (t >= 1f)
+            {
+                isSitting = false;
+            }
+        }
+
+        if (isStanding)
+        {
+            moveTimer += Time.deltaTime;
+            float t = Mathf.Clamp01(moveTimer / animationLength);
+            float curvedT = standingCurve.Evaluate(t);
+            transform.localPosition = Vector3.Lerp(startPosition, targetPosition, curvedT);
+
+            if (t >= 1f)
+            {
+                isStanding = false;
+            }
+        }
+
         if (goingToChair)
         {
             GoToChair();
         }
         else if (sitting)
         {
-            //Sitting();
+            Sitting();
         }
         else if (goingToInitialPoint)
         {
-            //GoingToInitial();
+            GoToInitialPoint();
         }
-
-        //GoForward(Points[0], Points[1]);
     }
 
 
     public void ResetNPC()
     {
         IsEnable = true;
+        this.gameObject.SetActive(true);
 
         chairLocation = ChairsUtilities.FindRandomEmptyChairBasedOnChairPossibility();
         ChairsUtilities.UpdateChairOccupied(chairLocation, true);
@@ -80,7 +155,9 @@ public class NPCController : MonoBehaviour, IObjectInPool
                 new Vector3(9,0,0),
                 new Vector3(9,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2),
                 new Vector3(9,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2) +
-                 new Vector3(((int)chairLocation.y + 1) + 0.35f, 0, 0)
+                                    new Vector3(((int)chairLocation.y + 1) + 0.35f, 0, 0),
+                new Vector3(9,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2) +
+                                    new Vector3(((int)chairLocation.y + 1) + 0.35f, 0, 0)+new Vector3(0,0,1)
         };
 
         GeneratePointsToSee();//Delete Later
@@ -94,22 +171,13 @@ public class NPCController : MonoBehaviour, IObjectInPool
         goingToChair = true;
         sitting = false;
         goingToInitialPoint = false;
+        isTurningRight = false;
+        isTurningLeft = false;
+        isSitting = false;
+        isStanding = false;
 
-        /*
-        currentDestinationIndex = 0;
-        currentDestination = myPoints[currentDestinationIndex];
 
-
-
-        transform.localRotation = NavigationData.initialDirection;
-
-        for (int i = 0; i < myPoints.Length; i++)
-        {
-            GameObject test = Instantiate(testPrefab, transform.parent);
-            test.transform.localPosition = myPoints[i];
-            test.transform.localRotation = Quaternion.identity;
-        }
-        */
+        currentDestinationIndex = 1;
     }
 
     //Delete Later
@@ -135,48 +203,90 @@ public class NPCController : MonoBehaviour, IObjectInPool
             }
             else
             {
-                distanceToDestination = Vector3.Distance(transform.localPosition, currentDestination);
+                distanceToDestination = Vector3.Distance(transform.localPosition, Points[currentDestinationIndex]);
 
-                if (distanceToDestination > distanceToTeleport)
+                if (distanceToDestination > 0)
                 {
-                    GoForward();
+                    GoForward(Points[currentDestinationIndex - 1], Points[currentDestinationIndex]);
                 }
-                else if (distanceToDestination <= distanceToTeleport)
+                else
                 {
-                    transform.localPosition = myPoints[currentDestinationIndex];
+                    transform.localPosition = Points[currentDestinationIndex];
+                    timer = 0f;
 
-                    if (currentDestinationIndex == 0)
+                    if (currentDestinationIndex == 1)
                     {
-                        currentDestination = myPoints[++currentDestinationIndex];
-                    }
-                    else if (currentDestinationIndex == 1)
-                    {
-                        if ((int)chairLocation.y == 0)
-                        {
-                            TurnLeft();
-                        }
-                        else
+                        if ((int)chairLocation.x != 0)
                         {
                             TurnRight();
                         }
-                        currentDestination = myPoints[++currentDestinationIndex];
+                        currentDestinationIndex++;
                     }
                     else if (currentDestinationIndex == 2)
                     {
-                        if ((int)chairLocation.y == 0)
-                        {
-                            TurnRight();
-                        }
-                        else
+                        if ((int)chairLocation.x != 0)
                         {
                             TurnLeft();
                         }
-                        currentDestination = myPoints[++currentDestinationIndex];
+                        currentDestinationIndex++;
                     }
                     else if (currentDestinationIndex == 3)
                     {
                         TurnRight();
-                        ++currentDestinationIndex;
+                        currentDestinationIndex++;
+                    }
+                }
+            }
+        }
+    }
+
+    public void GoToInitialPoint()
+    {
+        if (!isAnimationBusy())
+        {
+            if (currentDestinationIndex == 4)
+            {
+                Stand();
+                --currentDestinationIndex;
+            }
+            else
+            {
+                distanceToDestination = Vector3.Distance(transform.localPosition, Points[currentDestinationIndex]);
+
+                if (distanceToDestination > 0)
+                {
+                    GoForward(Points[currentDestinationIndex + 1], Points[currentDestinationIndex]);
+                }
+                else
+                {
+                    transform.localPosition = Points[currentDestinationIndex];
+
+                    if (currentDestinationIndex == 3)
+                    {
+                        TurnRight();
+                        currentDestinationIndex--;
+                    }
+                    else if (currentDestinationIndex == 2)
+                    {
+                        if ((int)chairLocation.x != 0)
+                        {
+                            TurnRight();
+                        }
+                        currentDestinationIndex--;
+                    }
+                    else if (currentDestinationIndex == 1)
+                    {
+                        if ((int)chairLocation.x != 0)
+                        {
+                            TurnLeft();
+                        }
+                        currentDestinationIndex--;
+                    }
+                    else if (currentDestinationIndex == 0)
+                    {
+                        IsEnable = false;
+                        this.gameObject.SetActive(false);
+                        ChairsUtilities.UpdateChairOccupied(chairLocation, false);
                     }
                 }
             }
@@ -184,21 +294,26 @@ public class NPCController : MonoBehaviour, IObjectInPool
     }
 
 
-    public void GoToInitialPoint()
+    public bool isAnimationBusy()
     {
-
-
-
-
-
-        //When Reaches initial
-        ChairsUtilities.UpdateChairOccupied(chairLocation, false);
+        if (!isTurningRight && !isTurningLeft && !isSitting && !isStanding)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
 
     public void GoForward(Vector3 start, Vector3 end)
     {
-        duration = Vector3.Distance(Points[0], Points[1]) / 2f;
+        if (!animator.GetBool(isWalking_Hash))
+        {
+            duration = Vector3.Distance(start, end) / 2f;
+            SetAnimation(isWalking_Hash);
+        }
 
         timer += Time.deltaTime;
 
@@ -206,14 +321,41 @@ public class NPCController : MonoBehaviour, IObjectInPool
         t = Mathf.Clamp01(t);
 
         transform.localPosition = Vector3.Slerp(start, end, t);
+    }
 
-        //transform.Translate(0f, 0f, 5 * Time.deltaTime, Space.Self);//walkSpeed
-        if (!animator.GetBool(isWalking_Hash))
+    public void TurnRight()
+    {
+        isTurningRight = true;
+        if (!animator.GetBool(isTurningRight_Hash))
         {
-            SetAnimation(isWalking_Hash);
+            SetAnimation(isTurningRight_Hash);
         }
     }
 
+    public void TurnLeft()
+    {
+        isTurningLeft = true;
+        if (!animator.GetBool(isTurningLeft_Hash))
+        {
+            SetAnimation(isTurningLeft_Hash);
+        }
+    }
+
+    public void Sit()
+    {
+        if (!animator.GetBool(isSittingIdle_Hash))
+        {
+            SetAnimation(isSittingIdle_Hash);
+        }
+    }
+
+    public void Stand()
+    {
+        if (!animator.GetBool(isStandingIdle_Hash))
+        {
+            SetAnimation(isStandingIdle_Hash);
+        }
+    }
 
 
     private void SetAnimation(int animation_Hash)
@@ -230,191 +372,101 @@ public class NPCController : MonoBehaviour, IObjectInPool
     }
 
 
-
-    //Brain and Pool Changes this;
-    int id;
-
-
-    AnimationEventReceiver animationEventReceiver;
-
-
-
-
-
-    float distanceToDestination;
-
-
-
-
-    private void Start()
+    public void RightTurn90AnimationStarted()
     {
-        animator = GetComponent<Animator>();
-        animationEventReceiver = GetComponent<AnimationEventReceiver>();
+        startRotation = transform.localRotation;
+        targetRotation = startRotation * Quaternion.Euler(0f, 90f, 0f);
+        turnSpeed = 90f / GetAnimationClipLength("TurningRight_Edited");
+    }
+    public void RightTurn90AnimationEnded()
+    {
+        transform.localRotation = targetRotation;
 
-        ResetNPCState();
+        Vector3 euler = transform.localEulerAngles;
+        euler.y = Mathf.Repeat(euler.y, 360f);
+        euler.y = Mathf.Round(euler.y / 90f) * 90f;
+        transform.localEulerAngles = euler;
+
+        isTurningRight = false;
+    }
+
+    public void LeftTurn90AnimationStarted()
+    {
+        startRotation = transform.localRotation;
+        targetRotation = startRotation * Quaternion.Euler(0f, -90f, 0f);
+        turnSpeed = 90f / GetAnimationClipLength("TurningLeft_Edited");
+    }
+    public void LeftTurn90AnimationEnded()
+    {
+        transform.localRotation = targetRotation;
+
+        Vector3 euler = transform.localEulerAngles;
+        euler.y = Mathf.Repeat(euler.y, 360f);
+        euler.y = Mathf.Round(euler.y / 90f) * 90f;
+        transform.localEulerAngles = euler;
+
+        isTurningLeft = false;
+    }
+
+    public void StandToSitAnimationStarted()
+    {
+        moveTimer = 0;
+        animationLength = GetAnimationClipLength("StandingToSitting_Edited");
+        startPosition = GetComponent<NPCController>().Points[3];
+        targetPosition = GetComponent<NPCController>().Points[4];
+        isSitting = true;
+    }
+    public void StandToSitAnimationEnded()
+    {
+        transform.localPosition = targetPosition;
+        isSitting = false;
+    }
+
+    public void SitToStandAnimationStarted()
+    {
+        moveTimer = 0;
+        animationLength = GetAnimationClipLength("SittingToStanding_Edited");
+        startPosition = GetComponent<NPCController>().Points[4];
+        targetPosition = GetComponent<NPCController>().Points[3];
+        isStanding = true;
+    }
+    public void SitToStandAnimationEnded()
+    {
+        transform.localPosition = targetPosition;
+        isStanding = false;
     }
 
 
 
+    public float GetAnimationClipLength(string clipName)
+    {
+        foreach (var clip in runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == clipName)
+            {
+                return clip.length;
+            }
+        }
+
+        Debug.LogWarning("Animation clip not found: " + clipName);
+        return 0f;
+    }
 
 
     public void Sitting()
     {
         if (!isAnimationBusy())
         {
-            ActivateAnimation(isSitedHash);
-        }
-    }
-
-    public void GoingToInitial()
-    {
-        if (!isAnimationBusy())
-        {
-            if (currentDestinationIndex == 4)
-            {
-                Stand();
-                currentDestination = myPoints[--currentDestinationIndex];
-            }
-            else
-            {
-                distanceToDestination = Vector3.Distance(transform.localPosition, currentDestination);
-
-                if (distanceToDestination > distanceToTeleport)
-                {
-                    GoForward();
-                }
-                else if (distanceToDestination <= distanceToTeleport)
-                {
-                    transform.localPosition = myPoints[currentDestinationIndex];
-
-                    if (currentDestinationIndex == 3)
-                    {
-                        TurnRight();
-                        currentDestination = myPoints[--currentDestinationIndex];
-                    }
-                    else if (currentDestinationIndex == 2)
-                    {
-                        if ((int)chairLocation.y == 0)
-                        {
-                            TurnLeft();
-                        }
-                        else
-                        {
-                            TurnRight();
-                        }
-                        currentDestination = myPoints[--currentDestinationIndex];
-                    }
-                    else if (currentDestinationIndex == 1)
-                    {
-                        if ((int)chairLocation.y == 0)
-                        {
-                            TurnRight();
-                        }
-                        else
-                        {
-                            TurnLeft();
-                        }
-                        currentDestination = myPoints[--currentDestinationIndex];
-                    }
-                    else if (currentDestinationIndex == 0)
-                    {
-                        isActive = false;
-                        this.gameObject.SetActive(false);
-                        GameData.chairsOccupied[(int)chairLocation.x, (int)chairLocation.y] = false;
-                        for (int i = 0; i < GameData.npcs.Count; i++)
-                        {
-                            if (GameData.npcs[i].GetComponent<NPCController>().id == this.id)
-                            {
-                                GameData.npcsPool.Add(this.gameObject);
-                                GameData.npcs.RemoveAt(i);
-                            }
-                        }
-                    }
-                }
-            }
+            SetAnimation(isSittingIdle_Hash);
         }
     }
 
 
-
-
-
-
-    public void TurnRight()
-    {
-        animationEventReceiver.isTurningRight = true;
-        if (!animator.GetBool(isTurningRightHash))
-        {
-            ActivateAnimation(isTurningRightHash);
-        }
-    }
-    public void TurnLeft()
-    {
-        animationEventReceiver.isTurningLeft = true;
-        if (!animator.GetBool(isTurningLeftHash))
-        {
-            ActivateAnimation(isTurningLeftHash);
-        }
-    }
-    public void Sit()
-    {
-        if (!animator.GetBool(isSittingHash))
-        {
-            ActivateAnimation(isSittingHash);
-        }
-    }
-    public void Stand()
-    {
-        if (!animator.GetBool(isStandingHash))
-        {
-            ActivateAnimation(isStandingHash);
-        }
-    }
-
-
-    public bool isAnimationBusy()
-    {
-        if (!animationEventReceiver.isTurningRight && !animationEventReceiver.isTurningLeft
-            && !animationEventReceiver.isSitting && !animationEventReceiver.isStanding)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
 
 
     public void MakeSittingStateTrue()
     {
         sitting = true;
     }
-
-
-    public bool IsActive()
-    {
-        return isActive;
-    }
-    public void ActivateNPC()
-    {
-        ResetNPCState();
-    }
-    public void DeActiveNPC()
-    {
-        goingToInitialPoint = true;
-        goingToChair = false;
-        sitting = false;
-    }
-
-    public int GetID()
-    {
-        return id;
-    }
-    public void SetID(int id)
-    {
-        this.id = id;
-    }
-
 
 }

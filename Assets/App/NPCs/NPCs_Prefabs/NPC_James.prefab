@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 481659963866547115}
   - component: {fileID: 4713447200385988837}
-  - component: {fileID: 6794384312772901262}
   - component: {fileID: 5136120722865776370}
   m_Layer: 0
   m_Name: NPC_James
@@ -59,18 +58,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.65, z: 0}
---- !u!114 &6794384312772901262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 389771006012304235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30e3d45a18e0cf547aabfd34abe8939b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimationEventReceiver
 --- !u!114 &5136120722865776370
 MonoBehaviour:
   m_ObjectHideFlags: 0
