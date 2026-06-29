@@ -10,7 +10,8 @@ public class NPCController : MonoBehaviour, IObjectInPool
 
 
     Animator animator;
-    RuntimeAnimatorController runtimeAnimatorController;
+    NPC_AnimationEventReceiver npc_AnimationEventReceiver;
+
 
     #region Animation Names
 
@@ -29,42 +30,6 @@ public class NPCController : MonoBehaviour, IObjectInPool
     private bool goingToChair;
     private bool sitting;
     private bool goingToInitialPoint;
-    private bool isTurningRight;
-    private bool isTurningLeft;
-    private bool isSitting;
-    private bool isStanding;
-    #endregion
-
-
-    #region Rotating Properties
-
-    private Quaternion startRotation;
-    private Quaternion targetRotation;
-    private float turnSpeed;
-
-    #endregion
-
-
-    #region Sitting and Standing Properties
-
-    private float moveTimer;
-    private float animationLength;
-    private Vector3 startPosition;
-    private Vector3 targetPosition;
-
-    public AnimationCurve sittingCurve = new AnimationCurve(
-        new Keyframe(0.0f, 0.0f),
-        new Keyframe(0.5f, 0.5f),
-        new Keyframe(0.8f, 1f),
-        new Keyframe(1f, 1f));
-
-    public AnimationCurve standingCurve = new AnimationCurve(
-    new Keyframe(0.0f, 0.0f),
-    new Keyframe(0.3f, 0.1f),
-    new Keyframe(0.5f, 0.4f),
-    new Keyframe(0.9f, 1.0f),
-    new Keyframe(1f, 1f));
-
     #endregion
 
 
@@ -74,6 +39,7 @@ public class NPCController : MonoBehaviour, IObjectInPool
     [HideInInspector] public Vector3[] Points { get; set; }
     int currentDestinationIndex;
     float distanceToDestination;
+    float distanceToTeleport = 0.01f;
     public float duration;
     private float timer = 0f;
 
@@ -85,46 +51,11 @@ public class NPCController : MonoBehaviour, IObjectInPool
     private void OnEnable()
     {
         animator = GetComponentInChildren<Animator>();
-        runtimeAnimatorController = animator.runtimeAnimatorController;
+        npc_AnimationEventReceiver = GetComponentInChildren<NPC_AnimationEventReceiver>();
     }
 
     private void Update()
     {
-        if (isTurningRight || isTurningLeft)
-        {
-            transform.rotation = Quaternion.RotateTowards(
-                transform.rotation,
-                targetRotation,
-                turnSpeed * Time.deltaTime
-            );
-        }
-
-        if (isSitting)
-        {
-            moveTimer += Time.deltaTime;
-            float t = Mathf.Clamp01(moveTimer / animationLength);
-            float curvedT = sittingCurve.Evaluate(t);
-            transform.localPosition = Vector3.Lerp(startPosition, targetPosition, curvedT);
-
-            if (t >= 1f)
-            {
-                isSitting = false;
-            }
-        }
-
-        if (isStanding)
-        {
-            moveTimer += Time.deltaTime;
-            float t = Mathf.Clamp01(moveTimer / animationLength);
-            float curvedT = standingCurve.Evaluate(t);
-            transform.localPosition = Vector3.Lerp(startPosition, targetPosition, curvedT);
-
-            if (t >= 1f)
-            {
-                isStanding = false;
-            }
-        }
-
         if (goingToChair)
         {
             GoToChair();
@@ -171,10 +102,6 @@ public class NPCController : MonoBehaviour, IObjectInPool
         goingToChair = true;
         sitting = false;
         goingToInitialPoint = false;
-        isTurningRight = false;
-        isTurningLeft = false;
-        isSitting = false;
-        isStanding = false;
 
 
         currentDestinationIndex = 1;
@@ -205,7 +132,7 @@ public class NPCController : MonoBehaviour, IObjectInPool
             {
                 distanceToDestination = Vector3.Distance(transform.localPosition, Points[currentDestinationIndex]);
 
-                if (distanceToDestination > 0)
+                if (distanceToDestination > distanceToTeleport)
                 {
                     GoForward(Points[currentDestinationIndex - 1], Points[currentDestinationIndex]);
                 }
@@ -240,6 +167,14 @@ public class NPCController : MonoBehaviour, IObjectInPool
         }
     }
 
+    public void Sitting()
+    {
+        if (!isAnimationBusy())
+        {
+            SetAnimation(isSittingIdle_Hash);
+        }
+    }
+
     public void GoToInitialPoint()
     {
         if (!isAnimationBusy())
@@ -253,7 +188,7 @@ public class NPCController : MonoBehaviour, IObjectInPool
             {
                 distanceToDestination = Vector3.Distance(transform.localPosition, Points[currentDestinationIndex]);
 
-                if (distanceToDestination > 0)
+                if (distanceToDestination > distanceToTeleport)
                 {
                     GoForward(Points[currentDestinationIndex + 1], Points[currentDestinationIndex]);
                 }
@@ -296,7 +231,8 @@ public class NPCController : MonoBehaviour, IObjectInPool
 
     public bool isAnimationBusy()
     {
-        if (!isTurningRight && !isTurningLeft && !isSitting && !isStanding)
+        if (!npc_AnimationEventReceiver.isTurningRight && !npc_AnimationEventReceiver.isTurningLeft &&
+            !npc_AnimationEventReceiver.isSitting && !npc_AnimationEventReceiver.isStanding)
         {
             return false;
         }
@@ -325,7 +261,7 @@ public class NPCController : MonoBehaviour, IObjectInPool
 
     public void TurnRight()
     {
-        isTurningRight = true;
+        npc_AnimationEventReceiver.isTurningRight = true;
         if (!animator.GetBool(isTurningRight_Hash))
         {
             SetAnimation(isTurningRight_Hash);
@@ -334,7 +270,7 @@ public class NPCController : MonoBehaviour, IObjectInPool
 
     public void TurnLeft()
     {
-        isTurningLeft = true;
+        npc_AnimationEventReceiver.isTurningLeft = true;
         if (!animator.GetBool(isTurningLeft_Hash))
         {
             SetAnimation(isTurningLeft_Hash);
@@ -370,98 +306,6 @@ public class NPCController : MonoBehaviour, IObjectInPool
 
         animator.SetBool(animation_Hash, true);
     }
-
-
-    public void RightTurn90AnimationStarted()
-    {
-        startRotation = transform.localRotation;
-        targetRotation = startRotation * Quaternion.Euler(0f, 90f, 0f);
-        turnSpeed = 90f / GetAnimationClipLength("TurningRight_Edited");
-    }
-    public void RightTurn90AnimationEnded()
-    {
-        transform.localRotation = targetRotation;
-
-        Vector3 euler = transform.localEulerAngles;
-        euler.y = Mathf.Repeat(euler.y, 360f);
-        euler.y = Mathf.Round(euler.y / 90f) * 90f;
-        transform.localEulerAngles = euler;
-
-        isTurningRight = false;
-    }
-
-    public void LeftTurn90AnimationStarted()
-    {
-        startRotation = transform.localRotation;
-        targetRotation = startRotation * Quaternion.Euler(0f, -90f, 0f);
-        turnSpeed = 90f / GetAnimationClipLength("TurningLeft_Edited");
-    }
-    public void LeftTurn90AnimationEnded()
-    {
-        transform.localRotation = targetRotation;
-
-        Vector3 euler = transform.localEulerAngles;
-        euler.y = Mathf.Repeat(euler.y, 360f);
-        euler.y = Mathf.Round(euler.y / 90f) * 90f;
-        transform.localEulerAngles = euler;
-
-        isTurningLeft = false;
-    }
-
-    public void StandToSitAnimationStarted()
-    {
-        moveTimer = 0;
-        animationLength = GetAnimationClipLength("StandingToSitting_Edited");
-        startPosition = GetComponent<NPCController>().Points[3];
-        targetPosition = GetComponent<NPCController>().Points[4];
-        isSitting = true;
-    }
-    public void StandToSitAnimationEnded()
-    {
-        transform.localPosition = targetPosition;
-        isSitting = false;
-    }
-
-    public void SitToStandAnimationStarted()
-    {
-        moveTimer = 0;
-        animationLength = GetAnimationClipLength("SittingToStanding_Edited");
-        startPosition = GetComponent<NPCController>().Points[4];
-        targetPosition = GetComponent<NPCController>().Points[3];
-        isStanding = true;
-    }
-    public void SitToStandAnimationEnded()
-    {
-        transform.localPosition = targetPosition;
-        isStanding = false;
-    }
-
-
-
-    public float GetAnimationClipLength(string clipName)
-    {
-        foreach (var clip in runtimeAnimatorController.animationClips)
-        {
-            if (clip.name == clipName)
-            {
-                return clip.length;
-            }
-        }
-
-        Debug.LogWarning("Animation clip not found: " + clipName);
-        return 0f;
-    }
-
-
-    public void Sitting()
-    {
-        if (!isAnimationBusy())
-        {
-            SetAnimation(isSittingIdle_Hash);
-        }
-    }
-
-
 
 
     public void MakeSittingStateTrue()
