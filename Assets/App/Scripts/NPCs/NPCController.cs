@@ -1,5 +1,6 @@
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NPCController : MonoBehaviour, IObjectInPool
@@ -54,8 +55,13 @@ public class NPCController : MonoBehaviour, IObjectInPool
         npc_AnimationEventReceiver = GetComponentInChildren<NPC_AnimationEventReceiver>();
     }
 
-    private void Update()
+    private async void Update()
     {
+        if (!IsEnable)
+        {
+            await Awaitable.WaitForSecondsAsync(0.01f);
+        }
+
         if (goingToChair)
         {
             GoToChair();
@@ -73,22 +79,20 @@ public class NPCController : MonoBehaviour, IObjectInPool
 
     public void ResetNPC()
     {
-        IsEnable = true;
-        this.gameObject.SetActive(true);
-
         chairLocation = ChairsUtilities.FindRandomEmptyChairBasedOnChairPossibility();
         ChairsUtilities.UpdateChairOccupied(chairLocation, true);
         Debug.Log(chairLocation);
 
         Points = new Vector3[]
         {
-                new Vector3(0,0,0),
-                new Vector3(9,0,0),
-                new Vector3(9,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2),
-                new Vector3(9,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2) +
-                                    new Vector3(((int)chairLocation.y + 1) + 0.35f, 0, 0),
-                new Vector3(9,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2) +
-                                    new Vector3(((int)chairLocation.y + 1) + 0.35f, 0, 0)+new Vector3(0,0,1)
+            new Vector3(0,0,0),
+            new Vector3(9,0,0),
+            new Vector3(9,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2),
+            new Vector3(9,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2) +
+                                new Vector3(((int)chairLocation.y + 1) + 0.35f, 0, 0),
+            new Vector3(9,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2) +
+                                new Vector3(((int)chairLocation.y + 1) + 0.35f, 0, 0) +
+                                new Vector3(0,0,0.5f)
         };
 
         GeneratePointsToSee();//Delete Later
@@ -97,14 +101,14 @@ public class NPCController : MonoBehaviour, IObjectInPool
         transform.localRotation = Quaternion.identity;
         transform.localRotation *= Quaternion.Euler(0, 90, 0);
 
-
-
         goingToChair = true;
         sitting = false;
         goingToInitialPoint = false;
 
-
         currentDestinationIndex = 1;
+
+        IsEnable = true;
+        this.gameObject.SetActive(true);
     }
 
     //Delete Later
@@ -182,7 +186,7 @@ public class NPCController : MonoBehaviour, IObjectInPool
             if (currentDestinationIndex == 4)
             {
                 Stand();
-                --currentDestinationIndex;
+                currentDestinationIndex--;
             }
             else
             {
@@ -195,6 +199,7 @@ public class NPCController : MonoBehaviour, IObjectInPool
                 else
                 {
                     transform.localPosition = Points[currentDestinationIndex];
+                    timer = 0f;
 
                     if (currentDestinationIndex == 3)
                     {
@@ -256,7 +261,7 @@ public class NPCController : MonoBehaviour, IObjectInPool
         float t = timer / duration;
         t = Mathf.Clamp01(t);
 
-        transform.localPosition = Vector3.Slerp(start, end, t);
+        transform.localPosition = Vector3.Lerp(start, end, t);
     }
 
     public void TurnRight()
@@ -279,17 +284,19 @@ public class NPCController : MonoBehaviour, IObjectInPool
 
     public void Sit()
     {
-        if (!animator.GetBool(isSittingIdle_Hash))
+        npc_AnimationEventReceiver.isSitting = true;
+        if (!animator.GetBool(isStandingToSitting_Hash))
         {
-            SetAnimation(isSittingIdle_Hash);
+            SetAnimation(isStandingToSitting_Hash);
         }
     }
 
     public void Stand()
     {
-        if (!animator.GetBool(isStandingIdle_Hash))
+        npc_AnimationEventReceiver.isStanding = true;
+        if (!animator.GetBool(isSittingToStanding_Hash))
         {
-            SetAnimation(isStandingIdle_Hash);
+            SetAnimation(isSittingToStanding_Hash);
         }
     }
 
@@ -311,6 +318,12 @@ public class NPCController : MonoBehaviour, IObjectInPool
     public void MakeSittingStateTrue()
     {
         sitting = true;
+    }
+
+    public void TimeToLeave()
+    {
+        sitting = false;
+        goingToInitialPoint = true;
     }
 
 }

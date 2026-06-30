@@ -12,7 +12,7 @@ public class NPCGenerator : MonoBehaviour
 
     private void OnEnable()
     {
-        npcsPool = new Pool<NPCController>(5);//Change Later
+        npcsPool = new Pool<NPCController>(50);//Change Later
 
         SubscribeToEvents();
     }
@@ -28,13 +28,13 @@ public class NPCGenerator : MonoBehaviour
     private void SubscribeToEvents()
     {
         EventsManager.OnAddNPC_Event += AddNPC;
-        EventsManager.OnAddNPC_Event += RemoveNPC;
+        EventsManager.OnRemoveNPC_Event += RemoveNPC;
     }
 
     private void UnSubscribeToEvents()
     {
         EventsManager.OnAddNPC_Event -= AddNPC;
-        EventsManager.OnAddNPC_Event -= RemoveNPC;
+        EventsManager.OnRemoveNPC_Event -= RemoveNPC;
     }
 
     private void AddNPC()
@@ -50,16 +50,16 @@ public class NPCGenerator : MonoBehaviour
             GameObject npc = npcsPool.GetGameObjectFromPool();
             NPCController npcController = npc.GetComponent<NPCController>();
             npcController.ResetNPC();
-            npcController.GoToChair();
         }
         else if (!npcsPool.IsPoolFull())
         {
-            GameObject npc = Instantiate(NPCsPrefabs[RandomNPCPrefabIndex()]);
-            npcsPool.AddToPool(npc);
+            GameObject npc = Instantiate(NPCsPrefabs[RandomNPCPrefabIndex()],
+                this.transform.position, Quaternion.identity);
             npc.transform.parent = this.transform;
+            npc.transform.localPosition = Vector3.zero;
+            npcsPool.AddToPool(npc);
             NPCController npcController = npc.GetComponent<NPCController>();
             npcController.ResetNPC();
-            npcController.GoToChair();
         }
         else
         {
@@ -74,7 +74,7 @@ public class NPCGenerator : MonoBehaviour
         {
             GameObject npc = npcsPool.GetGameObjectFromPool(RandomEnabledNPCIndex());
             NPCController npcController = npc.GetComponent<NPCController>();
-            npcController.GoToInitialPoint();
+            npcController.TimeToLeave();
         }
     }
 

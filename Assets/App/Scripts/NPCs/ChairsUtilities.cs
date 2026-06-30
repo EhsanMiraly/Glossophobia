@@ -7,7 +7,7 @@ public class ChairsUtilities
 
     public static bool[,] chairsOccupied = new bool[chairsRowAmount, chairsColomnAmount];
 
-    public static Vector2 centerOfGravity = Vector2.zero;
+    public static Vector2 centerOfGravity = new Vector2(4, 5);
     public static float[] chairsRowPossibility = new float[chairsRowAmount];
     public static float[] chairsColomnPossibility = new float[chairsColomnAmount];
 

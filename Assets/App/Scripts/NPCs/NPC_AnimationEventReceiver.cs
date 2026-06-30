@@ -50,9 +50,6 @@ public class NPC_AnimationEventReceiver : MonoBehaviour
     #endregion
 
 
-    float timer = 0f;
-
-
     private void OnEnable()
     {
         MainGameObject = this.transform.parent.gameObject;
@@ -70,16 +67,14 @@ public class NPC_AnimationEventReceiver : MonoBehaviour
     {
         if (didSetRotatingProperties && (isTurningRight || isTurningLeft))
         {
-            //Change This To old One
-            timer += Time.deltaTime;
-
-            float t = (timer / turnSpeed) * 100;
-            t = Mathf.Clamp01(t);
-
-            MainGameObject.transform.localRotation = Quaternion.Slerp(startRotation, targetRotation, t);
+            MainGameObject.transform.rotation = Quaternion.RotateTowards(
+                MainGameObject.transform.rotation,
+                targetRotation,
+                turnSpeed * Time.deltaTime
+                );
         }
 
-        if (isSitting)
+        if (didSetRotatingProperties && isSitting)
         {
             moveTimer += Time.deltaTime;
             float t = Mathf.Clamp01(moveTimer / animationLength);
@@ -92,7 +87,7 @@ public class NPC_AnimationEventReceiver : MonoBehaviour
             }
         }
 
-        if (isStanding)
+        if (didSetRotatingProperties && isStanding)
         {
             moveTimer += Time.deltaTime;
             float t = Mathf.Clamp01(moveTimer / animationLength);
@@ -108,14 +103,14 @@ public class NPC_AnimationEventReceiver : MonoBehaviour
 
 
 
-    public void RightTurn90AnimationStarted()
+    public void TurningRightAnimationStarted()
     {
         startRotation = MainGameObject.transform.localRotation;
         targetRotation = startRotation * Quaternion.Euler(0f, 90f, 0f);
-        turnSpeed = 90f / GetAnimationClipLength("RightTurn90_Edited");
+        turnSpeed = 90f / GetAnimationClipLength("TurningRight_Edited");
         didSetRotatingProperties = true;
     }
-    public void RightTurn90AnimationEnded()
+    public void TurningRightAnimationEnded()
     {
         MainGameObject.transform.localRotation = targetRotation;
 
@@ -128,17 +123,16 @@ public class NPC_AnimationEventReceiver : MonoBehaviour
 
         isTurningRight = false;
         didSetRotatingProperties = false;
-        timer = 0f;
     }
 
-    public void LeftTurn90AnimationStarted()
+    public void TurningLeftAnimationStarted()
     {
         startRotation = MainGameObject.transform.localRotation;
         targetRotation = startRotation * Quaternion.Euler(0f, -90f, 0f);
-        turnSpeed = 90f / GetAnimationClipLength("LeftTurn90_Edited");
+        turnSpeed = 90f / GetAnimationClipLength("TurningLeft_Edited");
         didSetRotatingProperties = true;
     }
-    public void LeftTurn90AnimationEnded()
+    public void TurningLeftAnimationEnded()
     {
         MainGameObject.transform.localRotation = targetRotation;
 
@@ -151,7 +145,6 @@ public class NPC_AnimationEventReceiver : MonoBehaviour
 
         isTurningLeft = false;
         didSetRotatingProperties = false;
-        timer = 0f;
     }
 
     public void StandToSitAnimationStarted()
@@ -160,12 +153,13 @@ public class NPC_AnimationEventReceiver : MonoBehaviour
         animationLength = GetAnimationClipLength("StandingToSitting_Edited");
         startPosition = GetComponentInParent<NPCController>().Points[3];
         targetPosition = GetComponentInParent<NPCController>().Points[4];
-        isSitting = true;
+        didSetRotatingProperties = true;
     }
     public void StandToSitAnimationEnded()
     {
         MainGameObject.transform.localPosition = targetPosition;
         isSitting = false;
+        didSetRotatingProperties = false;
     }
 
     public void SitToStandAnimationStarted()
@@ -174,12 +168,13 @@ public class NPC_AnimationEventReceiver : MonoBehaviour
         animationLength = GetAnimationClipLength("SittingToStanding_Edited");
         startPosition = GetComponentInParent<NPCController>().Points[4];
         targetPosition = GetComponentInParent<NPCController>().Points[3];
-        isStanding = true;
+        didSetRotatingProperties = true;
     }
     public void SitToStandAnimationEnded()
     {
         MainGameObject.transform.localPosition = targetPosition;
         isStanding = false;
+        didSetRotatingProperties = false;
     }
 
 
