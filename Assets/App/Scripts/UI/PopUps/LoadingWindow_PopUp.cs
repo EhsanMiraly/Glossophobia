@@ -1,44 +1,40 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class LoadingWindow : IDisposable
+public class LoadingWindow_PopUp : IDisposable
 {
     GameObject parent;
 
     VisualTreeAsset loadingWindow_Template;
 
     PanelRenderer panelRenderer;
-    //UIDocument uIDocument;
-    VisualElement root;
+
     Label loading_Label;
 
     VisualElement sliderForeground_VisualElement;
 
 
 
-    public LoadingWindow(GameObject parent)
+    public LoadingWindow_PopUp(GameObject parent)
     {
         this.parent = parent;
-        parent.name = "LoadingWindow";
+        parent.name = "LoadingWindow_PopUp";
         parent.layer = LayerMask.NameToLayer("UI");
 
         panelRenderer = parent.AddComponent<PanelRenderer>();
-        panelRenderer.panelSettings = Resources.Load<PanelSettings>("UI/PanelSettings/Screen_PanelSettings");
-
-        panelRenderer.RegisterUIReloadCallback(OnUIReload);
-
-        loadingWindow_Template = Resources.Load<VisualTreeAsset>("UI/LoadingWindow/LoadingWindow_Template");
+        panelRenderer.panelSettings = Resources.Load<PanelSettings>("UI/PanelSettings/Screen_UI_PanelSettings");
+        loadingWindow_Template = Resources.Load<VisualTreeAsset>("UI/Screen_UI/PopUps/LoadingWindow_Template");
         panelRenderer.visualTreeAsset = loadingWindow_Template;
-
         panelRenderer.sortingOrder = 100;
+
+        panelRenderer.RegisterUIReloadCallback(UIReloadCallback);
     }
 
-    private void OnUIReload(PanelRenderer panelRenderer, VisualElement root)
+    private void UIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
     {
-        this.root = root;
-
-        loading_Label = this.root.Q<Label>("Loading_Label");
+        loading_Label = root.Q<Label>("Loading_Label");
 
         loading_Label.text =
             LanguageTextsData.loading[SettingsData.currentLanguageIndex];
@@ -54,8 +50,13 @@ public class LoadingWindow : IDisposable
         SetProgress(0);
     }
 
-    public void SetProgress(int progress)
+    public async void SetProgress(int progress)
     {
+        while (sliderForeground_VisualElement == null)
+        {
+            await Awaitable.WaitForSecondsAsync(0.01f);
+        }
+
         sliderForeground_VisualElement.style.width = Length.Percent(progress);
     }
 
@@ -67,9 +68,8 @@ public class LoadingWindow : IDisposable
             UnityEngine.Object.Destroy(parent);
             parent = null;
             loadingWindow_Template = null;
-            panelRenderer.UnregisterUIReloadCallback(OnUIReload);
+            panelRenderer.UnregisterUIReloadCallback(UIReloadCallback);
             panelRenderer = null;
-            root = null;
             sliderForeground_VisualElement = null;
         }
     }

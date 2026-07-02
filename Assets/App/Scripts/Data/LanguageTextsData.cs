@@ -4,8 +4,37 @@ using UnityEngine.UIElements;
 
 public class LanguageTextsData
 {
-    public static Font font_Farsi = Resources.Load<Font>("Fonts/Farsi/Parastoo-Bold");
-    public static Font font_English = Resources.Load<Font>("Fonts/English/Roboto-Medium");
+    #region Fonts
+
+    public static List<Font> fonts = new List<Font>()
+    {
+        Resources.Load<Font>("Fonts/English/Roboto-Medium"),
+        Resources.Load<Font>("Fonts/Farsi/Parastoo-Bold")
+    };
+
+    #endregion
+
+
+    #region Welcome Page
+
+    public static List<string> welcome = new List<string> { "Welcome", "خوش آمدید" };
+    public static List<string> start = new List<string> { "Start", "شروع" };
+
+    #endregion
+
+
+    #region Settings Page
+
+    public static List<Language> languages = new List<Language>
+    {
+        new Language("English", LanguageDirection.LTR, fonts[0]),
+        new Language("فارسی", LanguageDirection.RTL,fonts[1])
+    };
+
+    #endregion
+
+
+
 
     #region LoadingPage
     public static List<string> loading = new List<string> { "Loading...", "در حال لود شدن..." };
@@ -41,11 +70,7 @@ public class LanguageTextsData
 
     #region SettingsPage
 
-    public static List<Language> languages = new List<Language>
-    {
-        new Language("English", LanguageDirection.LTR, font_English),
-        new Language("فارسی", LanguageDirection.RTL,font_Farsi)
-    };
+
 
     public static List<FontSize> fontSize_Text = new List<FontSize>
     {

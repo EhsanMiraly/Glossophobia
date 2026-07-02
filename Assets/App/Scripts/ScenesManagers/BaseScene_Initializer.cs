@@ -3,23 +3,20 @@ using UnityEngine;
 
 public class BaseScene_Initializer : MonoBehaviour
 {
+    [SerializeField] GameObject ui_GameObject;
+
     private async void Awake()
     {
-        using (LoadingWindow loadingWindow = new LoadingWindow(new GameObject()))
+        using (LoadingWindow_PopUp loadingWindow_PopUp = new LoadingWindow_PopUp(new GameObject()))
         {
-            await Awaitable.WaitForSecondsAsync(1f);
-            loadingWindow.SetProgress(10);
-            await Awaitable.WaitForSecondsAsync(1f);
-            loadingWindow.SetProgress(20);
-            await Awaitable.WaitForSecondsAsync(1f);
-            loadingWindow.SetProgress(30);
-            await Awaitable.WaitForSecondsAsync(1f);
-            loadingWindow.SetProgress(40);
+            loadingWindow_PopUp.SetProgress(10);
+            await Awaitable.WaitForSecondsAsync(1f);//Delete
 
+            ui_GameObject = Instantiate(ui_GameObject);
+            await Awaitable.WaitForSecondsAsync(1f);//Delete
 
-
-            await Awaitable.WaitForSecondsAsync(1f);
-            loadingWindow.SetProgress(100);
+            loadingWindow_PopUp.SetProgress(100);
+            await Awaitable.WaitForSecondsAsync(1f);//Delete
         }
     }
 
