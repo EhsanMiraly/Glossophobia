@@ -50,8 +50,37 @@ public class WelcomePage : MonoBehaviour
 
         AddFunctionality();
 
+        InitializeUI();
+    }
+
+    private void InitializeUI()
+    {
         OnLanguageChanged();
         OnFontSizeChanged();
+
+        if (SettingsData.currentLanguageIndex == 0)
+        {
+            ChangeSelectedLanguageTo(englishButton_TemplateContainer);
+        }
+        else if (SettingsData.currentLanguageIndex == 1)
+        {
+            ChangeSelectedLanguageTo(farsiButton_TemplateContainer);
+        }
+    }
+
+    public void ChangeSelectedLanguageTo(VisualElement languageButton_TemplateContainer)
+    {
+        VisualElement englishButton_Background_VisualElement =
+            englishButton_TemplateContainer.Q<VisualElement>("Background_VisualElement");
+
+        VisualElement farsiButton_Background_VisualElement =
+            farsiButton_TemplateContainer.Q<VisualElement>("Background_VisualElement");
+
+        englishButton_Background_VisualElement.RemoveFromClassList("ButtonSelected");
+        farsiButton_Background_VisualElement.RemoveFromClassList("ButtonSelected");
+
+        languageButton_TemplateContainer.Q<VisualElement>("Background_VisualElement").
+            AddToClassList("ButtonSelected");
     }
 
 
@@ -73,8 +102,7 @@ public class WelcomePage : MonoBehaviour
 
     private void OnEnglishButtenSelected(ClickEvent clickEvent)
     {
-        englishButton_TemplateContainer.AddToClassList("ButtonSelected");
-        farsiButton_TemplateContainer.RemoveFromClassList("ButtonSelected");
+        ChangeSelectedLanguageTo(englishButton_TemplateContainer);
 
         SettingsData.currentLanguageIndex = 0;
         EventsManager.InvokeOnLanguageChanged();
@@ -82,8 +110,7 @@ public class WelcomePage : MonoBehaviour
 
     private void OnFarsiButtenSelected(ClickEvent clickEvent)
     {
-        englishButton_TemplateContainer.RemoveFromClassList("ButtonSelected");
-        farsiButton_TemplateContainer.AddToClassList("ButtonSelected");
+        ChangeSelectedLanguageTo(farsiButton_TemplateContainer);
 
         SettingsData.currentLanguageIndex = 1;
         EventsManager.InvokeOnLanguageChanged();
@@ -91,7 +118,7 @@ public class WelcomePage : MonoBehaviour
 
     private void OnStartButtenSelected(ClickEvent clickEvent)
     {
-        //uiConnector.SetPageActive(uiConnector.);
+        uiConnector.SetPageActive(uiConnector.parentPage_VisualElement);
     }
 
     #endregion
@@ -101,8 +128,6 @@ public class WelcomePage : MonoBehaviour
 
     private void OnLanguageChanged()
     {
-        Debug.Log("I Am Called");
-
         #region Welcome_Label
         welcome_Label.text = LanguageTextsData.welcome[SettingsData.currentLanguageIndex];
         welcome_Label.languageDirection =

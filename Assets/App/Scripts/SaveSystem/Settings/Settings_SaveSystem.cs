@@ -1,21 +1,9 @@
 using UnityEngine;
 using System.IO;
 
-public class Settings_SaveSystem
+public class Settings_SaveSystem : SaveSystem
 {
-    private static string saveDirectory;
     private static Settings_SaveData settings_SaveData = new Settings_SaveData();
-
-
-    private static void CreateSaveDirectory()
-    {
-        saveDirectory = Path.Combine(Application.persistentDataPath, "SaveData");
-
-        if (!Directory.Exists(saveDirectory))
-        {
-            Directory.CreateDirectory(saveDirectory);
-        }
-    }
 
     public static string Settings_SaveFileName()
     {
@@ -28,11 +16,7 @@ public class Settings_SaveSystem
         settings_SaveData.currentLanguageIndex = SettingsData.currentLanguageIndex;
         settings_SaveData.currentFontSizeIndex = SettingsData.currentFontSizeIndex;
 
-        settings_SaveData.isBackgroundMusicOn = SettingsData.isBackgroundMusicOn;
-        settings_SaveData.backgroundMusicVolume = SettingsData.backgroundMusicVolume;
-
-        settings_SaveData.isSoundEffectsOn = SettingsData.isSoundEffectsOn;
-        settings_SaveData.soundEffectsVolume = SettingsData.soundEffectsVolume;
+        settings_SaveData.soundVolume = SettingsData.soundVolume;
 
         File.WriteAllText(Settings_SaveFileName(), JsonUtility.ToJson(settings_SaveData, true));
     }
@@ -51,11 +35,7 @@ public class Settings_SaveSystem
         SettingsData.currentLanguageIndex = settings_SaveData.currentLanguageIndex;
         SettingsData.currentFontSizeIndex = settings_SaveData.currentFontSizeIndex;
 
-        SettingsData.isBackgroundMusicOn = settings_SaveData.isBackgroundMusicOn;
-        SettingsData.backgroundMusicVolume = settings_SaveData.backgroundMusicVolume;
-
-        SettingsData.isSoundEffectsOn = settings_SaveData.isSoundEffectsOn;
-        SettingsData.soundEffectsVolume = settings_SaveData.soundEffectsVolume;
+        SettingsData.soundVolume = settings_SaveData.soundVolume;
     }
 
 }
@@ -68,9 +48,5 @@ public struct Settings_SaveData
     public int currentLanguageIndex;
     public int currentFontSizeIndex;
 
-    public bool isBackgroundMusicOn;
-    public float backgroundMusicVolume;
-
-    public bool isSoundEffectsOn;
-    public float soundEffectsVolume;
+    public float soundVolume;
 }

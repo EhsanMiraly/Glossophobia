@@ -1,0 +1,14 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="ChevronLeft_Template" src="project://database/Assets/Resources/UI/BasicElements/ChevronLeft/Cube/ChevronLeftCube_Template.uxml?fileID=9197481963319205126&amp;guid=d0e0202104661c9458de10a8ae9a743a&amp;type=3#ChevronLeftCube_Template"/>
+    <ui:Template name="ChevronRight_Template" src="project://database/Assets/Resources/UI/BasicElements/ChevronRight/Cube/ChevronRightCube_Template.uxml?fileID=9197481963319205126&amp;guid=606e2af63d6f1b64492f1724b32ba59c&amp;type=3#ChevronRightCube_Template"/>
+    <Style src="project://database/Assets/Resources/UI/Basic_Templates/PreviousNextSelector/PreviousNextSelector_Template_StyleSheet.uss?fileID=7433441132597879392&amp;guid=d88fea8370559434eba01964dec5b145&amp;type=3#PreviousNextSelector_Template_StyleSheet"/>
+    <ui:VisualElement name="Parent_VisualElement" style="border-left-color: rgb(0, 255, 255); border-right-color: rgb(0, 255, 255); border-top-color: rgb(0, 255, 255); border-bottom-color: rgb(0, 255, 255); border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px; border-top-left-radius: 32px; border-top-right-radius: 32px; border-bottom-right-radius: 32px; border-bottom-left-radius: 32px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 100%; height: 100%; flex-direction: row;">
+        <ui:VisualElement name="ChevronLeft_VisualElement" class="ChevronLeftAndRight_VisualElement">
+            <ui:Instance template="ChevronLeft_Template" name="ChevronLeft_TemplateContainer" class="ChevronLeftAndRight_TemplateContainer"/>
+        </ui:VisualElement>
+        <ui:Label text="English" name="Option_Label" style="border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0); -unity-text-generator: advanced; -unity-text-align: middle-center; color: rgb(255, 255, 255); font-size: 50px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; width: 60%; height: 100%;"/>
+        <ui:VisualElement name="ChevronRight_VisualElement" class="ChevronLeftAndRight_VisualElement">
+            <ui:Instance template="ChevronRight_Template" name="ChevronRight_TemplateContainer" class="ChevronLeftAndRight_TemplateContainer"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -10,6 +10,8 @@ public class UIConnector : MonoBehaviour
     #region Pages
     [System.NonSerialized] public VisualElement nothingPage_VisualElement;
     [System.NonSerialized] public VisualElement welcomePage_VisualElement;
+    [System.NonSerialized] public VisualElement parentPage_VisualElement;
+
     #endregion
 
 
@@ -29,7 +31,7 @@ public class UIConnector : MonoBehaviour
     {
         nothingPage_VisualElement = root.Q<VisualElement>("NothingPage_VisualElement");
         welcomePage_VisualElement = root.Q<VisualElement>("WelcomePage_VisualElement");
-
+        parentPage_VisualElement = root.Q<VisualElement>("ParentPage_VisualElement");
 
         InitializeUI();
     }
@@ -47,8 +49,17 @@ public class UIConnector : MonoBehaviour
     {
         nothingPage_VisualElement.style.display = DisplayStyle.None;
         welcomePage_VisualElement.style.display = DisplayStyle.None;
+        parentPage_VisualElement.style.display = DisplayStyle.None;
 
         page.style.display = DisplayStyle.Flex;
+    }
+
+    public void SetTabActive(VisualElement tab)
+    {
+        //nothingPage_VisualElement.style.display = DisplayStyle.None;
+
+
+        tab.style.display = DisplayStyle.Flex;
     }
 
 }

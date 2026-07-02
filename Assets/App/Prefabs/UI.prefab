@@ -43,6 +43,9 @@ GameObject:
   - component: {fileID: 2665053805560982182}
   - component: {fileID: 5232300371666785726}
   - component: {fileID: 7194539330995075273}
+  - component: {fileID: 8671112915375055169}
+  - component: {fileID: 7028827016498155300}
+  - component: {fileID: 8309908952396998050}
   m_Layer: 5
   m_Name: Screen_UI
   m_TagString: Untagged
@@ -147,6 +150,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1418f06dcdeab54db7d23572e161628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WelcomePage
+--- !u!114 &8671112915375055169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924660944441113291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 850538b8c2930224c9107a951be5a216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParentPage
+--- !u!114 &7028827016498155300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924660944441113291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d362a03d6c42bc4dbed4fc0ec69754a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AccountPage
+--- !u!114 &8309908952396998050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924660944441113291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afedf25d5431a094da08c069245d9431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingsPage
 --- !u!1 &9003081344619460110
 GameObject:
   m_ObjectHideFlags: 0

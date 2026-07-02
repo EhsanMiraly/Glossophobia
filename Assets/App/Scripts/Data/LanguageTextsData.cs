@@ -23,6 +23,15 @@ public class LanguageTextsData
     #endregion
 
 
+    #region Parent Page
+
+    public static List<string> account = new List<string> { "Account", "اکانت" };
+    //3
+    public static List<string> settings = new List<string> { "Settings", "تنظیمات" };
+
+    #endregion
+
+
     #region Settings Page
 
     public static List<Language> languages = new List<Language>
@@ -30,6 +39,18 @@ public class LanguageTextsData
         new Language("English", LanguageDirection.LTR, fonts[0]),
         new Language("فارسی", LanguageDirection.RTL,fonts[1])
     };
+
+    public static List<FontSize> fontSize_Text = new List<FontSize>
+    {
+        new FontSize("Font size: Small","اندازه فونت: کوچک"),
+        new FontSize("Font size: Average","اندازه فونت: متوسط"),
+        new FontSize("Font size: Big","اندازه فونت: بزرگ")
+    };
+
+
+    public static List<int> fontSize_CategorySmall = new List<int> { 10, 20, 30 };
+    public static List<int> fontSize_CategoryAverage = new List<int> { 20, 40, 60 };
+    public static List<int> fontSize_CategoryBig = new List<int> { 40, 70, 100 };
 
     #endregion
 
@@ -45,7 +66,7 @@ public class LanguageTextsData
     public static List<string> resume = new List<string> { "Resume", "ادامه" };
     public static List<string> levels = new List<string> { "Levels", "لول‌ها" };
     public static List<string> inventoryShop = new List<string> { "Inventory / Shop", "موجودی / فروشگاه" };
-    public static List<string> settings = new List<string> { "Settings", "تنظیمات" };
+
     public static List<string> exit = new List<string> { "Exit", "خروج" };
     #endregion
 
@@ -72,16 +93,9 @@ public class LanguageTextsData
 
 
 
-    public static List<FontSize> fontSize_Text = new List<FontSize>
-    {
-        new FontSize("Font size: Small","اندازه فونت: کوچک"),
-        new FontSize("Font size: Average","اندازه فونت: متوسط"),
-        new FontSize("Font size: Big","اندازه فونت: بزرگ")
-    };
 
-    public static List<int> fontSize_CategorySmall = new List<int> { 20, 30, 40 };
-    public static List<int> fontSize_CategoryAverage = new List<int> { 30, 50, 70 };
-    public static List<int> fontSize_CategoryBig = new List<int> { 50, 80, 110 };
+
+
 
     public static List<string> backgroundMusic = new List<string> { "Background music", "موزیک پس‌زمینه" };
     public static List<string> soundEffects = new List<string> { "Sound effects", "جلوه‌های صوتی" };
