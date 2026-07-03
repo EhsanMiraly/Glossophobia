@@ -19,6 +19,12 @@ public class EventsManager
         OnFontSizeChanged_Event?.Invoke();
     }
 
+    public static event OnNotify OnSoundVolumeChanged_Event;
+    public static void InvokeOnSoundVolumeChanged()
+    {
+        OnSoundVolumeChanged_Event?.Invoke();
+    }
+
     #endregion
 
 

@@ -16,7 +16,7 @@ public class Settings_SaveSystem : SaveSystem
         settings_SaveData.currentLanguageIndex = SettingsData.currentLanguageIndex;
         settings_SaveData.currentFontSizeIndex = SettingsData.currentFontSizeIndex;
 
-        settings_SaveData.soundVolume = SettingsData.soundVolume;
+        settings_SaveData.soundVolume = SettingsData.currentSoundVolume;
 
         File.WriteAllText(Settings_SaveFileName(), JsonUtility.ToJson(settings_SaveData, true));
     }
@@ -35,7 +35,7 @@ public class Settings_SaveSystem : SaveSystem
         SettingsData.currentLanguageIndex = settings_SaveData.currentLanguageIndex;
         SettingsData.currentFontSizeIndex = settings_SaveData.currentFontSizeIndex;
 
-        SettingsData.soundVolume = settings_SaveData.soundVolume;
+        SettingsData.currentSoundVolume = settings_SaveData.soundVolume;
     }
 
 }

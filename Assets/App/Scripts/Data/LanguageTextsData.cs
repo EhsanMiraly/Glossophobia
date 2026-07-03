@@ -52,6 +52,8 @@ public class LanguageTextsData
     public static List<int> fontSize_CategoryAverage = new List<int> { 20, 40, 60 };
     public static List<int> fontSize_CategoryBig = new List<int> { 40, 70, 100 };
 
+    public static List<string> soundVolume = new List<string> { "Sound volume: ", "بلندی صدا: " };
+
     #endregion
 
 
@@ -97,8 +99,7 @@ public class LanguageTextsData
 
 
 
-    public static List<string> backgroundMusic = new List<string> { "Background music", "موزیک پس‌زمینه" };
-    public static List<string> soundEffects = new List<string> { "Sound effects", "جلوه‌های صوتی" };
+
 
     #endregion
 

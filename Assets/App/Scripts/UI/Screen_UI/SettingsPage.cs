@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,15 +9,27 @@ public class SettingsPage : MonoBehaviour
     VisualElement settingsPage_VisualElement;
     ScrollView settings_ScrollView;
 
+    #region Language
     VisualElement languagePreviousNextSelector_TemplateContainer;
     VisualElement language_ChevronLeft_TemplateContainer;
-    Label language_Lable;
+    Label language_Text_Label;
     VisualElement language_ChevronRight_TemplateContainer;
+    #endregion
 
+    #region Font Size
     VisualElement fontSizePreviousNextSelector_TemplateContainer;
     VisualElement fontSize_ChevronLeft_TemplateContainer;
-    Label fontSize_Lable;
+    Label fontSize_Text_Label;
     VisualElement fontSize_ChevronRight_TemplateContainer;
+    #endregion
+
+    #region Sound Volume
+    VisualElement soundVolume_LabeledSliderInt_TemplateContainer;
+    Label soundVolume_Text_Label;
+    VisualElement soundVolume_MinusButton_TemplateContainer;
+    VisualElement soundVolume_InvisibleForeground_VisualElement;
+    VisualElement soundVolume_PlusButton_TemplateContainer;
+    #endregion
 
 
 
@@ -42,31 +53,50 @@ public class SettingsPage : MonoBehaviour
         EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
     }
 
+
     private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
     {
         settingsPage_VisualElement = parentPage.parentPage_VisualElement.Q<VisualElement>();
         settings_ScrollView = settingsPage_VisualElement.Q<ScrollView>("Settings_ScrollView");
         UI_Utilities.Initialize_ScrollView(settings_ScrollView);
 
-        //Language
+        #region Language
         languagePreviousNextSelector_TemplateContainer = settings_ScrollView.
             Q<VisualElement>("LanguagePreviousNextSelector_TemplateContainer");
         language_ChevronLeft_TemplateContainer = languagePreviousNextSelector_TemplateContainer.
             Q<VisualElement>("ChevronLeft_TemplateContainer");
-        language_Lable = languagePreviousNextSelector_TemplateContainer.Q<Label>("Text_Label");
+        language_Text_Label = languagePreviousNextSelector_TemplateContainer.Q<Label>("Text_Label");
         language_ChevronRight_TemplateContainer = languagePreviousNextSelector_TemplateContainer.
             Q<VisualElement>("ChevronRight_TemplateContainer");
-        FixPreviousNextSelectorDimentions(languagePreviousNextSelector_TemplateContainer);
+        Fix_PreviousNextSelector_Dimentions(languagePreviousNextSelector_TemplateContainer);
+        #endregion
 
-        //FontSize
+        #region Font Size
         fontSizePreviousNextSelector_TemplateContainer = settings_ScrollView.
             Q<VisualElement>("FontSizePreviousNextSelector_TemplateContainer");
         fontSize_ChevronLeft_TemplateContainer = fontSizePreviousNextSelector_TemplateContainer.
             Q<VisualElement>("ChevronLeft_TemplateContainer");
-        fontSize_Lable = fontSizePreviousNextSelector_TemplateContainer.Q<Label>("Text_Label");
+        fontSize_Text_Label = fontSizePreviousNextSelector_TemplateContainer.Q<Label>("Text_Label");
         fontSize_ChevronRight_TemplateContainer = fontSizePreviousNextSelector_TemplateContainer.
             Q<VisualElement>("ChevronRight_TemplateContainer");
-        FixPreviousNextSelectorDimentions(fontSizePreviousNextSelector_TemplateContainer);
+        Fix_PreviousNextSelector_Dimentions(fontSizePreviousNextSelector_TemplateContainer);
+        #endregion
+
+        #region Sound Volume
+        soundVolume_LabeledSliderInt_TemplateContainer = settings_ScrollView.
+            Q<VisualElement>("SoundVolume_LabeledSliderInt_TemplateContainer");
+        soundVolume_Text_Label = soundVolume_LabeledSliderInt_TemplateContainer.
+            Q<Label>("Text_Label");
+        soundVolume_MinusButton_TemplateContainer = soundVolume_LabeledSliderInt_TemplateContainer.
+            Q<VisualElement>("MinusButton_TemplateContainer");
+        soundVolume_InvisibleForeground_VisualElement = soundVolume_LabeledSliderInt_TemplateContainer.
+            Q<VisualElement>("InvisibleForeground_VisualElement");
+        soundVolume_InvisibleForeground_VisualElement.style.width =
+            Length.Percent(SettingsData.currentSoundVolume * 100);
+        soundVolume_PlusButton_TemplateContainer = soundVolume_LabeledSliderInt_TemplateContainer.
+            Q<VisualElement>("PlusButton_TemplateContainer");
+        Fix_LabeledSliderInt_Dimentions(soundVolume_LabeledSliderInt_TemplateContainer);
+        #endregion
 
         AddFunctionality();
 
@@ -76,8 +106,9 @@ public class SettingsPage : MonoBehaviour
 
 
 
+    #region UI Utilities
 
-    private void FixPreviousNextSelectorDimentions(VisualElement previousNextSelector)
+    private void Fix_PreviousNextSelector_Dimentions(VisualElement previousNextSelector)
     {
         previousNextSelector.style.width = Length.Percent(100);
         previousNextSelector.style.height = Screen.width / 10;
@@ -95,6 +126,26 @@ public class SettingsPage : MonoBehaviour
         chevronRight_TemplateContainer.style.height = Screen.width / 15;
     }
 
+    private void Fix_LabeledSliderInt_Dimentions(VisualElement labeledSliderInt)
+    {
+        labeledSliderInt.style.width = Length.Percent(100);
+        labeledSliderInt.style.height = Screen.width / 5;
+        labeledSliderInt.style.marginBottom = Length.Percent(1);
+
+        VisualElement minusButton_TemplateContainer = labeledSliderInt.
+            Q<VisualElement>("MinusButton_TemplateContainer");
+        VisualElement plusButton_TemplateContainer = labeledSliderInt.
+            Q<VisualElement>("PlusButton_TemplateContainer");
+
+        minusButton_TemplateContainer.style.width = Screen.width / 15;
+        minusButton_TemplateContainer.style.height = Screen.width / 15;
+
+        plusButton_TemplateContainer.style.width = Screen.width / 15;
+        plusButton_TemplateContainer.style.height = Screen.width / 15;
+    }
+
+    #endregion
+
 
     private void AddFunctionality()
     {
@@ -105,6 +156,10 @@ public class SettingsPage : MonoBehaviour
         //Font Size
         fontSize_ChevronLeft_TemplateContainer.RegisterCallback<ClickEvent>(OnFontSize_ChevronLeftSelected);
         fontSize_ChevronRight_TemplateContainer.RegisterCallback<ClickEvent>(OnFontSize_ChevronRightSelected);
+
+        //Sound Volume
+        soundVolume_MinusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnSoundVolume_MinusButtonSelected);
+        soundVolume_PlusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnSoundVolume_PlusButtonSelected);
     }
 
     private void RemoveFunctionality()
@@ -116,6 +171,11 @@ public class SettingsPage : MonoBehaviour
         //Font Size
         fontSize_ChevronLeft_TemplateContainer.UnregisterCallback<ClickEvent>(OnFontSize_ChevronLeftSelected);
         fontSize_ChevronRight_TemplateContainer.UnregisterCallback<ClickEvent>(OnFontSize_ChevronRightSelected);
+
+        //Sound Volume
+        soundVolume_MinusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnSoundVolume_MinusButtonSelected);
+        soundVolume_PlusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnSoundVolume_PlusButtonSelected);
+
     }
 
     #region Language
@@ -140,7 +200,7 @@ public class SettingsPage : MonoBehaviour
     }
     #endregion
 
-
+    #region Font Size
     private void OnFontSize_ChevronLeftSelected(ClickEvent evt)
     {
         SettingsData.currentFontSizeIndex--;
@@ -148,9 +208,8 @@ public class SettingsPage : MonoBehaviour
         {
             SettingsData.currentFontSizeIndex = LanguageTextsData.fontSize_Text.Count - 1;
         }
-        fontSizePreviousNextSelector_TemplateContainer.Q<Label>().text =
-            LanguageTextsData.fontSize_Text[SettingsData.currentFontSizeIndex].
-            FontSizeLanguage[SettingsData.currentLanguageIndex];
+        fontSize_Text_Label.text = LanguageTextsData.fontSize_Text[SettingsData.currentFontSizeIndex].
+                                    FontSizeLanguage[SettingsData.currentLanguageIndex];
         EventsManager.InvokeOnFontSizeChanged();
     }
 
@@ -161,15 +220,43 @@ public class SettingsPage : MonoBehaviour
         {
             SettingsData.currentFontSizeIndex = 0;
         }
-        fontSizePreviousNextSelector_TemplateContainer.Q<Label>().text =
-            LanguageTextsData.fontSize_Text[SettingsData.currentFontSizeIndex].
-            FontSizeLanguage[SettingsData.currentLanguageIndex];
+        fontSize_Text_Label.text = LanguageTextsData.fontSize_Text[SettingsData.currentFontSizeIndex].
+                                    FontSizeLanguage[SettingsData.currentLanguageIndex];
         EventsManager.InvokeOnFontSizeChanged();
     }
+    #endregion
 
+    #region Sound Volume
 
+    private void OnSoundVolume_MinusButtonSelected(ClickEvent clickEvent)
+    {
+        SettingsData.currentSoundVolume -= 0.1f;
+        if (SettingsData.currentSoundVolume < 0.1f)
+        {
+            SettingsData.currentSoundVolume = 0.1f;
+        }
+        soundVolume_Text_Label.text = LanguageTextsData.soundVolume[SettingsData.currentLanguageIndex] +
+            Mathf.RoundToInt(SettingsData.currentSoundVolume * 10);
+        soundVolume_InvisibleForeground_VisualElement.style.width =
+            Length.Percent(SettingsData.currentSoundVolume * 100);
+        EventsManager.InvokeOnSoundVolumeChanged();
+    }
 
+    private void OnSoundVolume_PlusButtonSelected(ClickEvent clickEvent)
+    {
+        SettingsData.currentSoundVolume += 0.1f;
+        if (SettingsData.currentSoundVolume > 1)
+        {
+            SettingsData.currentSoundVolume = 1;
+        }
+        soundVolume_Text_Label.text = LanguageTextsData.soundVolume[SettingsData.currentLanguageIndex] +
+            Mathf.RoundToInt(SettingsData.currentSoundVolume * 10);
+        soundVolume_InvisibleForeground_VisualElement.style.width =
+            Length.Percent(SettingsData.currentSoundVolume * 100);
+        EventsManager.InvokeOnSoundVolumeChanged();
+    }
 
+    #endregion
 
 
 
@@ -178,21 +265,28 @@ public class SettingsPage : MonoBehaviour
     private void OnLanguageChanged()
     {
         #region Language Label
-        Label language_Label = languagePreviousNextSelector_TemplateContainer.Q<Label>();
-        language_Label.text = LanguageTextsData.languages[SettingsData.currentLanguageIndex].language;
-        language_Label.languageDirection =
+        language_Text_Label.text = LanguageTextsData.languages[SettingsData.currentLanguageIndex].language;
+        language_Text_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
-        language_Label.style.unityFont =
+        language_Text_Label.style.unityFont =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
         #region FontSize Label
-        Label fontSize_Label = fontSizePreviousNextSelector_TemplateContainer.Q<Label>();
-        fontSize_Label.text = LanguageTextsData.fontSize_Text[SettingsData.currentFontSizeIndex].
-                                FontSizeLanguage[SettingsData.currentLanguageIndex];
-        fontSize_Label.languageDirection =
+        fontSize_Text_Label.text = LanguageTextsData.fontSize_Text[SettingsData.currentFontSizeIndex].
+            FontSizeLanguage[SettingsData.currentLanguageIndex];
+        fontSize_Text_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
-        fontSize_Label.style.unityFont =
+        fontSize_Text_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region SoundVolume Label
+        soundVolume_Text_Label.text = LanguageTextsData.soundVolume[SettingsData.currentLanguageIndex] +
+            (SettingsData.currentSoundVolume * 10);
+        soundVolume_Text_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        soundVolume_Text_Label.style.unityFont =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
     }
@@ -200,14 +294,17 @@ public class SettingsPage : MonoBehaviour
     private void OnFontSizeChanged()
     {
         #region Language Label
-        Label language_Label = languagePreviousNextSelector_TemplateContainer.Q<Label>();
-        language_Label.style.fontSize =
+        language_Text_Label.style.fontSize =
             LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
         #endregion
 
         #region FontSize Label
-        Label fontSize_Label = fontSizePreviousNextSelector_TemplateContainer.Q<Label>();
-        fontSize_Label.style.fontSize =
+        fontSize_Text_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region SoundVolume Label
+        soundVolume_Text_Label.style.fontSize =
             LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
         #endregion
     }
