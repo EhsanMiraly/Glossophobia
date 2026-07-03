@@ -9,11 +9,11 @@ public class SettingsData
 
     public static float currentSoundVolume = 0.1f;
 
-    public int currentTargetFrameRate = 144;
-    public int currentFieldOfView = 90;
-    public int currentMoveSpeed = 10;
-    public int currentHorizontalSensitivity = 10;
-    public int currentVerticalSensitivity = 10;
+    public static int currentTargetFrameRate = 144;
+    public static int currentFieldOfView = 60;
+    public static int currentMoveSpeed = 5;
+    public static int currentHorizontalSensitivity = 40;
+    public static int currentVerticalSensitivity = 30;
 }
 
 
