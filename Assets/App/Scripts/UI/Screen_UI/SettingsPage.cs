@@ -31,6 +31,43 @@ public class SettingsPage : MonoBehaviour
     VisualElement soundVolume_PlusButton_TemplateContainer;
     #endregion
 
+    #region Target Frame Rate
+    VisualElement targetFrameRatePreviousNextSelector_TemplateContainer;
+    VisualElement targetFrameRate_ChevronLeft_TemplateContainer;
+    Label targetFrameRate_Text_Label;
+    VisualElement targetFrameRate_ChevronRight_TemplateContainer;
+    #endregion
+
+    #region Field Of View
+    VisualElement fieldOfViewPreviousNextSelector_TemplateContainer;
+    VisualElement fieldOfView_ChevronLeft_TemplateContainer;
+    Label fieldOfView_Text_Label;
+    VisualElement fieldOfView_ChevronRight_TemplateContainer;
+    #endregion
+
+    #region Move Speed
+    VisualElement moveSpeed_LabeledSliderInt_TemplateContainer;
+    Label moveSpeed_Text_Label;
+    VisualElement moveSpeed_MinusButton_TemplateContainer;
+    VisualElement moveSpeed_InvisibleForeground_VisualElement;
+    VisualElement moveSpeed_PlusButton_TemplateContainer;
+    #endregion
+
+    #region Horizontal Sensitivity
+    VisualElement horizontalSensitivity_LabeledSliderInt_TemplateContainer;
+    Label horizontalSensitivity_Text_Label;
+    VisualElement horizontalSensitivity_MinusButton_TemplateContainer;
+    VisualElement horizontalSensitivity_InvisibleForeground_VisualElement;
+    VisualElement horizontalSensitivity_PlusButton_TemplateContainer;
+    #endregion
+
+    #region Vertical Sensitivity
+    VisualElement verticalSensitivity_LabeledSliderInt_TemplateContainer;
+    Label verticalSensitivity_Text_Label;
+    VisualElement verticalSensitivity_MinusButton_TemplateContainer;
+    VisualElement verticalSensitivity_InvisibleForeground_VisualElement;
+    VisualElement verticalSensitivity_PlusButton_TemplateContainer;
+    #endregion
 
 
     private void OnEnable()
@@ -92,10 +129,88 @@ public class SettingsPage : MonoBehaviour
         soundVolume_InvisibleForeground_VisualElement = soundVolume_LabeledSliderInt_TemplateContainer.
             Q<VisualElement>("InvisibleForeground_VisualElement");
         soundVolume_InvisibleForeground_VisualElement.style.width =
-            Length.Percent(SettingsData.currentSoundVolume * 100);
+            Length.Percent(SettingsData.currentSoundVolume * 10);
         soundVolume_PlusButton_TemplateContainer = soundVolume_LabeledSliderInt_TemplateContainer.
             Q<VisualElement>("PlusButton_TemplateContainer");
         Fix_LabeledSliderInt_Dimentions(soundVolume_LabeledSliderInt_TemplateContainer);
+        #endregion
+
+        #region Target Frame Rate
+        targetFrameRatePreviousNextSelector_TemplateContainer = settings_ScrollView.
+            Q<VisualElement>("TargetFrameRatePreviousNextSelector_TemplateContainer");
+        targetFrameRate_ChevronLeft_TemplateContainer = targetFrameRatePreviousNextSelector_TemplateContainer.
+            Q<VisualElement>("ChevronLeft_TemplateContainer");
+        targetFrameRate_Text_Label = targetFrameRatePreviousNextSelector_TemplateContainer.Q<Label>("Text_Label");
+        targetFrameRate_ChevronRight_TemplateContainer = targetFrameRatePreviousNextSelector_TemplateContainer.
+            Q<VisualElement>("ChevronRight_TemplateContainer");
+        Fix_PreviousNextSelector_Dimentions(targetFrameRatePreviousNextSelector_TemplateContainer);
+        Application.targetFrameRate = LanguageTextsData.targetFrameRates[SettingsData.currentTargetFrameRateIndex];
+        #endregion
+
+        #region Field Of View
+        fieldOfViewPreviousNextSelector_TemplateContainer = settings_ScrollView.
+            Q<VisualElement>("FieldOfViewPreviousNextSelector_TemplateContainer");
+        fieldOfView_ChevronLeft_TemplateContainer = fieldOfViewPreviousNextSelector_TemplateContainer.
+            Q<VisualElement>("ChevronLeft_TemplateContainer");
+        fieldOfView_Text_Label = fieldOfViewPreviousNextSelector_TemplateContainer.Q<Label>("Text_Label");
+        fieldOfView_ChevronRight_TemplateContainer = fieldOfViewPreviousNextSelector_TemplateContainer.
+            Q<VisualElement>("ChevronRight_TemplateContainer");
+        Fix_PreviousNextSelector_Dimentions(fieldOfViewPreviousNextSelector_TemplateContainer);
+        Camera.main.fieldOfView = LanguageTextsData.fieldOfViews[SettingsData.currentFieldOfViewIndex];
+        #endregion
+
+        #region Move Speed
+        moveSpeed_LabeledSliderInt_TemplateContainer = settings_ScrollView.
+            Q<VisualElement>("MoveSpeed_LabeledSliderInt_TemplateContainer");
+        moveSpeed_Text_Label = moveSpeed_LabeledSliderInt_TemplateContainer.
+            Q<Label>("Text_Label");
+        moveSpeed_MinusButton_TemplateContainer = moveSpeed_LabeledSliderInt_TemplateContainer.
+            Q<VisualElement>("MinusButton_TemplateContainer");
+        moveSpeed_InvisibleForeground_VisualElement = moveSpeed_LabeledSliderInt_TemplateContainer.
+            Q<VisualElement>("InvisibleForeground_VisualElement");
+        moveSpeed_PlusButton_TemplateContainer = moveSpeed_LabeledSliderInt_TemplateContainer.
+            Q<VisualElement>("PlusButton_TemplateContainer");
+        Fix_LabeledSliderInt_Dimentions(moveSpeed_LabeledSliderInt_TemplateContainer);
+        moveSpeed_InvisibleForeground_VisualElement.style.width =
+            Length.Percent(SettingsData.currentMoveSpeed * 10);
+        #endregion
+
+        #region Horizontal Sensitivity
+        horizontalSensitivity_LabeledSliderInt_TemplateContainer = settings_ScrollView.
+            Q<VisualElement>("HorizontalSensitivity_LabeledSliderInt_TemplateContainer");
+        horizontalSensitivity_Text_Label = horizontalSensitivity_LabeledSliderInt_TemplateContainer.
+            Q<Label>("Text_Label");
+        horizontalSensitivity_MinusButton_TemplateContainer =
+            horizontalSensitivity_LabeledSliderInt_TemplateContainer.
+            Q<VisualElement>("MinusButton_TemplateContainer");
+        horizontalSensitivity_InvisibleForeground_VisualElement =
+            horizontalSensitivity_LabeledSliderInt_TemplateContainer.
+            Q<VisualElement>("InvisibleForeground_VisualElement");
+        horizontalSensitivity_PlusButton_TemplateContainer =
+            horizontalSensitivity_LabeledSliderInt_TemplateContainer.
+            Q<VisualElement>("PlusButton_TemplateContainer");
+        Fix_LabeledSliderInt_Dimentions(horizontalSensitivity_LabeledSliderInt_TemplateContainer);
+        horizontalSensitivity_InvisibleForeground_VisualElement.style.width =
+            Length.Percent(SettingsData.currentHorizontalSensitivity * 2);
+        #endregion
+
+        #region Vertical Sensitivity
+        verticalSensitivity_LabeledSliderInt_TemplateContainer = settings_ScrollView.
+            Q<VisualElement>("VerticalSensitivity_LabeledSliderInt_TemplateContainer");
+        verticalSensitivity_Text_Label = verticalSensitivity_LabeledSliderInt_TemplateContainer.
+            Q<Label>("Text_Label");
+        verticalSensitivity_MinusButton_TemplateContainer =
+            verticalSensitivity_LabeledSliderInt_TemplateContainer.
+            Q<VisualElement>("MinusButton_TemplateContainer");
+        verticalSensitivity_InvisibleForeground_VisualElement =
+            verticalSensitivity_LabeledSliderInt_TemplateContainer.
+            Q<VisualElement>("InvisibleForeground_VisualElement");
+        verticalSensitivity_PlusButton_TemplateContainer =
+            verticalSensitivity_LabeledSliderInt_TemplateContainer.
+            Q<VisualElement>("PlusButton_TemplateContainer");
+        Fix_LabeledSliderInt_Dimentions(verticalSensitivity_LabeledSliderInt_TemplateContainer);
+        verticalSensitivity_InvisibleForeground_VisualElement.style.width =
+            Length.Percent(SettingsData.currentVerticalSensitivity * 2);
         #endregion
 
         AddFunctionality();
@@ -160,6 +275,34 @@ public class SettingsPage : MonoBehaviour
         //Sound Volume
         soundVolume_MinusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnSoundVolume_MinusButtonSelected);
         soundVolume_PlusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnSoundVolume_PlusButtonSelected);
+
+        //Target Frame Rate
+        targetFrameRate_ChevronLeft_TemplateContainer.
+            RegisterCallback<ClickEvent>(OnTargetFrameRate_ChevronLeftSelected);
+        targetFrameRate_ChevronRight_TemplateContainer.
+            RegisterCallback<ClickEvent>(OnTargetFrameRate_ChevronRightSelected);
+
+        //Field Of View
+        fieldOfView_ChevronLeft_TemplateContainer.
+            RegisterCallback<ClickEvent>(OnFieldOfView_ChevronLeftSelected);
+        fieldOfView_ChevronRight_TemplateContainer.
+            RegisterCallback<ClickEvent>(OnFieldOfView_ChevronRightSelected);
+
+        //Move Speed
+        moveSpeed_MinusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnMoveSpeed_MinusButtonSelected);
+        moveSpeed_PlusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnMoveSpeed_PlusButtonSelected);
+
+        //Horizontal Sensitivity
+        horizontalSensitivity_MinusButton_TemplateContainer.
+            RegisterCallback<ClickEvent>(OnHorizontalSensitivity_MinusButtonSelected);
+        horizontalSensitivity_PlusButton_TemplateContainer.
+            RegisterCallback<ClickEvent>(OnHorizontalSensitivity_PlusButtonSelected);
+
+        //Vertical Sensitivity
+        verticalSensitivity_MinusButton_TemplateContainer.
+            RegisterCallback<ClickEvent>(OnVerticalSensitivity_MinusButtonSelected);
+        verticalSensitivity_PlusButton_TemplateContainer.
+            RegisterCallback<ClickEvent>(OnVerticalSensitivity_PlusButtonSelected);
     }
 
     private void RemoveFunctionality()
@@ -176,6 +319,34 @@ public class SettingsPage : MonoBehaviour
         soundVolume_MinusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnSoundVolume_MinusButtonSelected);
         soundVolume_PlusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnSoundVolume_PlusButtonSelected);
 
+        //Target Frame Rate
+        targetFrameRate_ChevronLeft_TemplateContainer.
+            UnregisterCallback<ClickEvent>(OnTargetFrameRate_ChevronLeftSelected);
+        targetFrameRate_ChevronRight_TemplateContainer.
+            UnregisterCallback<ClickEvent>(OnTargetFrameRate_ChevronRightSelected);
+
+        //Field Of View
+        fieldOfView_ChevronLeft_TemplateContainer.
+            UnregisterCallback<ClickEvent>(OnFieldOfView_ChevronLeftSelected);
+        fieldOfView_ChevronRight_TemplateContainer.
+            UnregisterCallback<ClickEvent>(OnFieldOfView_ChevronRightSelected);
+
+        //Move Speed
+        moveSpeed_MinusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnMoveSpeed_MinusButtonSelected);
+        moveSpeed_PlusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnMoveSpeed_PlusButtonSelected);
+
+        //Horizontal Sensitivity
+        horizontalSensitivity_MinusButton_TemplateContainer.
+            UnregisterCallback<ClickEvent>(OnHorizontalSensitivity_MinusButtonSelected);
+        horizontalSensitivity_PlusButton_TemplateContainer.
+            UnregisterCallback<ClickEvent>(OnHorizontalSensitivity_PlusButtonSelected);
+
+        //Vertical Sensitivity
+        verticalSensitivity_MinusButton_TemplateContainer.
+            UnregisterCallback<ClickEvent>(OnVerticalSensitivity_MinusButtonSelected);
+        verticalSensitivity_PlusButton_TemplateContainer.
+            UnregisterCallback<ClickEvent>(OnVerticalSensitivity_PlusButtonSelected);
+
     }
 
     #region Language
@@ -186,6 +357,7 @@ public class SettingsPage : MonoBehaviour
         {
             SettingsData.currentLanguageIndex = LanguageTextsData.languages.Count - 1;
         }
+        Settings_SaveSystem.Save_Settings();
         EventsManager.InvokeOnLanguageChanged();
     }
 
@@ -196,6 +368,7 @@ public class SettingsPage : MonoBehaviour
         {
             SettingsData.currentLanguageIndex = 0;
         }
+        Settings_SaveSystem.Save_Settings();
         EventsManager.InvokeOnLanguageChanged();
     }
     #endregion
@@ -208,6 +381,7 @@ public class SettingsPage : MonoBehaviour
         {
             SettingsData.currentFontSizeIndex = LanguageTextsData.fontSize_Text.Count - 1;
         }
+        Settings_SaveSystem.Save_Settings();
         fontSize_Text_Label.text = LanguageTextsData.fontSize_Text[SettingsData.currentFontSizeIndex].
                                     FontSizeLanguage[SettingsData.currentLanguageIndex];
         EventsManager.InvokeOnFontSizeChanged();
@@ -220,6 +394,7 @@ public class SettingsPage : MonoBehaviour
         {
             SettingsData.currentFontSizeIndex = 0;
         }
+        Settings_SaveSystem.Save_Settings();
         fontSize_Text_Label.text = LanguageTextsData.fontSize_Text[SettingsData.currentFontSizeIndex].
                                     FontSizeLanguage[SettingsData.currentLanguageIndex];
         EventsManager.InvokeOnFontSizeChanged();
@@ -230,30 +405,188 @@ public class SettingsPage : MonoBehaviour
 
     private void OnSoundVolume_MinusButtonSelected(ClickEvent clickEvent)
     {
-        SettingsData.currentSoundVolume -= 0.1f;
-        if (SettingsData.currentSoundVolume < 0.1f)
+        SettingsData.currentSoundVolume -= 1;
+        if (SettingsData.currentSoundVolume < 1)
         {
-            SettingsData.currentSoundVolume = 0.1f;
+            SettingsData.currentSoundVolume = 1;
         }
+        Settings_SaveSystem.Save_Settings();
         soundVolume_Text_Label.text = LanguageTextsData.soundVolume[SettingsData.currentLanguageIndex] +
-            Mathf.RoundToInt(SettingsData.currentSoundVolume * 10);
+            SettingsData.currentSoundVolume;
         soundVolume_InvisibleForeground_VisualElement.style.width =
-            Length.Percent(SettingsData.currentSoundVolume * 100);
+            Length.Percent(SettingsData.currentSoundVolume * 10);
         EventsManager.InvokeOnSoundVolumeChanged();
     }
 
     private void OnSoundVolume_PlusButtonSelected(ClickEvent clickEvent)
     {
-        SettingsData.currentSoundVolume += 0.1f;
-        if (SettingsData.currentSoundVolume > 1)
+        SettingsData.currentSoundVolume += 1;
+        if (SettingsData.currentSoundVolume > 10)
         {
-            SettingsData.currentSoundVolume = 1;
+            SettingsData.currentSoundVolume = 10;
         }
+        Settings_SaveSystem.Save_Settings();
         soundVolume_Text_Label.text = LanguageTextsData.soundVolume[SettingsData.currentLanguageIndex] +
-            Mathf.RoundToInt(SettingsData.currentSoundVolume * 10);
+            SettingsData.currentSoundVolume;
         soundVolume_InvisibleForeground_VisualElement.style.width =
-            Length.Percent(SettingsData.currentSoundVolume * 100);
+            Length.Percent(SettingsData.currentSoundVolume * 10);
         EventsManager.InvokeOnSoundVolumeChanged();
+    }
+
+    #endregion
+
+    #region Target Frame Rate
+    private void OnTargetFrameRate_ChevronLeftSelected(ClickEvent clickEvent)
+    {
+        SettingsData.currentTargetFrameRateIndex--;
+        if (SettingsData.currentTargetFrameRateIndex < 0)
+        {
+            SettingsData.currentTargetFrameRateIndex = LanguageTextsData.targetFrameRates.Count - 1;
+        }
+        Settings_SaveSystem.Save_Settings();
+        targetFrameRate_Text_Label.text = LanguageTextsData.targetFrameRate[SettingsData.currentLanguageIndex]
+             + LanguageTextsData.targetFrameRates[SettingsData.currentTargetFrameRateIndex];
+        Application.targetFrameRate = LanguageTextsData.targetFrameRates[SettingsData.currentTargetFrameRateIndex];
+    }
+
+    private void OnTargetFrameRate_ChevronRightSelected(ClickEvent clickEvent)
+    {
+        SettingsData.currentTargetFrameRateIndex++;
+        if (SettingsData.currentTargetFrameRateIndex >= LanguageTextsData.targetFrameRates.Count)
+        {
+            SettingsData.currentTargetFrameRateIndex = 0;
+        }
+        Settings_SaveSystem.Save_Settings();
+        targetFrameRate_Text_Label.text = LanguageTextsData.targetFrameRate[SettingsData.currentLanguageIndex]
+             + LanguageTextsData.targetFrameRates[SettingsData.currentTargetFrameRateIndex];
+        Application.targetFrameRate = LanguageTextsData.targetFrameRates[SettingsData.currentTargetFrameRateIndex];
+    }
+    #endregion
+
+    #region Field Of View
+    private void OnFieldOfView_ChevronLeftSelected(ClickEvent clickEvent)
+    {
+        SettingsData.currentFieldOfViewIndex--;
+        if (SettingsData.currentFieldOfViewIndex < 0)
+        {
+            SettingsData.currentFieldOfViewIndex = LanguageTextsData.fieldOfViews.Count - 1;
+        }
+        Settings_SaveSystem.Save_Settings();
+        fieldOfView_Text_Label.text = LanguageTextsData.fieldOfView[SettingsData.currentLanguageIndex]
+             + LanguageTextsData.fieldOfViews[SettingsData.currentFieldOfViewIndex];
+        Camera.main.fieldOfView = LanguageTextsData.fieldOfViews[SettingsData.currentFieldOfViewIndex];
+    }
+
+    private void OnFieldOfView_ChevronRightSelected(ClickEvent clickEvent)
+    {
+        SettingsData.currentFieldOfViewIndex++;
+        if (SettingsData.currentFieldOfViewIndex >= LanguageTextsData.fieldOfViews.Count)
+        {
+            SettingsData.currentFieldOfViewIndex = 0;
+        }
+        Settings_SaveSystem.Save_Settings();
+        fieldOfView_Text_Label.text = LanguageTextsData.fieldOfView[SettingsData.currentLanguageIndex]
+             + LanguageTextsData.fieldOfViews[SettingsData.currentFieldOfViewIndex];
+        Camera.main.fieldOfView = LanguageTextsData.fieldOfViews[SettingsData.currentFieldOfViewIndex];
+    }
+    #endregion
+
+    #region Move Speed
+
+    private void OnMoveSpeed_MinusButtonSelected(ClickEvent clickEvent)
+    {
+        SettingsData.currentMoveSpeed -= 1;
+        if (SettingsData.currentMoveSpeed < 1)
+        {
+            SettingsData.currentMoveSpeed = 1;
+        }
+        Settings_SaveSystem.Save_Settings();
+        moveSpeed_Text_Label.text = LanguageTextsData.moveSpeed[SettingsData.currentLanguageIndex] +
+                SettingsData.currentMoveSpeed;
+        moveSpeed_InvisibleForeground_VisualElement.style.width =
+            Length.Percent(SettingsData.currentMoveSpeed * 10);
+    }
+
+    private void OnMoveSpeed_PlusButtonSelected(ClickEvent clickEvent)
+    {
+        SettingsData.currentMoveSpeed += 1;
+        if (SettingsData.currentMoveSpeed > 10)
+        {
+            SettingsData.currentMoveSpeed = 10;
+        }
+        Settings_SaveSystem.Save_Settings();
+        moveSpeed_Text_Label.text = LanguageTextsData.moveSpeed[SettingsData.currentLanguageIndex] +
+                SettingsData.currentMoveSpeed;
+        moveSpeed_InvisibleForeground_VisualElement.style.width =
+            Length.Percent(SettingsData.currentMoveSpeed * 10);
+    }
+
+    #endregion
+
+    #region Horizontal Sensitivity
+
+    private void OnHorizontalSensitivity_MinusButtonSelected(ClickEvent clickEvent)
+    {
+        SettingsData.currentHorizontalSensitivity -= 1;
+        if (SettingsData.currentHorizontalSensitivity < 1)
+        {
+            SettingsData.currentHorizontalSensitivity = 1;
+        }
+        Settings_SaveSystem.Save_Settings();
+        horizontalSensitivity_Text_Label.text =
+            LanguageTextsData.horizontalSensitivity[SettingsData.currentLanguageIndex] +
+            SettingsData.currentHorizontalSensitivity;
+        horizontalSensitivity_InvisibleForeground_VisualElement.style.width =
+            Length.Percent(SettingsData.currentHorizontalSensitivity * 2);
+    }
+
+    private void OnHorizontalSensitivity_PlusButtonSelected(ClickEvent clickEvent)
+    {
+        SettingsData.currentHorizontalSensitivity += 1;
+        if (SettingsData.currentHorizontalSensitivity > 50)
+        {
+            SettingsData.currentHorizontalSensitivity = 50;
+        }
+        Settings_SaveSystem.Save_Settings();
+        horizontalSensitivity_Text_Label.text =
+            LanguageTextsData.horizontalSensitivity[SettingsData.currentLanguageIndex] +
+            SettingsData.currentHorizontalSensitivity;
+        horizontalSensitivity_InvisibleForeground_VisualElement.style.width =
+            Length.Percent(SettingsData.currentHorizontalSensitivity * 2);
+    }
+
+    #endregion
+
+    #region Vertical Sensitivity
+
+    private void OnVerticalSensitivity_MinusButtonSelected(ClickEvent clickEvent)
+    {
+        SettingsData.currentVerticalSensitivity -= 1;
+        if (SettingsData.currentVerticalSensitivity < 1)
+        {
+            SettingsData.currentVerticalSensitivity = 1;
+        }
+        Settings_SaveSystem.Save_Settings();
+        verticalSensitivity_Text_Label.text =
+            LanguageTextsData.verticalSensitivity[SettingsData.currentLanguageIndex] +
+            SettingsData.currentVerticalSensitivity;
+        verticalSensitivity_InvisibleForeground_VisualElement.style.width =
+            Length.Percent(SettingsData.currentVerticalSensitivity * 2);
+    }
+
+    private void OnVerticalSensitivity_PlusButtonSelected(ClickEvent clickEvent)
+    {
+        SettingsData.currentVerticalSensitivity += 1;
+        if (SettingsData.currentVerticalSensitivity > 50)
+        {
+            SettingsData.currentVerticalSensitivity = 50;
+        }
+        Settings_SaveSystem.Save_Settings();
+        verticalSensitivity_Text_Label.text =
+            LanguageTextsData.verticalSensitivity[SettingsData.currentLanguageIndex] +
+            SettingsData.currentVerticalSensitivity;
+        verticalSensitivity_InvisibleForeground_VisualElement.style.width =
+            Length.Percent(SettingsData.currentVerticalSensitivity * 2);
     }
 
     #endregion
@@ -283,12 +616,60 @@ public class SettingsPage : MonoBehaviour
 
         #region SoundVolume Label
         soundVolume_Text_Label.text = LanguageTextsData.soundVolume[SettingsData.currentLanguageIndex] +
-            (SettingsData.currentSoundVolume * 10);
+           SettingsData.currentSoundVolume;
         soundVolume_Text_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
         soundVolume_Text_Label.style.unityFont =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
+
+        #region Target Frame Rate
+        targetFrameRate_Text_Label.text = LanguageTextsData.targetFrameRate[SettingsData.currentLanguageIndex]
+                + LanguageTextsData.targetFrameRates[SettingsData.currentTargetFrameRateIndex];
+        targetFrameRate_Text_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        targetFrameRate_Text_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region Field Of View
+        fieldOfView_Text_Label.text = LanguageTextsData.fieldOfView[SettingsData.currentLanguageIndex]
+                + LanguageTextsData.fieldOfViews[SettingsData.currentFieldOfViewIndex];
+        fieldOfView_Text_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        fieldOfView_Text_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region Move Speed
+        moveSpeed_Text_Label.text = LanguageTextsData.moveSpeed[SettingsData.currentLanguageIndex] +
+            SettingsData.currentMoveSpeed;
+        moveSpeed_Text_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        moveSpeed_Text_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region Horizontal Sensitivity
+        horizontalSensitivity_Text_Label.text =
+            LanguageTextsData.horizontalSensitivity[SettingsData.currentLanguageIndex] +
+            SettingsData.currentHorizontalSensitivity;
+        horizontalSensitivity_Text_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        horizontalSensitivity_Text_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region Vertical Sensitivity
+        verticalSensitivity_Text_Label.text =
+            LanguageTextsData.verticalSensitivity[SettingsData.currentLanguageIndex] +
+            SettingsData.currentVerticalSensitivity;
+        verticalSensitivity_Text_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        verticalSensitivity_Text_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
     }
 
     private void OnFontSizeChanged()
@@ -305,6 +686,31 @@ public class SettingsPage : MonoBehaviour
 
         #region SoundVolume Label
         soundVolume_Text_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region Target Frame Rate
+        targetFrameRate_Text_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region Field Of View
+        fieldOfView_Text_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region Move Speed
+        moveSpeed_Text_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region Horizontal Sensitivity
+        horizontalSensitivity_Text_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region Vertical Sensitivity
+        verticalSensitivity_Text_Label.style.fontSize =
             LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
         #endregion
     }

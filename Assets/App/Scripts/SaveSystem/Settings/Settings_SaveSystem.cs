@@ -13,10 +13,19 @@ public class Settings_SaveSystem : SaveSystem
 
     public static void Save_Settings()
     {
-        settings_SaveData.currentLanguageIndex = SettingsData.currentLanguageIndex;
-        settings_SaveData.currentFontSizeIndex = SettingsData.currentFontSizeIndex;
+        settings_SaveData.sawWelcome = SettingsData.currentSawWelcome;
+
+        settings_SaveData.languageIndex = SettingsData.currentLanguageIndex;
+        settings_SaveData.fontSizeIndex = SettingsData.currentFontSizeIndex;
 
         settings_SaveData.soundVolume = SettingsData.currentSoundVolume;
+
+        settings_SaveData.targetFrameRateIndex = SettingsData.currentTargetFrameRateIndex;
+        settings_SaveData.fieldOfViewIndex = SettingsData.currentFieldOfViewIndex;
+
+        settings_SaveData.moveSpeed = SettingsData.currentMoveSpeed;
+        settings_SaveData.horizontalSensitivity = SettingsData.currentHorizontalSensitivity;
+        settings_SaveData.verticalSensitivity = SettingsData.currentVerticalSensitivity;
 
         File.WriteAllText(Settings_SaveFileName(), JsonUtility.ToJson(settings_SaveData, true));
     }
@@ -32,10 +41,19 @@ public class Settings_SaveSystem : SaveSystem
 
         settings_SaveData = JsonUtility.FromJson<Settings_SaveData>(saveContent);
 
-        SettingsData.currentLanguageIndex = settings_SaveData.currentLanguageIndex;
-        SettingsData.currentFontSizeIndex = settings_SaveData.currentFontSizeIndex;
+        SettingsData.currentSawWelcome = settings_SaveData.sawWelcome;
+
+        SettingsData.currentLanguageIndex = settings_SaveData.languageIndex;
+        SettingsData.currentFontSizeIndex = settings_SaveData.fontSizeIndex;
 
         SettingsData.currentSoundVolume = settings_SaveData.soundVolume;
+
+        SettingsData.currentTargetFrameRateIndex = settings_SaveData.targetFrameRateIndex;
+        SettingsData.currentFieldOfViewIndex = settings_SaveData.fieldOfViewIndex;
+
+        SettingsData.currentMoveSpeed = settings_SaveData.moveSpeed;
+        SettingsData.currentHorizontalSensitivity = settings_SaveData.horizontalSensitivity;
+        SettingsData.currentVerticalSensitivity = settings_SaveData.verticalSensitivity;
     }
 
 }
@@ -45,8 +63,17 @@ public class Settings_SaveSystem : SaveSystem
 [System.Serializable]
 public struct Settings_SaveData
 {
-    public int currentLanguageIndex;
-    public int currentFontSizeIndex;
+    public bool sawWelcome;
 
-    public float soundVolume;
+    public int languageIndex;
+    public int fontSizeIndex;
+
+    public int soundVolume;
+
+    public int targetFrameRateIndex;
+    public int fieldOfViewIndex;
+
+    public int moveSpeed;
+    public int horizontalSensitivity;
+    public int verticalSensitivity;
 }

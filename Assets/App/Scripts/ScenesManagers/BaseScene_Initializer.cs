@@ -7,6 +7,8 @@ public class BaseScene_Initializer : MonoBehaviour
 
     private async void Awake()
     {
+        Settings_SaveSystem.Load_Settings();
+
         using (LoadingWindow_PopUp loadingWindow_PopUp = new LoadingWindow_PopUp(new GameObject()))
         {
             loadingWindow_PopUp.SetProgress(10);

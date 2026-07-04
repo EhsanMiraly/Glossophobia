@@ -55,6 +55,12 @@ public class WelcomePage : MonoBehaviour
 
     private void InitializeUI()
     {
+        if (SettingsData.currentSawWelcome)
+        {
+            uiConnector.SetPageActive(uiConnector.parentPage_VisualElement);
+            return;
+        }
+
         OnLanguageChanged();
         OnFontSizeChanged();
 
@@ -105,6 +111,7 @@ public class WelcomePage : MonoBehaviour
         ChangeSelectedLanguageTo(englishButton_TemplateContainer);
 
         SettingsData.currentLanguageIndex = 0;
+        Settings_SaveSystem.Save_Settings();
         EventsManager.InvokeOnLanguageChanged();
     }
 
@@ -113,12 +120,15 @@ public class WelcomePage : MonoBehaviour
         ChangeSelectedLanguageTo(farsiButton_TemplateContainer);
 
         SettingsData.currentLanguageIndex = 1;
+        Settings_SaveSystem.Save_Settings();
         EventsManager.InvokeOnLanguageChanged();
     }
 
     private void OnStartButtenSelected(ClickEvent clickEvent)
     {
         uiConnector.SetPageActive(uiConnector.parentPage_VisualElement);
+        SettingsData.currentSawWelcome = true;
+        Settings_SaveSystem.Save_Settings();
     }
 
     #endregion

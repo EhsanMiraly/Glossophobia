@@ -4,16 +4,20 @@ using UnityEngine.UIElements;
 
 public class SettingsData
 {
+    public static bool currentSawWelcome = false;
+
     public static int currentLanguageIndex = 0;
     public static int currentFontSizeIndex = 1;
 
-    public static float currentSoundVolume = 0.1f;
+    public static int currentSoundVolume = 1;
 
-    public static int currentTargetFrameRate = 144;
-    public static int currentFieldOfView = 60;
+    public static int currentTargetFrameRateIndex = 3;
+    public static int currentFieldOfViewIndex = 0;
+
     public static int currentMoveSpeed = 5;
-    public static int currentHorizontalSensitivity = 40;
-    public static int currentVerticalSensitivity = 30;
+    public static int currentHorizontalSensitivity = 30;
+    public static int currentVerticalSensitivity = 20;
+
 }
 
 

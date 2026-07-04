@@ -54,6 +54,18 @@ public class LanguageTextsData
 
     public static List<string> soundVolume = new List<string> { "Sound volume: ", "بلندی صدا: " };
 
+    public static List<string> targetFrameRate = new List<string> { "Target frame rate: ", "نرخ فریم هدف: " };
+    public static List<int> targetFrameRates = new List<int> { 60, 90, 120, 144, 165, 240, 300 };
+
+    public static List<string> fieldOfView = new List<string> { "Field of view: ", "زاویه دید: " };
+    public static List<int> fieldOfViews = new List<int> { 60, 65, 70, 75, 80, 85, 90 };
+
+    public static List<string> moveSpeed = new List<string> { "Move speed: ", "سرعت حرکت: " };
+    public static List<string> horizontalSensitivity =
+        new List<string> { "Horizontal sensitivity: ", "حساسیت افقی: " };
+    public static List<string> verticalSensitivity =
+        new List<string> { "Vertical sensitivity: ", "حساسیت عمودی: " };
+
     #endregion
 
 

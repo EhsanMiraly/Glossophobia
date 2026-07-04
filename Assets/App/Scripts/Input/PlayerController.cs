@@ -56,10 +56,10 @@ public class PlayerController : MonoBehaviour
 
     public void ProcessLook(Vector2 input)
     {
-        xRotation -= (input.y * Time.deltaTime) * SettingsData.currentVerticalSensitivity;
+        xRotation -= input.y * SettingsData.currentVerticalSensitivity / 100f;
         xRotation = Mathf.Clamp(xRotation, -85f, 85f);
         camera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
-        transform.Rotate(Vector3.up * (input.x * Time.deltaTime) * SettingsData.currentHorizontalSensitivity);
+        transform.Rotate(Vector3.up * input.x * SettingsData.currentHorizontalSensitivity / 100f);
     }
 
 }
