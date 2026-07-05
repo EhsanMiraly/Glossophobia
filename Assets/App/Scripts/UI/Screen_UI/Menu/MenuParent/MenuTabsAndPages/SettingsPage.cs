@@ -4,7 +4,6 @@ using UnityEngine.UIElements;
 public class SettingsPage : MonoBehaviour
 {
     PanelRenderer panelRenderer;
-    ParentPage parentPage;
 
     VisualElement settingsPage_VisualElement;
     ScrollView settings_ScrollView;
@@ -75,8 +74,6 @@ public class SettingsPage : MonoBehaviour
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
-        parentPage = GetComponent<ParentPage>();
-
         EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
         EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
     }
@@ -93,7 +90,7 @@ public class SettingsPage : MonoBehaviour
 
     private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
     {
-        settingsPage_VisualElement = parentPage.parentPage_VisualElement.Q<VisualElement>();
+        settingsPage_VisualElement = root.Q<VisualElement>("SettingsPage_VisualElement");
         settings_ScrollView = settingsPage_VisualElement.Q<ScrollView>("Settings_ScrollView");
         UI_Utilities.Initialize_ScrollView(settings_ScrollView);
 
@@ -261,6 +258,8 @@ public class SettingsPage : MonoBehaviour
 
     #endregion
 
+
+    #region Functionality
 
     private void AddFunctionality()
     {
@@ -588,6 +587,8 @@ public class SettingsPage : MonoBehaviour
         verticalSensitivity_InvisibleForeground_VisualElement.style.width =
             Length.Percent(SettingsData.currentVerticalSensitivity * 2);
     }
+
+    #endregion
 
     #endregion
 

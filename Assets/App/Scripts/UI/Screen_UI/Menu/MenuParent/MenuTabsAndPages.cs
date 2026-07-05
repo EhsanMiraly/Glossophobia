@@ -1,24 +1,32 @@
-using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ParentPage : MonoBehaviour
+
+[RequireComponent(typeof(AccountPage), typeof(SettingsPage))] //Add 3 Pages Later
+public class MenuTabsAndPages : MonoBehaviour
 {
     PanelRenderer panelRenderer;
-    UIConnector uiConnector;
+    MenuParent menuParent;
 
-    [System.NonSerialized] public VisualElement parentPage_VisualElement;
+    VisualElement menuTabsAndPages_VisualElement;
+    VisualElement tabsHolder_VisualElement;
+    VisualElement pagesHolder_VisualElement;
+
+
+    #region Tabs
     Label account_Label;
-    Label R1_Label;
-    Label R2_Label;
-    Label R3_Label;
+    //3 Tab Remains
     Label settings_Label;
 
     Label currentTabSelected;
+    #endregion
 
-    VisualElement accountPage_VisualElement;
-    //3
-    VisualElement settingsPage_VisualElement;
+
+    #region Pages
+    [System.NonSerialized] public VisualElement accountPage_VisualElement;
+    //3 Page Remains
+    [System.NonSerialized] public VisualElement settingsPage_VisualElement;
+    #endregion
 
 
 
@@ -27,7 +35,7 @@ public class ParentPage : MonoBehaviour
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
-        uiConnector = GetComponent<UIConnector>();
+        menuParent = GetComponent<MenuParent>();
 
         EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
         EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
@@ -44,24 +52,30 @@ public class ParentPage : MonoBehaviour
 
     private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
     {
-        parentPage_VisualElement = root.Q<VisualElement>("ParentPage_VisualElement");
-        account_Label = parentPage_VisualElement.Q<Label>("Account_Label");
-        //R1_Label;
-        //R2_Label;
-        //R3_Label;
-        settings_Label = parentPage_VisualElement.Q<Label>("Settings_Label");
+        menuTabsAndPages_VisualElement = root.Q<VisualElement>("MenuTabsAndPages_VisualElement");
+        tabsHolder_VisualElement = menuTabsAndPages_VisualElement.Q<VisualElement>("TabsHolder_VisualElement");
+        pagesHolder_VisualElement = menuTabsAndPages_VisualElement.Q<VisualElement>("PagesHolder_VisualElement");
 
-        accountPage_VisualElement = parentPage_VisualElement.Q<VisualElement>("AccountPage_VisualElement");
-        //3
-        settingsPage_VisualElement = parentPage_VisualElement.Q<VisualElement>("SettingsPage_VisualElement");
+        #region Tabs
+        account_Label = tabsHolder_VisualElement.Q<Label>("Account_Label");
+        //3 Tab Remains
+        settings_Label = tabsHolder_VisualElement.Q<Label>("Settings_Label");
+        #endregion
 
-        AddFunctionality();
+        #region Pages
+        accountPage_VisualElement = pagesHolder_VisualElement.Q<VisualElement>("AccountPage_VisualElement");
+        //3 Page Remains
+        settingsPage_VisualElement = pagesHolder_VisualElement.Q<VisualElement>("SettingsPage_VisualElement");
+        #endregion
+
 
         InitializeUI();
     }
 
     private void InitializeUI()
     {
+        AddFunctionality();
+
         OnLanguageChanged();
         OnFontSizeChanged();
 
@@ -77,20 +91,26 @@ public class ParentPage : MonoBehaviour
     private void AddFunctionality()
     {
         account_Label.RegisterCallback<ClickEvent>(OnAccountTabSelected);
-        //3
+        //3 Tab Remains
         settings_Label.RegisterCallback<ClickEvent>(OnSettingsTabSelected);
-
     }
+
+    private void RemoveFunctionality()
+    {
+        account_Label.UnregisterCallback<ClickEvent>(OnAccountTabSelected);
+        //3 Tab Remains
+        settings_Label.UnregisterCallback<ClickEvent>(OnSettingsTabSelected);
+    }
+
 
     private void OnAccountTabSelected(ClickEvent clickEvent)
     {
         SetTabActive(accountPage_VisualElement);
         account_Label.AddToClassList("TabSelected");
         currentTabSelected = account_Label;
-
     }
 
-    //3
+    //3 Tab Remains
 
     private void OnSettingsTabSelected(ClickEvent clickEvent)
     {
@@ -98,13 +118,6 @@ public class ParentPage : MonoBehaviour
         settings_Label.AddToClassList("TabSelected");
         currentTabSelected = settings_Label;
 
-    }
-
-    private void RemoveFunctionality()
-    {
-        account_Label.UnregisterCallback<ClickEvent>(OnAccountTabSelected);
-        //3
-        settings_Label.UnregisterCallback<ClickEvent>(OnSettingsTabSelected);
     }
 
     #endregion

@@ -164,11 +164,15 @@ GameObject:
   m_Component:
   - component: {fileID: 6525485511830178059}
   - component: {fileID: 2665053805560982182}
-  - component: {fileID: 5232300371666785726}
-  - component: {fileID: 7194539330995075273}
-  - component: {fileID: 8671112915375055169}
-  - component: {fileID: 7028827016498155300}
-  - component: {fileID: 8309908952396998050}
+  - component: {fileID: 8049753186435224429}
+  - component: {fileID: 6078616991397145413}
+  - component: {fileID: 9058419080650902985}
+  - component: {fileID: 48903134004401463}
+  - component: {fileID: 8690422232337817894}
+  - component: {fileID: 1661520175365823984}
+  - component: {fileID: 8305314667097478896}
+  - component: {fileID: 5800442263079548131}
+  - component: {fileID: 8582601619203249910}
   m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
@@ -249,7 +253,7 @@ PanelRenderer:
   m_PivotReferenceSize: 0
   m_Pivot: 0
   m_Position: 0
---- !u!114 &5232300371666785726
+--- !u!114 &8049753186435224429
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -258,22 +262,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4924660944441113291}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55303e2b0e9815e40a395479a9e85665, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIConnector
---- !u!114 &7194539330995075273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4924660944441113291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1418f06dcdeab54db7d23572e161628, type: 3}
+  m_Script: {fileID: 11500000, guid: 74f3fb12be4dfab449a682bd49cd9a11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WelcomePage
---- !u!114 &8671112915375055169
+--- !u!114 &6078616991397145413
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -282,10 +274,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 4924660944441113291}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 850538b8c2930224c9107a951be5a216, type: 3}
+  m_Script: {fileID: 11500000, guid: 454cc57c947364146804328562700389, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ParentPage
---- !u!114 &7028827016498155300
+  m_EditorClassIdentifier: Assembly-CSharp::LogInPage
+--- !u!114 &9058419080650902985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924660944441113291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcccdd8b7574b64aaa1c9f57c6674f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SignUpPage
+--- !u!114 &48903134004401463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924660944441113291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56db0405050a2154980e54ba8380ac9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LogOutPage
+--- !u!114 &8690422232337817894
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -297,7 +313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d362a03d6c42bc4dbed4fc0ec69754a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AccountPage
---- !u!114 &8309908952396998050
+--- !u!114 &1661520175365823984
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -309,6 +325,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afedf25d5431a094da08c069245d9431, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingsPage
+--- !u!114 &8305314667097478896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924660944441113291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd93b093a9690cc489f420ebaba3c6c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MenuTabsAndPages
+--- !u!114 &5800442263079548131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924660944441113291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d46e4a6e379473b4ba060d5529d67bf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NothingPage
+--- !u!114 &8582601619203249910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924660944441113291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9109a255497d1c14390442e1d2ed61e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MenuParent
 --- !u!1 &9003081344619460110
 GameObject:
   m_ObjectHideFlags: 0

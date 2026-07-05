@@ -15,24 +15,39 @@ public class LanguageTextsData
     #endregion
 
 
-    #region Welcome Page
-
-    public static List<string> welcome = new List<string> { "Welcome", "خوش آمدید" };
-    public static List<string> start = new List<string> { "Start", "شروع" };
-
+    #region LoadingPage
+    public static List<string> loading = new List<string> { "Loading...", "در حال لود شدن..." };
     #endregion
 
 
-    #region Parent Page
+    #region ManuParent
 
+
+    #region WelcomePage
+    public static List<string> welcome = new List<string> { "Welcome", "خوش آمدید" };
+    public static List<string> start = new List<string> { "Start", "شروع" };
+    #endregion
+
+
+    #region MenuTabsAndPages
+
+
+    #region Tabs
     public static List<string> account = new List<string> { "Account", "اکانت" };
     //3
     public static List<string> settings = new List<string> { "Settings", "تنظیمات" };
-
     #endregion
 
 
-    #region Settings Page
+    #region Pages
+
+
+    #region AccountPage
+    public static List<string> logIn = new List<string> { "Log in", "ورود به حساب کاربری" };
+    #endregion
+
+
+    #region SettingsPage
 
     public static List<Language> languages = new List<Language>
     {
@@ -69,66 +84,13 @@ public class LanguageTextsData
     #endregion
 
 
-
-
-    #region LoadingPage
-    public static List<string> loading = new List<string> { "Loading...", "در حال لود شدن..." };
     #endregion
 
-
-    #region MainPage
-    public static List<string> resume = new List<string> { "Resume", "ادامه" };
-    public static List<string> levels = new List<string> { "Levels", "لول‌ها" };
-    public static List<string> inventoryShop = new List<string> { "Inventory / Shop", "موجودی / فروشگاه" };
-
-    public static List<string> exit = new List<string> { "Exit", "خروج" };
     #endregion
-
-    #region LevelsPage
-    public static List<string> level = new List<string> { "Level ", "لول " };
-    public static List<string> scoresNeeded = new List<string> { "Scores needed: ", "امتیاز مورد نیاز: " };
-    #endregion
-
-    #region InventoryShopPage
-    public static List<string> inventory = new List<string> { "Inventory", "موجودی" };
-    public static List<string> watchAd = new List<string> { "WatchAd", "تماشای تبلیغ" };
-    public static List<string> reward = new List<string> { "Reward", "پاداش" };
-
-    public static List<string> shop = new List<string> { "Shop", "فروشگاه" };
-    public static List<string> buy = new List<string> { "Buy", "خرید" };
-
-
-    public static List<string> health = new List<string> { "Health", "جان" };//Delete
-    public static List<string> bullet = new List<string> { "Bullet", "تیر" };//Delete
-
-    #endregion
-
-    #region SettingsPage
-
-
-
-
-
-
-
 
 
     #endregion
 
-    #region PlayerCombatInfo
-
-    public static List<string> score = new List<string> { "Score: ", "امتیاز: " };
-    public static List<string> bullets = new List<string> { "Bullets: ", "تیرها: " };
-
-    #endregion
-
-    #region WinLose Window
-
-    public static List<string> win = new List<string> { "Win", "برنده شدید" };
-    public static List<string> lose = new List<string> { "Lose", "باختید" };
-    public static List<string> ok = new List<string> { "Ok", "باشه" };
-
-    #endregion
 }
 
 public class Language

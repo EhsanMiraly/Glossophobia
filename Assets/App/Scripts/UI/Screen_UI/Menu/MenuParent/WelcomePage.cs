@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
+
 public class WelcomePage : MonoBehaviour
 {
     PanelRenderer panelRenderer;
-    UIConnector uiConnector;
+    MenuParent menuParent;
 
     VisualElement welcomePage_VisualElement;
     Label welcome_Label;
@@ -21,7 +22,7 @@ public class WelcomePage : MonoBehaviour
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
-        uiConnector = GetComponent<UIConnector>();
+        menuParent = GetComponent<MenuParent>();
 
         EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
         EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
@@ -41,25 +42,23 @@ public class WelcomePage : MonoBehaviour
         welcomePage_VisualElement = root.Q<VisualElement>("WelcomePage_VisualElement");
 
         welcome_Label = welcomePage_VisualElement.Q<Label>("Welcome_Label");
-        englishButton_TemplateContainer = welcomePage_VisualElement.Q<VisualElement>("EnglishButton_TemplateContainer");
+        englishButton_TemplateContainer =
+            welcomePage_VisualElement.Q<VisualElement>("EnglishButton_TemplateContainer");
         english_Label = englishButton_TemplateContainer.Q<Label>("Text_Label");
-        farsiButton_TemplateContainer = welcomePage_VisualElement.Q<VisualElement>("FarsiButton_TemplateContainer");
+        farsiButton_TemplateContainer =
+            welcomePage_VisualElement.Q<VisualElement>("FarsiButton_TemplateContainer");
         farsi_Label = farsiButton_TemplateContainer.Q<Label>("Text_Label");
-        startButton_TemplateContainer = welcomePage_VisualElement.Q<VisualElement>("StartButton_TemplateContainer");
+        startButton_TemplateContainer =
+            welcomePage_VisualElement.Q<VisualElement>("StartButton_TemplateContainer");
         start_Label = startButton_TemplateContainer.Q<Label>("Text_Label");
 
-        AddFunctionality();
 
         InitializeUI();
     }
 
     private void InitializeUI()
     {
-        if (SettingsData.currentSawWelcome)
-        {
-            uiConnector.SetPageActive(uiConnector.parentPage_VisualElement);
-            return;
-        }
+        AddFunctionality();
 
         OnLanguageChanged();
         OnFontSizeChanged();
@@ -126,7 +125,7 @@ public class WelcomePage : MonoBehaviour
 
     private void OnStartButtenSelected(ClickEvent clickEvent)
     {
-        uiConnector.SetPageActive(uiConnector.parentPage_VisualElement);
+        menuParent.SetPageActive(menuParent.menuTabsAndPages_VisualElement);
         SettingsData.currentSawWelcome = true;
         Settings_SaveSystem.Save_Settings();
     }
@@ -198,5 +197,4 @@ public class WelcomePage : MonoBehaviour
     }
 
     #endregion
-
 }
