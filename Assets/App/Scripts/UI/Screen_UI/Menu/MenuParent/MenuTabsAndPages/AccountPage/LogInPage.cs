@@ -32,7 +32,9 @@ public class LogInPage : MonoBehaviour
     TextField username_TextField;
     TextField password_TextField;
     VisualElement goToSignUpButton_TemplateContainer;
+    Label goToSignUpButton_Label;
     VisualElement logInButton_TemplateContainer;
+    Label logInButton_Label;
     Label problems_Label;
     #endregion
 
@@ -74,12 +76,18 @@ public class LogInPage : MonoBehaviour
         password_TextField = logInPage_VisualElement.Q<TextField>("Password_TextField");
         goToSignUpButton_TemplateContainer =
             logInPage_VisualElement.Q<VisualElement>("GoToSignUpButton_TemplateContainer");
+        goToSignUpButton_Label = goToSignUpButton_TemplateContainer.Q<Label>();
         logInButton_TemplateContainer =
             logInPage_VisualElement.Q<VisualElement>("LogInButton_TemplateContainer");
+        logInButton_Label = logInButton_TemplateContainer.Q<Label>();
         problems_Label = logInPage_VisualElement.Q<Label>("Problems_Label");
 
 
+        InitializeUI();
+    }
 
+    private void InitializeUI()
+    {
         AddFunctionality();
 
         OnLanguageChanged();
@@ -126,9 +134,17 @@ public class LogInPage : MonoBehaviour
 
     private void OnLogInButtonSelected(ClickEvent clickEvent)
     {
+        //Change To Fire Base Later
         if (enteredUsername != "" && enteredPassword != "")
         {
-            Debug.Log(enteredUsername + " - " + enteredPassword);
+            if (enteredUsername == AccountData.currentUsername && enteredPassword == AccountData.currentPassword)
+            {
+                accountPage.SetPageActive(accountPage.logOutPage_VisualElement);
+            }
+        }
+        else
+        {
+            problems_Label.text = LanguageTextsData.wrongUsernameOrPassword[SettingsData.currentLanguageIndex];
         }
     }
 
@@ -149,6 +165,24 @@ public class LogInPage : MonoBehaviour
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
+        //Texts in text fields
+
+        #region goToSignUpButton_Label
+        goToSignUpButton_Label.text = LanguageTextsData.signUpPage[SettingsData.currentLanguageIndex];
+        goToSignUpButton_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        goToSignUpButton_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region logInButton_Label
+        logInButton_Label.text = LanguageTextsData.logIn[SettingsData.currentLanguageIndex];
+        logInButton_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        logInButton_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
         #region Problems Label
         problems_Label.text = "";
         problems_Label.languageDirection =
@@ -156,9 +190,6 @@ public class LogInPage : MonoBehaviour
         problems_Label.style.unityFont =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
-
-
-
     }
 
     private void OnFontSizeChanged()
@@ -168,12 +199,22 @@ public class LogInPage : MonoBehaviour
             LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
         #endregion
 
+        //Texts in text fields
+
+        #region goToSignUpButton_Label
+        goToSignUpButton_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region logInButton_Label
+        logInButton_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
         #region Problems Label
         problems_Label.style.fontSize =
             LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
         #endregion
-
-
     }
 
     #endregion

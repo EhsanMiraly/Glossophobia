@@ -1,16 +1,140 @@
+using System;
 using UnityEngine;
+using UnityEngine.UIElements;
+
 
 public class LogOutPage : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    PanelRenderer panelRenderer;
+
+    AccountPage accountPage;
+
+    VisualElement logOutPage_VisualElement;
+
+
+    #region LogOutPage Parts
+    Label youAreSignedInAs_Label;
+    Label username_Label;
+    VisualElement logOutButton_TemplateContainer;
+    Label logOutButton_Label;
+    #endregion
+
+
+    private void OnEnable()
     {
-        
+        panelRenderer = GetComponent<PanelRenderer>();
+        panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
+
+        accountPage = GetComponent<AccountPage>();
+
+        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        RemoveFunctionality();
+        panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
+
+        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
     }
+
+
+    private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
+    {
+        logOutPage_VisualElement = root.Q<VisualElement>("LogOutPage_VisualElement");
+
+        youAreSignedInAs_Label = logOutPage_VisualElement.Q<Label>("YouAreSignedInAs_Label");
+        username_Label = logOutPage_VisualElement.Q<Label>("Username_Label");
+        logOutButton_TemplateContainer = logOutPage_VisualElement.
+            Q<VisualElement>("LogOutButton_TemplateContainer");
+        logOutButton_Label = logOutButton_TemplateContainer.Q<Label>();
+
+
+        InitializeUI();
+    }
+
+    private void InitializeUI()
+    {
+        AddFunctionality();
+
+        OnLanguageChanged();
+        OnFontSizeChanged();
+    }
+
+
+    #region Functionality
+
+    private void AddFunctionality()
+    {
+        logOutButton_TemplateContainer.RegisterCallback<ClickEvent>(OnLogOutButtonSelected);
+    }
+
+    private void RemoveFunctionality()
+    {
+        logOutButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnLogOutButtonSelected);
+    }
+
+    private void OnLogOutButtonSelected(ClickEvent clickEvent)
+    {
+        accountPage.SetPageActive(accountPage.logInPage_VisualElement);
+    }
+
+    #endregion
+
+
+
+    #region Events Manager
+
+    private void OnLanguageChanged()
+    {
+        #region You Are Signed In As Label
+        youAreSignedInAs_Label.text = LanguageTextsData.youAreSignedInAs[SettingsData.currentLanguageIndex];
+        youAreSignedInAs_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        youAreSignedInAs_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region username_Label
+        username_Label.text = AccountData.currentUsername;
+        username_Label.languageDirection =
+            LanguageTextsData.languages[0].languageDirection;
+        username_Label.style.unityFont =
+            LanguageTextsData.languages[0].font;
+        #endregion
+
+        #region logOutButton_Label
+        logOutButton_Label.text = LanguageTextsData.logOut[SettingsData.currentLanguageIndex];
+        logOutButton_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        logOutButton_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+    }
+
+    private void OnFontSizeChanged()
+    {
+        #region You Are Signed In As Label
+        youAreSignedInAs_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region username_Label
+        username_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region logOutButton_Label
+        logOutButton_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+    }
+
+    #endregion
+
+
+
+
 }

@@ -44,6 +44,28 @@ public class LanguageTextsData
 
     #region AccountPage
     public static List<string> logIn = new List<string> { "Log in", "ورود به حساب کاربری" };
+    public static List<string> wrongUsernameOrPassword = new List<string> {
+        "Wrong username or password", "نام کاربری یا رمز عبور اشتباه است" };
+
+    public static List<string> signUpPage = new List<string> { "Sign up page", "صفحه ایجاد حساب کاربری" };
+    public static List<string> logInPage = new List<string> { "Log in page", "صفحه ورود به حساب کاربری" };
+
+    public static List<string> signUp = new List<string> { "Sign up", "ایجاد حساب کاربری" };
+    public static List<string> wrongCharacter = new List<string> { "Wrong character", "کاراکتر اشتباه" };
+    public static List<string> usernameLength = new List<string> {
+        "Username length must be 8 characters or more", "نام کاربری باید 8 کاراکتر یا بیشتر باشد" };
+    public static List<string> passwordLength = new List<string> {
+        "Password length must be 8 characters or more", "رمز عبور باید 8 کاراکتر یا بیشتر باشد" };
+    public static List<string> passwordConfirmationPassword = new List<string> {
+        "The password does not match the confirmation password", "رمز عبور با تکرار رمز عبور همخوانی ندارد" };
+    public static List<string> howTo = new List<string> { "Usable characters: ", "کاراکترهای قابل استفاده: " };
+
+    public static List<string> youAreSignedInAs = new List<string> {
+        "You are signed in as", "شما با این عنوان وارد شده‌اید" };
+
+    public static List<string> logOut = new List<string> {
+        "Log out", "خروج از حساب کاربری" };
+
     #endregion
 
 
