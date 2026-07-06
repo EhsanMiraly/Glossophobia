@@ -15,8 +15,14 @@ public class SignUpPage : MonoBehaviour
     #region SignUpPage Parts
     Label signUp_Label;
     TextField username_TextField;
+    Label username_TextField_Label;
+    TextElement username_TextField_TextElement;
     TextField password_TextField;
+    Label password_TextField_Label;
+    TextElement password_TextField_TextElement;
     TextField repeatPassword_TextField;
+    Label repeatPassword_TextField_Label;
+    TextElement repeatPassword_TextField_TextElement;
     VisualElement goToLogInButton_TemplateContainer;
     Label goToLogInButton_Label;
     VisualElement signUpButton_TemplateContainer;
@@ -61,9 +67,19 @@ public class SignUpPage : MonoBehaviour
         signUpPage_VisualElement = root.Q<VisualElement>("SignUpPage_VisualElement");
 
         signUp_Label = signUpPage_VisualElement.Q<Label>("SignUp_Label");
+
         username_TextField = signUpPage_VisualElement.Q<TextField>("Username_TextField");
+        username_TextField_Label = (Label)username_TextField.Query<TextElement>().ToList()[0];
+        username_TextField_TextElement = username_TextField.Query<TextElement>().ToList()[1];
+
         password_TextField = signUpPage_VisualElement.Q<TextField>("Password_TextField");
+        password_TextField_Label = (Label)password_TextField.Query<TextElement>().ToList()[0];
+        password_TextField_TextElement = password_TextField.Query<TextElement>().ToList()[1];
+
         repeatPassword_TextField = signUpPage_VisualElement.Q<TextField>("RepeatPassword_TextField");
+        repeatPassword_TextField_Label = (Label)repeatPassword_TextField.Query<TextElement>().ToList()[0];
+        repeatPassword_TextField_TextElement = repeatPassword_TextField.Query<TextElement>().ToList()[1];
+
         goToLogInButton_TemplateContainer =
             signUpPage_VisualElement.Q<VisualElement>("GoToLogInButton_TemplateContainer");
         goToLogInButton_Label = goToLogInButton_TemplateContainer.Q<Label>();
@@ -111,6 +127,12 @@ public class SignUpPage : MonoBehaviour
 
     private void OnUsernameValueChanged(ChangeEvent<string> changeEvent)
     {
+        if (changeEvent.newValue == "")
+        {
+            enteredUsername = changeEvent.newValue;
+            return;
+        }
+
         if (AccountData.isUsable(changeEvent.newValue[changeEvent.newValue.Length - 1]))
         {
             enteredUsername = changeEvent.newValue;
@@ -125,6 +147,12 @@ public class SignUpPage : MonoBehaviour
 
     private void OnPasswordValueChanged(ChangeEvent<string> changeEvent)
     {
+        if (changeEvent.newValue == "")
+        {
+            enteredPassword = changeEvent.newValue;
+            return;
+        }
+
         if (AccountData.isUsable(changeEvent.newValue[changeEvent.newValue.Length - 1]))
         {
             enteredPassword = changeEvent.newValue;
@@ -138,6 +166,12 @@ public class SignUpPage : MonoBehaviour
 
     private void OnRepeatPasswordValueChanged(ChangeEvent<string> changeEvent)
     {
+        if (changeEvent.newValue == "")
+        {
+            enteredRepeatPassword = changeEvent.newValue;
+            return;
+        }
+
         if (AccountData.isUsable(changeEvent.newValue[changeEvent.newValue.Length - 1]))
         {
             enteredRepeatPassword = changeEvent.newValue;
@@ -199,7 +233,56 @@ public class SignUpPage : MonoBehaviour
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
-        //Texts in text fields
+        #region username_TextField_Label
+        username_TextField.label = LanguageTextsData.enterUsername[SettingsData.currentLanguageIndex];
+        username_TextField_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        username_TextField_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region username_TextField_TextElement
+        username_TextField.value = LanguageTextsData.username[SettingsData.currentLanguageIndex];
+        username_TextField_TextElement.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        username_TextField_TextElement.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+
+        #region password_TextField_Label
+        password_TextField.label = LanguageTextsData.enterPassword[SettingsData.currentLanguageIndex];
+        password_TextField_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        password_TextField_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region password_TextField_TextElement
+        password_TextField.value = LanguageTextsData.password[SettingsData.currentLanguageIndex];
+        password_TextField_TextElement.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        password_TextField_TextElement.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region repeatPassword_TextField_Label
+        repeatPassword_TextField.label =
+            LanguageTextsData.enterRepeatPassword[SettingsData.currentLanguageIndex];
+        repeatPassword_TextField_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        repeatPassword_TextField_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region repeatPassword_TextField_TextElement
+        repeatPassword_TextField.value =
+        LanguageTextsData.repeatPassword[SettingsData.currentLanguageIndex];
+        repeatPassword_TextField_TextElement.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        repeatPassword_TextField_TextElement.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
 
 
         #region goToLogInButton_Label
@@ -231,7 +314,7 @@ public class SignUpPage : MonoBehaviour
 
         #region HowTo Label
         howTo_Label.text = LanguageTextsData.howTo[SettingsData.currentLanguageIndex] +
-            AccountData.usableCharacters;
+            "\n" + AccountData.usableCharacters;
         howTo_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
         howTo_Label.style.unityFont =
@@ -247,7 +330,35 @@ public class SignUpPage : MonoBehaviour
             LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
         #endregion
 
-        //Texts in text fields
+        #region username_TextField_Label
+        username_TextField_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region username_TextField_TextElement
+        username_TextField_TextElement.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region password_TextField_Label
+        password_TextField_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region password_TextField_TextElement
+        password_TextField_TextElement.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region repeatPassword_TextField_Label
+        repeatPassword_TextField_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region repeatPassword_TextField_TextElement
+        repeatPassword_TextField_TextElement.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
 
         #region goToLogInButton_Label
         goToLogInButton_Label.style.fontSize =

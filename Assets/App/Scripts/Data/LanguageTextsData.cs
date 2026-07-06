@@ -44,6 +44,14 @@ public class LanguageTextsData
 
     #region AccountPage
     public static List<string> logIn = new List<string> { "Log in", "ورود به حساب کاربری" };
+    public static List<string> username = new List<string> { "Username", "نام کاربری" };
+    public static List<string> enterUsername = new List<string> { "Enter username???", "نام کاربری را وارد کنید" };
+    public static List<string> password = new List<string> { "Password", "رمز عبور" };
+    public static List<string> enterPassword = new List<string> { "Enter password??", "رمز عبور را وارد کنید" };
+    public static List<string> repeatPassword = new List<string> { "Repeat password", "تکرار رمز عبور" };
+    public static List<string> enterRepeatPassword = new List<string> {
+        "Enter repeat password???", "تکرار رمز عبور را وارد کنید" };
+
     public static List<string> wrongUsernameOrPassword = new List<string> {
         "Wrong username or password", "نام کاربری یا رمز عبور اشتباه است" };
 

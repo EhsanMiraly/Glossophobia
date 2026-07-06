@@ -44,11 +44,14 @@ public class AccountPage : MonoBehaviour
 
     private void InitializeUI()
     {
-        //if has account 
-        //show account Page
-        //else show login page
-
-        SetPageActive(logInPage_VisualElement);
+        if (AccountData.currentUsername != "" && AccountData.currentPassword != "")
+        {
+            SetPageActive(logOutPage_VisualElement);
+        }
+        else
+        {
+            SetPageActive(logInPage_VisualElement);
+        }
     }
 
 

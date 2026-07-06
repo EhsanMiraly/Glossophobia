@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,24 +14,14 @@ public class LogInPage : MonoBehaviour
     VisualElement logInPage_VisualElement;
 
 
-    /*
-    string label = textField.label;
-    textField.label = "Username";
-    textField.textEdition.placeholder = "Enter your username";
-    textField.textEdition.hidePlaceholderOnFocus = true;
-    string value = textField.value;
-    textField.value = "Ali";
-    Label label = textField.Q<Label>();
-    VisualElement input = textField.Q("unity-text-input");
-    TextElement text = textField.Q<TextElement>();
-    text.style.color = Color.green;
-    input.style.backgroundColor = Color.black;
-    */
-
     #region LogInPage Parts
     Label logIn_Label;
     TextField username_TextField;
+    Label username_TextField_Label;
+    TextElement username_TextField_TextElement;
     TextField password_TextField;
+    Label password_TextField_Label;
+    TextElement password_TextField_TextElement;
     VisualElement goToSignUpButton_TemplateContainer;
     Label goToSignUpButton_Label;
     VisualElement logInButton_TemplateContainer;
@@ -72,8 +63,15 @@ public class LogInPage : MonoBehaviour
         logInPage_VisualElement = root.Q<VisualElement>("LogInPage_VisualElement");
 
         logIn_Label = logInPage_VisualElement.Q<Label>("LogIn_Label");
+
         username_TextField = logInPage_VisualElement.Q<TextField>("Username_TextField");
+        username_TextField_Label = (Label)username_TextField.Query<TextElement>().ToList()[0];
+        username_TextField_TextElement = username_TextField.Query<TextElement>().ToList()[1];
+
         password_TextField = logInPage_VisualElement.Q<TextField>("Password_TextField");
+        password_TextField_Label = (Label)password_TextField.Query<TextElement>().ToList()[0];
+        password_TextField_TextElement = password_TextField.Query<TextElement>().ToList()[1];
+
         goToSignUpButton_TemplateContainer =
             logInPage_VisualElement.Q<VisualElement>("GoToSignUpButton_TemplateContainer");
         goToSignUpButton_Label = goToSignUpButton_TemplateContainer.Q<Label>();
@@ -141,10 +139,10 @@ public class LogInPage : MonoBehaviour
             {
                 accountPage.SetPageActive(accountPage.logOutPage_VisualElement);
             }
-        }
-        else
-        {
-            problems_Label.text = LanguageTextsData.wrongUsernameOrPassword[SettingsData.currentLanguageIndex];
+            else
+            {
+                problems_Label.text = LanguageTextsData.wrongUsernameOrPassword[SettingsData.currentLanguageIndex];
+            }
         }
     }
 
@@ -165,7 +163,38 @@ public class LogInPage : MonoBehaviour
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
-        //Texts in text fields
+        #region username_TextField_Label
+        username_TextField_Label.text = LanguageTextsData.enterUsername[SettingsData.currentLanguageIndex];
+        username_TextField_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        username_TextField_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region username_TextField_TextElement
+        username_TextField_TextElement.text = LanguageTextsData.username[SettingsData.currentLanguageIndex];
+        username_TextField_TextElement.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        username_TextField_TextElement.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+
+        #region password_TextField_Label
+        password_TextField_Label.text = LanguageTextsData.enterPassword[SettingsData.currentLanguageIndex];
+        password_TextField_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        password_TextField_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region password_TextField_TextElement
+        password_TextField_TextElement.text = LanguageTextsData.password[SettingsData.currentLanguageIndex];
+        password_TextField_TextElement.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        password_TextField_TextElement.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
 
         #region goToSignUpButton_Label
         goToSignUpButton_Label.text = LanguageTextsData.signUpPage[SettingsData.currentLanguageIndex];
@@ -198,6 +227,27 @@ public class LogInPage : MonoBehaviour
         logIn_Label.style.fontSize =
             LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
         #endregion
+
+        #region username_TextField_Label
+        username_TextField_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region username_TextField_TextElement
+        username_TextField_TextElement.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region password_TextField_Label
+        password_TextField_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region password_TextField_TextElement
+        password_TextField_TextElement.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
 
         //Texts in text fields
 
