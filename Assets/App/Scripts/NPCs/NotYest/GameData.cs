@@ -29,7 +29,7 @@ public class GameData
     public static int hours = 0;
     public static int minutes = 20;
 
-    /*
+
     //DataBase Data
     public static string DatabaseFolderPath = "";
     public static string DatabaseFullPath = "";
@@ -39,7 +39,7 @@ public class GameData
     public static string Table_BeforeAnswers = "PlayerBeforeAnswers";
     public static string Table_AfterAnswers = "PlayerAfterAnswers";
     public static string Table_GameSettings = "GameSettings";
-    */
+
 
 
 
