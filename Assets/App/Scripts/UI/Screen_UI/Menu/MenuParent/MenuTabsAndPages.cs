@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 
-[RequireComponent(typeof(AccountPage), typeof(SettingsPage))] //Add 3 Pages Later
+[RequireComponent(typeof(AccountPage), typeof(SettingsPage), typeof(StartPlayingPage))]
 public class MenuTabsAndPages : MonoBehaviour
 {
     PanelRenderer panelRenderer;
@@ -15,6 +15,7 @@ public class MenuTabsAndPages : MonoBehaviour
 
     #region Tabs
     Label account_Label;
+    Label startPlaying_Label;
     //3 Tab Remains
     Label settings_Label;
 
@@ -24,6 +25,7 @@ public class MenuTabsAndPages : MonoBehaviour
 
     #region Pages
     [System.NonSerialized] public VisualElement accountPage_VisualElement;
+    [System.NonSerialized] public VisualElement startPlayingPage_VisualElement;
     //3 Page Remains
     [System.NonSerialized] public VisualElement settingsPage_VisualElement;
     #endregion
@@ -58,12 +60,15 @@ public class MenuTabsAndPages : MonoBehaviour
 
         #region Tabs
         account_Label = tabsHolder_VisualElement.Q<Label>("Account_Label");
+        startPlaying_Label = tabsHolder_VisualElement.Q<Label>("StartPlaying_Label");
         //3 Tab Remains
         settings_Label = tabsHolder_VisualElement.Q<Label>("Settings_Label");
         #endregion
 
         #region Pages
         accountPage_VisualElement = pagesHolder_VisualElement.Q<VisualElement>("AccountPage_VisualElement");
+        startPlayingPage_VisualElement =
+            pagesHolder_VisualElement.Q<VisualElement>("StartPlayingPage_VisualElement");
         //3 Page Remains
         settingsPage_VisualElement = pagesHolder_VisualElement.Q<VisualElement>("SettingsPage_VisualElement");
         #endregion
@@ -91,6 +96,7 @@ public class MenuTabsAndPages : MonoBehaviour
     private void AddFunctionality()
     {
         account_Label.RegisterCallback<ClickEvent>(OnAccountTabSelected);
+        startPlaying_Label.RegisterCallback<ClickEvent>(OnStartPlayingTabSelected);
         //3 Tab Remains
         settings_Label.RegisterCallback<ClickEvent>(OnSettingsTabSelected);
     }
@@ -98,6 +104,7 @@ public class MenuTabsAndPages : MonoBehaviour
     private void RemoveFunctionality()
     {
         account_Label.UnregisterCallback<ClickEvent>(OnAccountTabSelected);
+        startPlaying_Label.UnregisterCallback<ClickEvent>(OnStartPlayingTabSelected);
         //3 Tab Remains
         settings_Label.UnregisterCallback<ClickEvent>(OnSettingsTabSelected);
     }
@@ -108,6 +115,13 @@ public class MenuTabsAndPages : MonoBehaviour
         SetTabActive(accountPage_VisualElement);
         account_Label.AddToClassList("TabSelected");
         currentTabSelected = account_Label;
+    }
+
+    private void OnStartPlayingTabSelected(ClickEvent clickEvent)
+    {
+        SetTabActive(startPlayingPage_VisualElement);
+        startPlaying_Label.AddToClassList("TabSelected");
+        currentTabSelected = startPlaying_Label;
     }
 
     //3 Tab Remains
@@ -135,6 +149,14 @@ public class MenuTabsAndPages : MonoBehaviour
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
+        #region startPlaying_Label
+        startPlaying_Label.text = LanguageTextsData.startPlaying[SettingsData.currentLanguageIndex];
+        startPlaying_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        startPlaying_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
         #region Settings_Label
         settings_Label.text = LanguageTextsData.settings[SettingsData.currentLanguageIndex];
         settings_Label.languageDirection =
@@ -150,6 +172,11 @@ public class MenuTabsAndPages : MonoBehaviour
     {
         #region Account_Label
         account_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region startPlaying_Label
+        startPlaying_Label.style.fontSize =
             LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
         #endregion
 
@@ -169,6 +196,8 @@ public class MenuTabsAndPages : MonoBehaviour
         currentTabSelected.RemoveFromClassList("TabSelected");
 
         accountPage_VisualElement.style.display = DisplayStyle.None;
+        startPlayingPage_VisualElement.style.display = DisplayStyle.None;
+        //3
         settingsPage_VisualElement.style.display = DisplayStyle.None;
 
         visualElement.style.display = DisplayStyle.Flex;

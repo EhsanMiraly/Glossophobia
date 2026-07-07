@@ -34,6 +34,7 @@ public class LanguageTextsData
 
     #region Tabs
     public static List<string> account = new List<string> { "Account", "اکانت" };
+    public static List<string> startPlaying = new List<string> { "Start playing", "شروع بازی" };
     //3
     public static List<string> settings = new List<string> { "Settings", "تنظیمات" };
     #endregion
@@ -73,6 +74,14 @@ public class LanguageTextsData
 
     public static List<string> logOut = new List<string> {
         "Log out", "خروج از حساب کاربری" };
+
+    #endregion
+
+    #region StartPlayingPage
+
+    public static List<string> deletePDF = new List<string> { "Delete pdf", "حذف فایل" };
+    public static List<string> addPDF = new List<string> { "Add pdf", "اضافه کردن فایل" };
+    public static List<string> goForward = new List<string> { "Go Forward", "برو جلو" };
 
     #endregion
 

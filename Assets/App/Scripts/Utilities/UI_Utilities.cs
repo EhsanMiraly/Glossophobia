@@ -3,6 +3,21 @@ using UnityEngine.UIElements;
 
 public class UI_Utilities
 {
+    public static void MouseVisible(bool state)
+    {
+        UnityEngine.Cursor.visible = state;
+
+        if (state)
+        {
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
+
     public static void Initialize_ScrollView(ScrollView scrollView)
     {
         scrollView.style.width = Length.Percent(100);

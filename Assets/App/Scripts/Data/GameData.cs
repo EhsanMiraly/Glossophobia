@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.IO;
 
 public class GameData
 {
-
+    public static string pdfFilesFolderPath = Path.Combine(Application.persistentDataPath, "PDFFiles");
+    public static string selectedPdfFileFullPath = "";
 
 
 
@@ -20,8 +22,8 @@ public class GameData
     public static bool isTyping = false;
 
     //PDF Data
-    public static string pdfFilesFolderPath = "";
-    public static string selectedPdfFileFullPath = "";
+
+
     public static string selectedPdfName = "";
     public static List<Texture2D> pageTextures = new List<Texture2D>();
 

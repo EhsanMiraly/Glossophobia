@@ -210,6 +210,12 @@ public class SettingsPage : MonoBehaviour
             Length.Percent(SettingsData.currentVerticalSensitivity * 2);
         #endregion
 
+        InitializeUI();
+    }
+
+
+    private void InitializeUI()
+    {
         AddFunctionality();
 
         OnLanguageChanged();

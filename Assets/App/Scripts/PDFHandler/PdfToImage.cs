@@ -6,14 +6,14 @@ using PDFtoImage;
 using SkiaSharp;
 using UnityEngine;
 
-public class PdfToImage : MonoBehaviour
+public class PdfToImage
 {
-    public int renderDpi = 150;
+    private static int renderDpi = 150;
 
-    private bool isRunning = false;
+    private static bool isRunning = false;
 
 
-    public async Task StartConversion()
+    public static async Task StartConversion()
     {
         if (isRunning)
         {
@@ -45,7 +45,7 @@ public class PdfToImage : MonoBehaviour
         }
     }
 
-    private List<byte[]> ConvertPdfToPngBytes()
+    private static List<byte[]> ConvertPdfToPngBytes()
     {
         byte[] pdfBytes = File.ReadAllBytes(GameData.selectedPdfFileFullPath);
 
@@ -77,7 +77,7 @@ public class PdfToImage : MonoBehaviour
         return pngList;
     }
 
-    private void CreateTexturesFromPngBytes(List<byte[]> pngList)
+    private static void CreateTexturesFromPngBytes(List<byte[]> pngList)
     {
         GameData.pageTextures.Clear();
 
@@ -93,7 +93,7 @@ public class PdfToImage : MonoBehaviour
             }
             else
             {
-                Destroy(tex);
+                UnityEngine.GameObject.Destroy(tex);
             }
         }
     }
