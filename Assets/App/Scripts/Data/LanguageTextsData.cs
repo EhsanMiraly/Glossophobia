@@ -130,6 +130,12 @@ public class LanguageTextsData
 
     #endregion
 
+
+
+
+    #region Laptop
+    public static List<string> end = new List<string> { "End", "پایان" };
+    #endregion
 }
 
 public class Language

@@ -14,6 +14,7 @@ public class Settings_SaveSystem : SaveSystem
     public static void Save_Settings()
     {
         settings_SaveData.sawWelcome = SettingsData.currentSawWelcome;
+        settings_SaveData.sawLaptopHint = SettingsData.currentSawLaptopHint;
 
         settings_SaveData.languageIndex = SettingsData.currentLanguageIndex;
         settings_SaveData.fontSizeIndex = SettingsData.currentFontSizeIndex;
@@ -42,6 +43,7 @@ public class Settings_SaveSystem : SaveSystem
         settings_SaveData = JsonUtility.FromJson<Settings_SaveData>(saveContent);
 
         SettingsData.currentSawWelcome = settings_SaveData.sawWelcome;
+        SettingsData.currentSawLaptopHint = settings_SaveData.sawLaptopHint;
 
         SettingsData.currentLanguageIndex = settings_SaveData.languageIndex;
         SettingsData.currentFontSizeIndex = settings_SaveData.fontSizeIndex;
@@ -64,6 +66,7 @@ public class Settings_SaveSystem : SaveSystem
 public struct Settings_SaveData
 {
     public bool sawWelcome;
+    public bool sawLaptopHint;
 
     public int languageIndex;
     public int fontSizeIndex;

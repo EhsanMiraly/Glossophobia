@@ -7,6 +7,7 @@ public class GameData
 {
     public static string pdfFilesFolderPath = Path.Combine(Application.persistentDataPath, "PDFFiles");
     public static string selectedPdfFileFullPath = "";
+    public static List<Texture2D> pageTextures = new List<Texture2D>();
 
 
 
@@ -25,7 +26,7 @@ public class GameData
 
 
     public static string selectedPdfName = "";
-    public static List<Texture2D> pageTextures = new List<Texture2D>();
+
 
     //Timer Data
     public static int hours = 0;

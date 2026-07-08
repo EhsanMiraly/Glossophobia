@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 public class SettingsData
 {
     public static bool currentSawWelcome = false;
+    public static bool currentSawLaptopHint = false;
 
     public static int currentLanguageIndex = 0;
     public static int currentFontSizeIndex = 1;
