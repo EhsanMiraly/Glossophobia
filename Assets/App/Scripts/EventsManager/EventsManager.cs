@@ -1,4 +1,7 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public delegate void OnNotify();
 
@@ -44,5 +47,79 @@ public class EventsManager
     }
 
     #endregion
+
+    #region GameLoop Events
+
+    public static event OnNotify OnGameStarted_Event;
+    public static void InvokeOnGameStarted()
+    {
+        OnGameStarted_Event?.Invoke();
+    }
+
+    public static event OnNotify OnGameEnded_Event;
+    public static void InvokeOnGameEnded()
+    {
+        OnGameEnded_Event?.Invoke();
+    }
+
+    #endregion
+
+}
+
+public class Timer
+{
+    public int Hours { get; set; }
+    public int Minutes { get; set; }
+    public int Seconds { get; set; }
+
+    public Timer(int hours, int minutes, int seconds)
+    {
+        Hours = hours;
+        Minutes = minutes;
+        Seconds = seconds;
+    }
+
+    public bool HasTime()
+    {
+        if (Hours > 0 || Minutes > 0 || Seconds > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public async void DecreaseOneSecond()
+    {
+        Seconds--;
+        if (Seconds < 0)
+        {
+            if (Minutes > 0)
+            {
+                Minutes--;
+                Seconds = 59;
+            }
+            else if (Hours > 0)
+            {
+                Hours--;
+                Minutes = 59;
+                Seconds = 59;
+            }
+        }
+    }
+
+    public async void IncreaseOneSecond()
+    {
+        Seconds++;
+        if (Seconds > 59)
+        {
+            Seconds = 0;
+            Minutes++;
+            if (Minutes > 59)
+            {
+                Minutes = 0;
+                Hours++;
+            }
+        }
+    }
 
 }

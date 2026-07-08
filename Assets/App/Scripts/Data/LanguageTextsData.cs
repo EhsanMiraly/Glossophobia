@@ -10,6 +10,7 @@ public class LanguageTextsData
     {
         Resources.Load<Font>("Fonts/English/Roboto-Medium"),
         Resources.Load<Font>("Fonts/Farsi/Parastoo-Bold")
+        //,Resources.Load<Font>("Fonts/Clock/Clock_Font")
     };
 
     #endregion
@@ -102,6 +103,7 @@ public class LanguageTextsData
     };
 
 
+    public static List<int> fontSize_CategorySuperSmall = new List<int> { 2, 4, 6 };
     public static List<int> fontSize_CategorySmall = new List<int> { 10, 20, 30 };
     public static List<int> fontSize_CategoryAverage = new List<int> { 20, 40, 60 };
     public static List<int> fontSize_CategoryBig = new List<int> { 40, 70, 100 };
