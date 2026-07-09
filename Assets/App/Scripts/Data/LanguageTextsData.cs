@@ -94,39 +94,65 @@ public class LanguageTextsData
     public static List<string> age = new List<string> { "Age: ", "سن: " };
 
     public static List<string> educationLevel = new List<string> { "Education level", "سطح تحصیلات" };
-
     public static List<TwoStrings> educationLevelList = new List<TwoStrings>()
     {
-        new TwoStrings("High School Diploma or Below","؟؟؟"),
-        new TwoStrings("Bachelor’s Degree","؟؟؟"),
-        new TwoStrings("Master’s Degree","؟؟؟"),
-        new TwoStrings("Doctorate (PhD)","؟؟؟"),
-        new TwoStrings("Other","؟؟؟")
+        new TwoStrings("High School Diploma or Below","دیپلم و کمتر"),
+        new TwoStrings("Bachelor’s Degree","کارشناسی"),
+        new TwoStrings("Master’s Degree","کارشناسی ارشد"),
+        new TwoStrings("Doctorate (PhD)","دکتری"),
+        new TwoStrings("Other","سایر")
     };
 
-    public static string fieldOfStudy = "Field of study";
-    public static List<string> fieldOfStudys_List_DropdownField =
-    new List<string>() { "Engineering & Technology","Natural Sciences","Humanities & Social Sciences",
-    "Medical & Health Sciences","Arts & Architecture","Business & Management",
-    "Information Technology & Computer Science","Other"};
+    public static List<string> fieldOfStudy = new List<string> { "Field of study", "زمینه تحصیلات" };
+    public static List<TwoStrings> fieldOfStudyList = new List<TwoStrings>()
+    {
+        new TwoStrings("Engineering & Technology","فنی و مهندسی"),
+        new TwoStrings("Natural Sciences","علوم پایه"),
+        new TwoStrings("Humanities & Social Sciences","علوم انسانی و اجتماعی"),
+        new TwoStrings("Medical & Health Sciences","پزشکی و سلامت"),
+        new TwoStrings("Arts & Architecture","هنر و معماری"),
+        new TwoStrings("Business & Management","مدیریت و کسب‌وکار"),
+        new TwoStrings("Information Technology & Computer Science","فناوری اطلاعات و کامپیوتر"),
+        new TwoStrings("Other","سایر")
+    };
 
-    public static string job = "Job";
-    public static List<string> jobs_List_DropdownField =
-    new List<string>() { "Full-time Employed","Part-time Employed","Student","Homemaker",
-    "Unemployed / Looking for Work","Retired","Other"};
+    public static List<string> job = new List<string> { "Job", "شغل" };
+    public static List<TwoStrings> jobList = new List<TwoStrings>()
+    {
+        new TwoStrings("Full-time Employed","شاغل تمام‌وقت"),
+        new TwoStrings("Part-time Employed","شاغل پاره‌وقت"),
+        new TwoStrings("Student","دانشجو"),
+        new TwoStrings("Homemaker","خانه‌دار"),
+        new TwoStrings("Unemployed / Looking for Work","بیکار و در جستجوی کار"),
+        new TwoStrings("Retired","بازنشسته"),
+        new TwoStrings("Other","سایر")
+    };
 
-    public static string LevelOfExperience = "Level of public speaking experience";
-    public static string LevelOfNeed = "Level of need for public speaking";
-    public static string TypicalLevelOfAnxiety = "Typical level of anxiety when speaking in public";
-    public static string HistoryOfFormalTraining = "History of formal training in public speaking";
-    public static string HistoryOfTakingSedativeMedication = "History of taking sedative medication to reduce stress and anxiety during public speaking";
+    public static List<TwoStrings> veryLowToVeryHigh = new List<TwoStrings>()
+    {
+        new TwoStrings("Very low","خیلی کم"),
+        new TwoStrings("Low","کم"),
+        new TwoStrings("Medium","متوسط"),
+        new TwoStrings("High","زیاد"),
+        new TwoStrings("Very high","خیلی زیاد")
+    };
 
-    public static List<string> VeryLowToVeryHigh = new List<string>() { "Very low", "Low", "Medium", "High", "Very high" };
-    public static List<string> YesNo = new List<string>() { "Yes", "No" };
-    public static string similarExperience = "Similar experience info";
-    public static string experienceWith3DGames = "Level of prior experience with 3D games";
-    public static string experienceWithPublicSpeakingSimulationGames = "Level of prior experience with public speaking simulation games";
-
+    public static List<string> levelOfExperience = new List<string>
+        { "Level of public speaking experience", "سطح تجربه سخنرانی در جمع" };
+    public static List<string> levelOfNeed = new List<string>
+        { "Level of need for public speaking", "سطح نیاز به سخنرانی در جمع" };
+    public static List<string> typicalLevelOfAnxiety = new List<string>
+        { "Typical level of anxiety when speaking in public", "سطح اضطراب معمول هنگام سخنرانی در جمع" };
+    public static List<string> historyOfFormalTraining = new List<string>
+        { "History of formal training in public speaking", "سابقه آموزش رسمی برای سخنرانی در جمع" };
+    public static List<string> historyOfTakingSedativeMedication = new List<string>
+        { "History of taking sedative medication to reduce stress and anxiety during public speaking",
+          "سابقه مصرف داروی آرام بخش برای کاهش استرس و اضطراب هنگام سخنرانی در جمع" };
+    public static List<string> experienceWith3DGames = new List<string>
+        { "Level of prior experience with 3D games", "سطح تجربه قبلی با بازی‌های 3 بعدی" };
+    public static List<string> experienceWithPublicSpeakingSimulationGames = new List<string>
+        { "Level of prior experience with public speaking simulation games",
+          "سطح تجربه قبلی با بازی‌های شبیه‌ساز سخنرانی در جمع" };
 
     public static List<string> save = new List<string> { "Save", "ذخیره" };
     #endregion

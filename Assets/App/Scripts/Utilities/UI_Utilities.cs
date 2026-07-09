@@ -110,14 +110,21 @@ public class UI_Utilities
     {
         singleSelection.style.width = Length.Percent(100);
         singleSelection.style.height = (Screen.width / 20f) * (optionsCount + 1);
+        singleSelection.style.flexGrow = 1f;
 
         singleSelection.style.marginBottom = Screen.width / 200f;
 
         Label whatAmI_Label = singleSelection.Q<Label>("WhatAmI_Label");
-        Fix_SingleSelection_LabelAndOption_Dimentions(whatAmI_Label);
+        Fix_SingleSelection_Label_Dimentions(whatAmI_Label);
     }
 
-    private static void Fix_SingleSelection_LabelAndOption_Dimentions(VisualElement visualElement)
+    private static void Fix_SingleSelection_Label_Dimentions(VisualElement visualElement)
+    {
+        visualElement.style.width = Length.Percent(50);
+        visualElement.style.height = Screen.width / 20f;
+    }
+
+    private static void Fix_SingleSelection_Option_Dimentions(VisualElement visualElement)
     {
         visualElement.style.width = Length.Percent(100);
         visualElement.style.height = Screen.width / 20f;
@@ -130,7 +137,7 @@ public class UI_Utilities
     }
 
     public static void Fill_SingleSelection(VisualElement singleSelection, List<TwoStrings> twoStrings,
-        List<VisualElement> checkMarks)
+        List<VisualElement> labels, List<VisualElement> checkMarks)
     {
         VisualElement parent_VisualElement = singleSelection.Q<VisualElement>("Parent_VisualElement");
         VisualTreeAsset option_Template_VisualTreeAsset =
@@ -140,10 +147,10 @@ public class UI_Utilities
         {
             VisualElement option = option_Template_VisualTreeAsset.Instantiate();
             option.AddToClassList("Option_TemplateContainer");
-            Fix_SingleSelection_LabelAndOption_Dimentions(option);
+            Fix_SingleSelection_Option_Dimentions(option);
 
-            Label option_abel = option.Q<Label>("Option_Label");
-            option_abel.text = twoStrings[i].ListString[SettingsData.currentLanguageIndex];
+            Label option_Label = option.Q<Label>("Option_Label");
+            labels.Add(option_Label);
 
             VisualElement chackMark_TemplateContainer = option.Q<VisualElement>("ChackMark_TemplateContainer");
             Fix_OptionCheckMark_Dimentions(chackMark_TemplateContainer);

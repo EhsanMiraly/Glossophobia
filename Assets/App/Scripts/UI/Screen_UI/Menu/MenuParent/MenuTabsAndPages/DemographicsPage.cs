@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.ProjectWindowCallback;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -31,10 +33,26 @@ public class DemographicsPage : MonoBehaviour
 
     #region EducationLevel
     VisualElement educationLevel_SingleSelection_TemplateContainer;
-    VisualElement educationLevel_Parent_VisualElement;
     Label educationLevel_WhatAmI_Label;
 
+    List<VisualElement> educationLevel_OptionsLabels;
     List<VisualElement> educationLevel_OptionsChackMarks;
+    #endregion
+
+    #region FieldOfStudy
+    VisualElement fieldOfStudy_SingleSelection_TemplateContainer;
+    Label fieldOfStudy_WhatAmI_Label;
+
+    List<VisualElement> fieldOfStudy_OptionsLabels;
+    List<VisualElement> fieldOfStudy_OptionsChackMarks;
+    #endregion
+
+    #region Job
+    VisualElement job_SingleSelection_TemplateContainer;
+    Label job_WhatAmI_Label;
+
+    List<VisualElement> job_OptionsLabels;
+    List<VisualElement> job_OptionsChackMarks;
     #endregion
 
 
@@ -98,17 +116,51 @@ public class DemographicsPage : MonoBehaviour
         #region EducationLevel
         educationLevel_SingleSelection_TemplateContainer =
             demographics_ScrollView.Q<VisualElement>("EducationLevel_SingleSelection_TemplateContainer");
-        educationLevel_Parent_VisualElement =
-            educationLevel_SingleSelection_TemplateContainer.Q<VisualElement>("Parent_VisualElement");
         educationLevel_WhatAmI_Label = educationLevel_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
+
+        educationLevel_OptionsLabels = new List<VisualElement>();
         educationLevel_OptionsChackMarks = new List<VisualElement>();
 
         UI_Utilities.Fix_SingleSelection_Dimentions(educationLevel_SingleSelection_TemplateContainer,
             LanguageTextsData.educationLevelList.Count);
         UI_Utilities.Fill_SingleSelection(educationLevel_SingleSelection_TemplateContainer,
-            LanguageTextsData.educationLevelList, educationLevel_OptionsChackMarks);
+            LanguageTextsData.educationLevelList, educationLevel_OptionsLabels, educationLevel_OptionsChackMarks);
 
         educationLevel_OptionsChackMarks[DemographicsData.currentEducationLevelIndex]
+            .Q<VisualElement>("Foreground_VisualElement").style.display = DisplayStyle.Flex;
+        #endregion
+
+        #region FieldOfStudy
+        fieldOfStudy_SingleSelection_TemplateContainer =
+            demographics_ScrollView.Q<VisualElement>("FieldOfStudy_SingleSelection_TemplateContainer");
+        fieldOfStudy_WhatAmI_Label = fieldOfStudy_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
+
+        fieldOfStudy_OptionsLabels = new List<VisualElement>();
+        fieldOfStudy_OptionsChackMarks = new List<VisualElement>();
+
+        UI_Utilities.Fix_SingleSelection_Dimentions(fieldOfStudy_SingleSelection_TemplateContainer,
+            LanguageTextsData.fieldOfStudyList.Count);
+        UI_Utilities.Fill_SingleSelection(fieldOfStudy_SingleSelection_TemplateContainer,
+            LanguageTextsData.fieldOfStudyList, fieldOfStudy_OptionsLabels, fieldOfStudy_OptionsChackMarks);
+
+        fieldOfStudy_OptionsChackMarks[DemographicsData.currentFieldOfStudyIndex]
+            .Q<VisualElement>("Foreground_VisualElement").style.display = DisplayStyle.Flex;
+        #endregion
+
+        #region Job
+        job_SingleSelection_TemplateContainer =
+            demographics_ScrollView.Q<VisualElement>("Job_SingleSelection_TemplateContainer");
+        job_WhatAmI_Label = job_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
+
+        job_OptionsLabels = new List<VisualElement>();
+        job_OptionsChackMarks = new List<VisualElement>();
+
+        UI_Utilities.Fix_SingleSelection_Dimentions(job_SingleSelection_TemplateContainer,
+            LanguageTextsData.jobList.Count);
+        UI_Utilities.Fill_SingleSelection(job_SingleSelection_TemplateContainer,
+            LanguageTextsData.jobList, job_OptionsLabels, job_OptionsChackMarks);
+
+        job_OptionsChackMarks[DemographicsData.currentJobIndex]
             .Q<VisualElement>("Foreground_VisualElement").style.display = DisplayStyle.Flex;
         #endregion
 
@@ -163,6 +215,18 @@ public class DemographicsPage : MonoBehaviour
         {
             educationLevel_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnEducationLevelSelected);
         }
+
+        //FieldOfStudy
+        for (int i = 0; i < fieldOfStudy_OptionsChackMarks.Count; i++)
+        {
+            fieldOfStudy_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnFieldOfStudySelected);
+        }
+
+        //Job
+        for (int i = 0; i < job_OptionsChackMarks.Count; i++)
+        {
+            job_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnJobSelected);
+        }
     }
 
     private void RemoveFunctionality()
@@ -182,6 +246,18 @@ public class DemographicsPage : MonoBehaviour
         for (int i = 0; i < educationLevel_OptionsChackMarks.Count; i++)
         {
             educationLevel_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnEducationLevelSelected);
+        }
+
+        //FieldOfStudy
+        for (int i = 0; i < fieldOfStudy_OptionsChackMarks.Count; i++)
+        {
+            fieldOfStudy_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnFieldOfStudySelected);
+        }
+
+        //Job
+        for (int i = 0; i < job_OptionsChackMarks.Count; i++)
+        {
+            job_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnJobSelected);
         }
     }
 
@@ -258,11 +334,43 @@ public class DemographicsPage : MonoBehaviour
         visualElement.Q<VisualElement>("Foreground_VisualElement")
             .style.display = DisplayStyle.Flex;
         DemographicsData.currentEducationLevelIndex = int.Parse(visualElement.name);
-        Debug.Log(DemographicsData.currentEducationLevelIndex);//////////////////////////Here
     }
     #endregion
 
+
+    #region FieldOfStudy
+    private void OnFieldOfStudySelected(ClickEvent clickEvent)
+    {
+        for (int i = 0; i < fieldOfStudy_OptionsChackMarks.Count; i++)
+        {
+            fieldOfStudy_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+                .style.display = DisplayStyle.None;
+        }
+        VisualElement visualElement = clickEvent.currentTarget as VisualElement;
+        visualElement.Q<VisualElement>("Foreground_VisualElement")
+            .style.display = DisplayStyle.Flex;
+        DemographicsData.currentFieldOfStudyIndex = int.Parse(visualElement.name);
+    }
     #endregion
+
+    #region Job
+    private void OnJobSelected(ClickEvent clickEvent)
+    {
+        for (int i = 0; i < job_OptionsChackMarks.Count; i++)
+        {
+            job_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+                .style.display = DisplayStyle.None;
+        }
+        VisualElement visualElement = clickEvent.currentTarget as VisualElement;
+        visualElement.Q<VisualElement>("Foreground_VisualElement")
+            .style.display = DisplayStyle.Flex;
+        DemographicsData.currentJobIndex = int.Parse(visualElement.name);
+    }
+    #endregion
+
+
+    #endregion
+
 
 
     #region Events Manager
@@ -293,6 +401,55 @@ public class DemographicsPage : MonoBehaviour
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
         educationLevel_WhatAmI_Label.style.unityFont =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+
+        for (int i = 0; i < educationLevel_OptionsLabels.Count; i++)
+        {
+            Label label = educationLevel_OptionsLabels[i].Q<Label>();
+
+            label.text = LanguageTextsData.educationLevelList[i].ListString[SettingsData.currentLanguageIndex];
+            label.languageDirection =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+            label.style.unityFont =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        }
+        #endregion
+
+        #region fieldOfStudy_WhatAmI_Label
+        fieldOfStudy_WhatAmI_Label.text = LanguageTextsData.fieldOfStudy[SettingsData.currentLanguageIndex];
+        fieldOfStudy_WhatAmI_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        fieldOfStudy_WhatAmI_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+
+        for (int i = 0; i < fieldOfStudy_OptionsLabels.Count; i++)
+        {
+            Label label = fieldOfStudy_OptionsLabels[i].Q<Label>();
+
+            label.text = LanguageTextsData.fieldOfStudyList[i].ListString[SettingsData.currentLanguageIndex];
+            label.languageDirection =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+            label.style.unityFont =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        }
+        #endregion
+
+        #region job_WhatAmI_Label
+        job_WhatAmI_Label.text = LanguageTextsData.job[SettingsData.currentLanguageIndex];
+        job_WhatAmI_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        job_WhatAmI_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+
+        for (int i = 0; i < job_OptionsLabels.Count; i++)
+        {
+            Label label = job_OptionsLabels[i].Q<Label>();
+
+            label.text = LanguageTextsData.jobList[i].ListString[SettingsData.currentLanguageIndex];
+            label.languageDirection =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+            label.style.unityFont =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        }
         #endregion
 
 
@@ -321,6 +478,40 @@ public class DemographicsPage : MonoBehaviour
         #region educationLevel_WhatAmI_Label
         educationLevel_WhatAmI_Label.style.fontSize =
             LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+
+        for (int i = 0; i < educationLevel_OptionsLabels.Count; i++)
+        {
+            Label label = educationLevel_OptionsLabels[i].Q<Label>();
+
+            label.style.fontSize =
+                LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        }
+        #endregion
+
+        #region fieldOfStudy_WhatAmI_Label
+        fieldOfStudy_WhatAmI_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+
+        for (int i = 0; i < fieldOfStudy_OptionsLabels.Count; i++)
+        {
+            Label label = fieldOfStudy_OptionsLabels[i].Q<Label>();
+
+            label.style.fontSize =
+                LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        }
+        #endregion
+
+        #region job_WhatAmI_Label
+        job_WhatAmI_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+
+        for (int i = 0; i < job_OptionsLabels.Count; i++)
+        {
+            Label label = job_OptionsLabels[i].Q<Label>();
+
+            label.style.fontSize =
+                LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        }
         #endregion
 
 

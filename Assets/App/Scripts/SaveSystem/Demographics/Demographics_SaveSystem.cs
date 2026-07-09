@@ -17,6 +17,9 @@ public class Demographics_SaveSystem : SaveSystem
     {
         demographics_SaveData.genderIndex = DemographicsData.currentGenderIndex;
         demographics_SaveData.age = DemographicsData.currentAge;
+        demographics_SaveData.educationLevelIndex = DemographicsData.currentEducationLevelIndex;
+        demographics_SaveData.fieldOfStudyIndex = DemographicsData.currentFieldOfStudyIndex;
+        demographics_SaveData.jobIndex = DemographicsData.currentJobIndex;
 
         File.WriteAllText(Demographics_SaveFileName(), JsonUtility.ToJson(demographics_SaveData, true));
     }
@@ -34,6 +37,9 @@ public class Demographics_SaveSystem : SaveSystem
 
         DemographicsData.currentGenderIndex = demographics_SaveData.genderIndex;
         DemographicsData.currentAge = demographics_SaveData.age;
+        DemographicsData.currentEducationLevelIndex = demographics_SaveData.educationLevelIndex;
+        DemographicsData.currentFieldOfStudyIndex = demographics_SaveData.fieldOfStudyIndex;
+        DemographicsData.currentJobIndex = demographics_SaveData.jobIndex;
     }
 
 }
@@ -44,4 +50,7 @@ public struct Demographics_SaveData
 {
     public int genderIndex;
     public int age;
+    public int educationLevelIndex;
+    public int fieldOfStudyIndex;
+    public int jobIndex;
 }
