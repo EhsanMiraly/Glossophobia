@@ -388,7 +388,7 @@ public class SettingsPage : MonoBehaviour
         }
         Settings_SaveSystem.Save_Settings();
         fontSize_Text_Label.text = LanguageTextsData.fontSize_Text[SettingsData.currentFontSizeIndex].
-                                    FontSizeLanguage[SettingsData.currentLanguageIndex];
+                                    ListString[SettingsData.currentLanguageIndex];
         EventsManager.InvokeOnFontSizeChanged();
     }
 
@@ -401,7 +401,7 @@ public class SettingsPage : MonoBehaviour
         }
         Settings_SaveSystem.Save_Settings();
         fontSize_Text_Label.text = LanguageTextsData.fontSize_Text[SettingsData.currentFontSizeIndex].
-                                    FontSizeLanguage[SettingsData.currentLanguageIndex];
+                                    ListString[SettingsData.currentLanguageIndex];
         EventsManager.InvokeOnFontSizeChanged();
     }
     #endregion
@@ -614,7 +614,7 @@ public class SettingsPage : MonoBehaviour
 
         #region FontSize Label
         fontSize_Text_Label.text = LanguageTextsData.fontSize_Text[SettingsData.currentFontSizeIndex].
-            FontSizeLanguage[SettingsData.currentLanguageIndex];
+            ListString[SettingsData.currentLanguageIndex];
         fontSize_Text_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
         fontSize_Text_Label.style.unityFont =

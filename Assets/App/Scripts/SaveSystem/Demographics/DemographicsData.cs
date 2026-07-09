@@ -1,0 +1,8 @@
+using System.Collections.Generic;
+
+public class DemographicsData
+{
+    public static int currentGenderIndex = 0;
+    public static int currentAge = 20;
+
+}

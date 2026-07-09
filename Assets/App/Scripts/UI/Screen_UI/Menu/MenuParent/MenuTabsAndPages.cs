@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 
-[RequireComponent(typeof(AccountPage), typeof(SettingsPage), typeof(StartPlayingPage))]
+[RequireComponent(typeof(AccountPage), typeof(DemographicsPage), typeof(PRPSAPage))]
+[RequireComponent(typeof(StartPlayingPage), typeof(SettingsPage))]
 public class MenuTabsAndPages : MonoBehaviour
 {
     PanelRenderer panelRenderer;
@@ -15,8 +16,9 @@ public class MenuTabsAndPages : MonoBehaviour
 
     #region Tabs
     Label account_Label;
+    Label demographics_Label;
+    Label PRPSA_Label;
     Label startPlaying_Label;
-    //3 Tab Remains
     Label settings_Label;
 
     Label currentTabSelected;
@@ -25,8 +27,9 @@ public class MenuTabsAndPages : MonoBehaviour
 
     #region Pages
     [System.NonSerialized] public VisualElement accountPage_VisualElement;
+    [System.NonSerialized] public VisualElement demographicsPage_VisualElement;
+    [System.NonSerialized] public VisualElement PRPSAPage_VisualElement;
     [System.NonSerialized] public VisualElement startPlayingPage_VisualElement;
-    //3 Page Remains
     [System.NonSerialized] public VisualElement settingsPage_VisualElement;
     #endregion
 
@@ -60,16 +63,19 @@ public class MenuTabsAndPages : MonoBehaviour
 
         #region Tabs
         account_Label = tabsHolder_VisualElement.Q<Label>("Account_Label");
+        demographics_Label = tabsHolder_VisualElement.Q<Label>("Demographics_Label");
+        PRPSA_Label = tabsHolder_VisualElement.Q<Label>("PRPSA_Label");
         startPlaying_Label = tabsHolder_VisualElement.Q<Label>("StartPlaying_Label");
-        //3 Tab Remains
         settings_Label = tabsHolder_VisualElement.Q<Label>("Settings_Label");
         #endregion
 
         #region Pages
         accountPage_VisualElement = pagesHolder_VisualElement.Q<VisualElement>("AccountPage_VisualElement");
+        demographicsPage_VisualElement =
+            pagesHolder_VisualElement.Q<VisualElement>("DemographicsPage_VisualElement");
+        PRPSAPage_VisualElement = pagesHolder_VisualElement.Q<VisualElement>("PRPSAPage_VisualElement");
         startPlayingPage_VisualElement =
             pagesHolder_VisualElement.Q<VisualElement>("StartPlayingPage_VisualElement");
-        //3 Page Remains
         settingsPage_VisualElement = pagesHolder_VisualElement.Q<VisualElement>("SettingsPage_VisualElement");
         #endregion
 
@@ -96,16 +102,18 @@ public class MenuTabsAndPages : MonoBehaviour
     private void AddFunctionality()
     {
         account_Label.RegisterCallback<ClickEvent>(OnAccountTabSelected);
+        demographics_Label.RegisterCallback<ClickEvent>(OnDemographicsTabSelected);
+        PRPSA_Label.RegisterCallback<ClickEvent>(OnPRPSATabSelected);
         startPlaying_Label.RegisterCallback<ClickEvent>(OnStartPlayingTabSelected);
-        //3 Tab Remains
         settings_Label.RegisterCallback<ClickEvent>(OnSettingsTabSelected);
     }
 
     private void RemoveFunctionality()
     {
         account_Label.UnregisterCallback<ClickEvent>(OnAccountTabSelected);
+        demographics_Label.UnregisterCallback<ClickEvent>(OnDemographicsTabSelected);
+        PRPSA_Label.UnregisterCallback<ClickEvent>(OnPRPSATabSelected);
         startPlaying_Label.UnregisterCallback<ClickEvent>(OnStartPlayingTabSelected);
-        //3 Tab Remains
         settings_Label.UnregisterCallback<ClickEvent>(OnSettingsTabSelected);
     }
 
@@ -117,14 +125,26 @@ public class MenuTabsAndPages : MonoBehaviour
         currentTabSelected = account_Label;
     }
 
+    private void OnDemographicsTabSelected(ClickEvent clickEvent)
+    {
+        SetTabActive(demographicsPage_VisualElement);
+        demographics_Label.AddToClassList("TabSelected");
+        currentTabSelected = demographics_Label;
+    }
+
+    private void OnPRPSATabSelected(ClickEvent clickEvent)
+    {
+        SetTabActive(PRPSAPage_VisualElement);
+        PRPSA_Label.AddToClassList("TabSelected");
+        currentTabSelected = PRPSA_Label;
+    }
+
     private void OnStartPlayingTabSelected(ClickEvent clickEvent)
     {
         SetTabActive(startPlayingPage_VisualElement);
         startPlaying_Label.AddToClassList("TabSelected");
         currentTabSelected = startPlaying_Label;
     }
-
-    //3 Tab Remains
 
     private void OnSettingsTabSelected(ClickEvent clickEvent)
     {
@@ -146,6 +166,22 @@ public class MenuTabsAndPages : MonoBehaviour
         account_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
         account_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region demographics_Label
+        demographics_Label.text = LanguageTextsData.demographics[SettingsData.currentLanguageIndex];
+        demographics_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        demographics_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region PRPSA_Label
+        PRPSA_Label.text = LanguageTextsData.PRPSA[SettingsData.currentLanguageIndex];
+        PRPSA_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        PRPSA_Label.style.unityFont =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
@@ -175,6 +211,16 @@ public class MenuTabsAndPages : MonoBehaviour
             LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
         #endregion
 
+        #region demographics_Label
+        demographics_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region PRPSA_Label
+        PRPSA_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
         #region startPlaying_Label
         startPlaying_Label.style.fontSize =
             LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
@@ -196,8 +242,9 @@ public class MenuTabsAndPages : MonoBehaviour
         currentTabSelected.RemoveFromClassList("TabSelected");
 
         accountPage_VisualElement.style.display = DisplayStyle.None;
+        demographicsPage_VisualElement.style.display = DisplayStyle.None;
+        PRPSAPage_VisualElement.style.display = DisplayStyle.None;
         startPlayingPage_VisualElement.style.display = DisplayStyle.None;
-        //3
         settingsPage_VisualElement.style.display = DisplayStyle.None;
 
         visualElement.style.display = DisplayStyle.Flex;

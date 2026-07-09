@@ -21,7 +21,7 @@ public class LanguageTextsData
     #endregion
 
 
-    #region ManuParent
+    #region MenuParent
 
 
     #region WelcomePage
@@ -35,8 +35,11 @@ public class LanguageTextsData
 
     #region Tabs
     public static List<string> account = new List<string> { "Account", "اکانت" };
+    public static List<string> demographics = new List<string> { "Demographics", "اطلاعات جمعیت‌شناختی" };
+    public static List<string> PRPSA = new List<string> { "PRPSA", "پرسشنامه خودارزیابی" };
+    public static List<string> personalReportOfPublicSpeakingAnxiety =
+        new List<string> { "Personal report of public speaking anxiety", "گزارش شخصی اضطراب سخنرانی در جمع" };
     public static List<string> startPlaying = new List<string> { "Start playing", "شروع بازی" };
-    //3
     public static List<string> settings = new List<string> { "Settings", "تنظیمات" };
     #endregion
 
@@ -78,6 +81,55 @@ public class LanguageTextsData
 
     #endregion
 
+
+    #region Demographics
+    public static List<string> gender = new List<string> { "Gender", "جنسیت" };
+    public static List<TwoStrings> genderList = new List<TwoStrings>
+    {
+        new TwoStrings("Gender: Male","جنسیت: مرد"),
+        new TwoStrings("Gender: Female","جنسیت: زن"),
+        new TwoStrings("Gender: Other","جنسیت: سایر")
+    };
+
+    public static List<string> age = new List<string> { "Age: ", "سن: " };
+
+    public static string educationLevel = "Education level";
+    public static List<string> educationLevels_List_DropdownField =
+    new List<string>() { "High School Diploma or Below", "Bachelor’s Degree", "Master’s Degree", "Doctorate (PhD)", "Other" };
+
+    public static string fieldOfStudy = "Field of study";
+    public static List<string> fieldOfStudys_List_DropdownField =
+    new List<string>() { "Engineering & Technology","Natural Sciences","Humanities & Social Sciences",
+    "Medical & Health Sciences","Arts & Architecture","Business & Management",
+    "Information Technology & Computer Science","Other"};
+
+    public static string job = "Job";
+    public static List<string> jobs_List_DropdownField =
+    new List<string>() { "Full-time Employed","Part-time Employed","Student","Homemaker",
+    "Unemployed / Looking for Work","Retired","Other"};
+
+    public static string LevelOfExperience = "Level of public speaking experience";
+    public static string LevelOfNeed = "Level of need for public speaking";
+    public static string TypicalLevelOfAnxiety = "Typical level of anxiety when speaking in public";
+    public static string HistoryOfFormalTraining = "History of formal training in public speaking";
+    public static string HistoryOfTakingSedativeMedication = "History of taking sedative medication to reduce stress and anxiety during public speaking";
+
+    public static List<string> VeryLowToVeryHigh = new List<string>() { "Very low", "Low", "Medium", "High", "Very high" };
+    public static List<string> YesNo = new List<string>() { "Yes", "No" };
+    public static string similarExperience = "Similar experience info";
+    public static string experienceWith3DGames = "Level of prior experience with 3D games";
+    public static string experienceWithPublicSpeakingSimulationGames = "Level of prior experience with public speaking simulation games";
+
+
+    public static List<string> save = new List<string> { "Save", "ذخیره" };
+    #endregion
+
+    #region PRPSA
+
+    ///////////////////////////////////////////////////////////
+    #endregion
+
+
     #region StartPlayingPage
 
     public static List<string> deletePDF = new List<string> { "Delete pdf", "حذف فایل" };
@@ -95,11 +147,11 @@ public class LanguageTextsData
         new Language("فارسی", LanguageDirection.RTL,fonts[1])
     };
 
-    public static List<FontSize> fontSize_Text = new List<FontSize>
+    public static List<TwoStrings> fontSize_Text = new List<TwoStrings>
     {
-        new FontSize("Font size: Small","اندازه فونت: کوچک"),
-        new FontSize("Font size: Average","اندازه فونت: متوسط"),
-        new FontSize("Font size: Big","اندازه فونت: بزرگ")
+        new TwoStrings("Font size: Small","اندازه فونت: کوچک"),
+        new TwoStrings("Font size: Average","اندازه فونت: متوسط"),
+        new TwoStrings("Font size: Big","اندازه فونت: بزرگ")
     };
 
 
@@ -154,12 +206,13 @@ public class Language
     }
 }
 
-public class FontSize
-{
-    public List<string> FontSizeLanguage { get; }
 
-    public FontSize(string fontSizeEnglish, string fontSizeFarsi)
+public class TwoStrings
+{
+    public List<string> ListString { get; }
+
+    public TwoStrings(string english, string farsi)
     {
-        FontSizeLanguage = new List<string> { fontSizeEnglish, fontSizeFarsi };
+        ListString = new List<string> { english, farsi };
     }
 }
