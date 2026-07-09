@@ -102,7 +102,7 @@ public class SettingsPage : MonoBehaviour
         language_Text_Label = languagePreviousNextSelector_TemplateContainer.Q<Label>("Text_Label");
         language_ChevronRight_TemplateContainer = languagePreviousNextSelector_TemplateContainer.
             Q<VisualElement>("ChevronRight_TemplateContainer");
-        Fix_PreviousNextSelector_Dimentions(languagePreviousNextSelector_TemplateContainer);
+        UI_Utilities.Fix_PreviousNextSelector_Dimentions(languagePreviousNextSelector_TemplateContainer);
         #endregion
 
         #region Font Size
@@ -113,7 +113,7 @@ public class SettingsPage : MonoBehaviour
         fontSize_Text_Label = fontSizePreviousNextSelector_TemplateContainer.Q<Label>("Text_Label");
         fontSize_ChevronRight_TemplateContainer = fontSizePreviousNextSelector_TemplateContainer.
             Q<VisualElement>("ChevronRight_TemplateContainer");
-        Fix_PreviousNextSelector_Dimentions(fontSizePreviousNextSelector_TemplateContainer);
+        UI_Utilities.Fix_PreviousNextSelector_Dimentions(fontSizePreviousNextSelector_TemplateContainer);
         #endregion
 
         #region Sound Volume
@@ -129,7 +129,7 @@ public class SettingsPage : MonoBehaviour
             Length.Percent(SettingsData.currentSoundVolume * 10);
         soundVolume_PlusButton_TemplateContainer = soundVolume_LabeledSliderInt_TemplateContainer.
             Q<VisualElement>("PlusButton_TemplateContainer");
-        Fix_LabeledSliderInt_Dimentions(soundVolume_LabeledSliderInt_TemplateContainer);
+        UI_Utilities.Fix_LabeledSliderInt_Dimentions(soundVolume_LabeledSliderInt_TemplateContainer);
         #endregion
 
         #region Target Frame Rate
@@ -140,8 +140,8 @@ public class SettingsPage : MonoBehaviour
         targetFrameRate_Text_Label = targetFrameRatePreviousNextSelector_TemplateContainer.Q<Label>("Text_Label");
         targetFrameRate_ChevronRight_TemplateContainer = targetFrameRatePreviousNextSelector_TemplateContainer.
             Q<VisualElement>("ChevronRight_TemplateContainer");
-        Fix_PreviousNextSelector_Dimentions(targetFrameRatePreviousNextSelector_TemplateContainer);
-        Application.targetFrameRate = LanguageTextsData.targetFrameRates[SettingsData.currentTargetFrameRateIndex];
+        UI_Utilities.Fix_PreviousNextSelector_Dimentions(targetFrameRatePreviousNextSelector_TemplateContainer);
+        Application.targetFrameRate = LanguageTextsData.frameRates[SettingsData.currentTargetFrameRateIndex];
         #endregion
 
         #region Field Of View
@@ -152,7 +152,7 @@ public class SettingsPage : MonoBehaviour
         fieldOfView_Text_Label = fieldOfViewPreviousNextSelector_TemplateContainer.Q<Label>("Text_Label");
         fieldOfView_ChevronRight_TemplateContainer = fieldOfViewPreviousNextSelector_TemplateContainer.
             Q<VisualElement>("ChevronRight_TemplateContainer");
-        Fix_PreviousNextSelector_Dimentions(fieldOfViewPreviousNextSelector_TemplateContainer);
+        UI_Utilities.Fix_PreviousNextSelector_Dimentions(fieldOfViewPreviousNextSelector_TemplateContainer);
         Camera.main.fieldOfView = LanguageTextsData.fieldOfViews[SettingsData.currentFieldOfViewIndex];
         #endregion
 
@@ -167,7 +167,7 @@ public class SettingsPage : MonoBehaviour
             Q<VisualElement>("InvisibleForeground_VisualElement");
         moveSpeed_PlusButton_TemplateContainer = moveSpeed_LabeledSliderInt_TemplateContainer.
             Q<VisualElement>("PlusButton_TemplateContainer");
-        Fix_LabeledSliderInt_Dimentions(moveSpeed_LabeledSliderInt_TemplateContainer);
+        UI_Utilities.Fix_LabeledSliderInt_Dimentions(moveSpeed_LabeledSliderInt_TemplateContainer);
         moveSpeed_InvisibleForeground_VisualElement.style.width =
             Length.Percent(SettingsData.currentMoveSpeed * 10);
         #endregion
@@ -186,7 +186,7 @@ public class SettingsPage : MonoBehaviour
         horizontalSensitivity_PlusButton_TemplateContainer =
             horizontalSensitivity_LabeledSliderInt_TemplateContainer.
             Q<VisualElement>("PlusButton_TemplateContainer");
-        Fix_LabeledSliderInt_Dimentions(horizontalSensitivity_LabeledSliderInt_TemplateContainer);
+        UI_Utilities.Fix_LabeledSliderInt_Dimentions(horizontalSensitivity_LabeledSliderInt_TemplateContainer);
         horizontalSensitivity_InvisibleForeground_VisualElement.style.width =
             Length.Percent(SettingsData.currentHorizontalSensitivity * 2);
         #endregion
@@ -205,7 +205,7 @@ public class SettingsPage : MonoBehaviour
         verticalSensitivity_PlusButton_TemplateContainer =
             verticalSensitivity_LabeledSliderInt_TemplateContainer.
             Q<VisualElement>("PlusButton_TemplateContainer");
-        Fix_LabeledSliderInt_Dimentions(verticalSensitivity_LabeledSliderInt_TemplateContainer);
+        UI_Utilities.Fix_LabeledSliderInt_Dimentions(verticalSensitivity_LabeledSliderInt_TemplateContainer);
         verticalSensitivity_InvisibleForeground_VisualElement.style.width =
             Length.Percent(SettingsData.currentVerticalSensitivity * 2);
         #endregion
@@ -221,48 +221,6 @@ public class SettingsPage : MonoBehaviour
         OnLanguageChanged();
         OnFontSizeChanged();
     }
-
-
-
-    #region UI Utilities
-
-    private void Fix_PreviousNextSelector_Dimentions(VisualElement previousNextSelector)
-    {
-        previousNextSelector.style.width = Length.Percent(100);
-        previousNextSelector.style.height = Screen.width / 10;
-        previousNextSelector.style.marginBottom = Length.Percent(1);
-
-        VisualElement chevronLeft_TemplateContainer =
-            previousNextSelector.Q<VisualElement>("ChevronLeft_TemplateContainer");
-        VisualElement chevronRight_TemplateContainer =
-            previousNextSelector.Q<VisualElement>("ChevronRight_TemplateContainer");
-
-        chevronLeft_TemplateContainer.style.width = Screen.width / 15;
-        chevronLeft_TemplateContainer.style.height = Screen.width / 15;
-
-        chevronRight_TemplateContainer.style.width = Screen.width / 15;
-        chevronRight_TemplateContainer.style.height = Screen.width / 15;
-    }
-
-    private void Fix_LabeledSliderInt_Dimentions(VisualElement labeledSliderInt)
-    {
-        labeledSliderInt.style.width = Length.Percent(100);
-        labeledSliderInt.style.height = Screen.width / 5;
-        labeledSliderInt.style.marginBottom = Length.Percent(1);
-
-        VisualElement minusButton_TemplateContainer = labeledSliderInt.
-            Q<VisualElement>("MinusButton_TemplateContainer");
-        VisualElement plusButton_TemplateContainer = labeledSliderInt.
-            Q<VisualElement>("PlusButton_TemplateContainer");
-
-        minusButton_TemplateContainer.style.width = Screen.width / 15;
-        minusButton_TemplateContainer.style.height = Screen.width / 15;
-
-        plusButton_TemplateContainer.style.width = Screen.width / 15;
-        plusButton_TemplateContainer.style.height = Screen.width / 15;
-    }
-
-    #endregion
 
 
     #region Functionality
@@ -446,25 +404,25 @@ public class SettingsPage : MonoBehaviour
         SettingsData.currentTargetFrameRateIndex--;
         if (SettingsData.currentTargetFrameRateIndex < 0)
         {
-            SettingsData.currentTargetFrameRateIndex = LanguageTextsData.targetFrameRates.Count - 1;
+            SettingsData.currentTargetFrameRateIndex = LanguageTextsData.frameRates.Count - 1;
         }
         Settings_SaveSystem.Save_Settings();
-        targetFrameRate_Text_Label.text = LanguageTextsData.targetFrameRate[SettingsData.currentLanguageIndex]
-             + LanguageTextsData.targetFrameRates[SettingsData.currentTargetFrameRateIndex];
-        Application.targetFrameRate = LanguageTextsData.targetFrameRates[SettingsData.currentTargetFrameRateIndex];
+        targetFrameRate_Text_Label.text = LanguageTextsData.frameRate[SettingsData.currentLanguageIndex]
+             + LanguageTextsData.frameRates[SettingsData.currentTargetFrameRateIndex];
+        Application.targetFrameRate = LanguageTextsData.frameRates[SettingsData.currentTargetFrameRateIndex];
     }
 
     private void OnTargetFrameRate_ChevronRightSelected(ClickEvent clickEvent)
     {
         SettingsData.currentTargetFrameRateIndex++;
-        if (SettingsData.currentTargetFrameRateIndex >= LanguageTextsData.targetFrameRates.Count)
+        if (SettingsData.currentTargetFrameRateIndex >= LanguageTextsData.frameRates.Count)
         {
             SettingsData.currentTargetFrameRateIndex = 0;
         }
         Settings_SaveSystem.Save_Settings();
-        targetFrameRate_Text_Label.text = LanguageTextsData.targetFrameRate[SettingsData.currentLanguageIndex]
-             + LanguageTextsData.targetFrameRates[SettingsData.currentTargetFrameRateIndex];
-        Application.targetFrameRate = LanguageTextsData.targetFrameRates[SettingsData.currentTargetFrameRateIndex];
+        targetFrameRate_Text_Label.text = LanguageTextsData.frameRate[SettingsData.currentLanguageIndex]
+             + LanguageTextsData.frameRates[SettingsData.currentTargetFrameRateIndex];
+        Application.targetFrameRate = LanguageTextsData.frameRates[SettingsData.currentTargetFrameRateIndex];
     }
     #endregion
 
@@ -631,8 +589,8 @@ public class SettingsPage : MonoBehaviour
         #endregion
 
         #region Target Frame Rate
-        targetFrameRate_Text_Label.text = LanguageTextsData.targetFrameRate[SettingsData.currentLanguageIndex]
-                + LanguageTextsData.targetFrameRates[SettingsData.currentTargetFrameRateIndex];
+        targetFrameRate_Text_Label.text = LanguageTextsData.frameRate[SettingsData.currentLanguageIndex]
+                + LanguageTextsData.frameRates[SettingsData.currentTargetFrameRateIndex];
         targetFrameRate_Text_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
         targetFrameRate_Text_Label.style.unityFont =

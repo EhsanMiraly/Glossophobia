@@ -34,7 +34,7 @@ public class LanguageTextsData
 
 
     #region Tabs
-    public static List<string> account = new List<string> { "Account", "اکانت" };
+    public static List<string> account = new List<string> { "Account", "حساب کاربری" };
     public static List<string> demographics = new List<string> { "Demographics", "اطلاعات جمعیت‌شناختی" };
     public static List<string> PRPSA = new List<string> { "PRPSA", "پرسشنامه خودارزیابی" };
     public static List<string> personalReportOfPublicSpeakingAnxiety =
@@ -93,9 +93,16 @@ public class LanguageTextsData
 
     public static List<string> age = new List<string> { "Age: ", "سن: " };
 
-    public static string educationLevel = "Education level";
-    public static List<string> educationLevels_List_DropdownField =
-    new List<string>() { "High School Diploma or Below", "Bachelor’s Degree", "Master’s Degree", "Doctorate (PhD)", "Other" };
+    public static List<string> educationLevel = new List<string> { "Education level", "سطح تحصیلات" };
+
+    public static List<TwoStrings> educationLevelList = new List<TwoStrings>()
+    {
+        new TwoStrings("High School Diploma or Below","؟؟؟"),
+        new TwoStrings("Bachelor’s Degree","؟؟؟"),
+        new TwoStrings("Master’s Degree","؟؟؟"),
+        new TwoStrings("Doctorate (PhD)","؟؟؟"),
+        new TwoStrings("Other","؟؟؟")
+    };
 
     public static string fieldOfStudy = "Field of study";
     public static List<string> fieldOfStudys_List_DropdownField =
@@ -143,8 +150,8 @@ public class LanguageTextsData
 
     public static List<Language> languages = new List<Language>
     {
-        new Language("English", LanguageDirection.LTR, fonts[0]),
-        new Language("فارسی", LanguageDirection.RTL,fonts[1])
+        new Language("Language: English", LanguageDirection.LTR, fonts[0]),
+        new Language("زبان: فارسی", LanguageDirection.RTL,fonts[1])
     };
 
     public static List<TwoStrings> fontSize_Text = new List<TwoStrings>
@@ -156,14 +163,14 @@ public class LanguageTextsData
 
 
     public static List<int> fontSize_CategorySuperSmall = new List<int> { 2, 4, 6 };
-    public static List<int> fontSize_CategorySmall = new List<int> { 10, 20, 30 };
-    public static List<int> fontSize_CategoryAverage = new List<int> { 20, 40, 60 };
-    public static List<int> fontSize_CategoryBig = new List<int> { 40, 70, 100 };
+    public static List<int> fontSize_CategorySmall = new List<int> { 10, 15, 20 };
+    public static List<int> fontSize_CategoryAverage = new List<int> { 20, 25, 30 };
+    public static List<int> fontSize_CategoryBig = new List<int> { 40, 60, 80 };
 
     public static List<string> soundVolume = new List<string> { "Sound volume: ", "بلندی صدا: " };
 
-    public static List<string> targetFrameRate = new List<string> { "Target frame rate: ", "نرخ فریم هدف: " };
-    public static List<int> targetFrameRates = new List<int> { 60, 90, 120, 144, 165, 240, 300 };
+    public static List<string> frameRate = new List<string> { "Frame rate: ", "نرخ فریم: " };
+    public static List<int> frameRates = new List<int> { 60, 90, 120, 144, 165, 240, 300 };
 
     public static List<string> fieldOfView = new List<string> { "Field of view: ", "زاویه دید: " };
     public static List<int> fieldOfViews = new List<int> { 60, 65, 70, 75, 80, 85, 90 };

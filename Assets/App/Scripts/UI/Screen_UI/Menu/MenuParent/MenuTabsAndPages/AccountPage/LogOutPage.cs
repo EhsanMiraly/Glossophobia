@@ -50,7 +50,7 @@ public class LogOutPage : MonoBehaviour
         logOutButton_TemplateContainer = logOutPage_VisualElement.
             Q<VisualElement>("LogOutButton_TemplateContainer");
         logOutButton_Label = logOutButton_TemplateContainer.Q<Label>();
-
+        Fix_LogOutButton_Dimentions(logOutButton_TemplateContainer);
 
         InitializeUI();
     }
@@ -62,6 +62,17 @@ public class LogOutPage : MonoBehaviour
         OnLanguageChanged();
         OnFontSizeChanged();
     }
+
+
+    #region UI Utilities
+
+    private void Fix_LogOutButton_Dimentions(VisualElement logOutButton)
+    {
+        logOutButton.style.width = Length.Percent(30);
+        logOutButton.style.height = Screen.width / 25f;
+    }
+
+    #endregion
 
 
     #region Functionality

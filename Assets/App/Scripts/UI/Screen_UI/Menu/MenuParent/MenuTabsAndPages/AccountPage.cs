@@ -38,7 +38,6 @@ public class AccountPage : MonoBehaviour
         signUpPage_VisualElement = accountPage_VisualElement.Q<VisualElement>("SignUpPage_VisualElement");
         logOutPage_VisualElement = accountPage_VisualElement.Q<VisualElement>("LogOutPage_VisualElement");
 
-
         InitializeUI();
     }
 
