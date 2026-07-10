@@ -16,8 +16,15 @@ public class LanguageTextsData
     #endregion
 
 
-    #region LoadingPage
+    #region LoadingPage_PopUp
     public static List<string> loading = new List<string> { "Loading...", "در حال لود شدن..." };
+    #endregion
+
+    #region AnswerEveryThingPage_PopUp
+    public static List<string> answerEveryThing =
+        new List<string> { "Answer every thing", "به همه چیز جواب بدید" };
+    public static List<string> ok =
+        new List<string> { "Ok", "باشه" };
     #endregion
 
 
@@ -83,6 +90,10 @@ public class LanguageTextsData
 
 
     #region Demographics
+
+    public static List<string> changeDemographics =
+        new List<string> { "Change demographics", "تغییر اطلاعات جمعیت‌شناختی" };
+
     public static List<string> gender = new List<string> { "Gender", "جنسیت" };
     public static List<TwoStrings> genderList = new List<TwoStrings>
     {
