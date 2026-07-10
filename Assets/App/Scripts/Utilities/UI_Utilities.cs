@@ -120,7 +120,6 @@ public class UI_Utilities
 
     private static void Fix_SingleSelection_Label_Dimentions(VisualElement visualElement)
     {
-        visualElement.style.width = Length.Percent(50);
         visualElement.style.height = Screen.width / 20f;
     }
 

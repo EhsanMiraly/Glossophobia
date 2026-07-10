@@ -137,20 +137,26 @@ public class LanguageTextsData
         new TwoStrings("Very high","خیلی زیاد")
     };
 
+    public static List<TwoStrings> yesNo = new List<TwoStrings>()
+    {
+        new TwoStrings("Yes","بله"),
+        new TwoStrings("No","خیر")
+    };
+
     public static List<string> levelOfExperience = new List<string>
         { "Level of public speaking experience", "سطح تجربه سخنرانی در جمع" };
     public static List<string> levelOfNeed = new List<string>
         { "Level of need for public speaking", "سطح نیاز به سخنرانی در جمع" };
-    public static List<string> typicalLevelOfAnxiety = new List<string>
+    public static List<string> levelOfAnxiety = new List<string>
         { "Typical level of anxiety when speaking in public", "سطح اضطراب معمول هنگام سخنرانی در جمع" };
-    public static List<string> historyOfFormalTraining = new List<string>
+    public static List<string> formalTraining = new List<string>
         { "History of formal training in public speaking", "سابقه آموزش رسمی برای سخنرانی در جمع" };
-    public static List<string> historyOfTakingSedativeMedication = new List<string>
+    public static List<string> takingMedication = new List<string>
         { "History of taking sedative medication to reduce stress and anxiety during public speaking",
           "سابقه مصرف داروی آرام بخش برای کاهش استرس و اضطراب هنگام سخنرانی در جمع" };
-    public static List<string> experienceWith3DGames = new List<string>
+    public static List<string> games3D = new List<string>
         { "Level of prior experience with 3D games", "سطح تجربه قبلی با بازی‌های 3 بعدی" };
-    public static List<string> experienceWithPublicSpeakingSimulationGames = new List<string>
+    public static List<string> simulationGames = new List<string>
         { "Level of prior experience with public speaking simulation games",
           "سطح تجربه قبلی با بازی‌های شبیه‌ساز سخنرانی در جمع" };
 

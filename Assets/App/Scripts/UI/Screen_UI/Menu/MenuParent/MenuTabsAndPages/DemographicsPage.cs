@@ -55,6 +55,63 @@ public class DemographicsPage : MonoBehaviour
     List<VisualElement> job_OptionsChackMarks;
     #endregion
 
+    #region LevelOfExperience
+    VisualElement levelOfExperience_SingleSelection_TemplateContainer;
+    Label levelOfExperience_WhatAmI_Label;
+
+    List<VisualElement> levelOfExperience_OptionsLabels;
+    List<VisualElement> levelOfExperience_OptionsChackMarks;
+    #endregion
+
+    #region LevelOfNeed
+    VisualElement levelOfNeed_SingleSelection_TemplateContainer;
+    Label levelOfNeed_WhatAmI_Label;
+
+    List<VisualElement> levelOfNeed_OptionsLabels;
+    List<VisualElement> levelOfNeed_OptionsChackMarks;
+    #endregion
+
+    #region LevelOfAnxiety
+    VisualElement levelOfAnxiety_SingleSelection_TemplateContainer;
+    Label levelOfAnxiety_WhatAmI_Label;
+
+    List<VisualElement> levelOfAnxiety_OptionsLabels;
+    List<VisualElement> levelOfAnxiety_OptionsChackMarks;
+    #endregion
+
+    #region FormalTraining
+    VisualElement formalTraining_SingleSelection_TemplateContainer;
+    Label formalTraining_WhatAmI_Label;
+
+    List<VisualElement> formalTraining_OptionsLabels;
+    List<VisualElement> formalTraining_OptionsChackMarks;
+    #endregion
+
+    #region TakingMedication
+    VisualElement takingMedication_SingleSelection_TemplateContainer;
+    Label takingMedication_WhatAmI_Label;
+
+    List<VisualElement> takingMedication_OptionsLabels;
+    List<VisualElement> takingMedication_OptionsChackMarks;
+    #endregion
+
+    #region Games3D
+    VisualElement games3D_SingleSelection_TemplateContainer;
+    Label games3D_WhatAmI_Label;
+
+    List<VisualElement> games3D_OptionsLabels;
+    List<VisualElement> games3D_OptionsChackMarks;
+    #endregion
+
+    #region SimulationGames
+    VisualElement simulationGames_SingleSelection_TemplateContainer;
+    Label simulationGames_WhatAmI_Label;
+
+    List<VisualElement> simulationGames_OptionsLabels;
+    List<VisualElement> simulationGames_OptionsChackMarks;
+    #endregion
+
+
 
     VisualElement saveButton_TemplateContainer;
     Label saveButton_Label;
@@ -125,9 +182,6 @@ public class DemographicsPage : MonoBehaviour
             LanguageTextsData.educationLevelList.Count);
         UI_Utilities.Fill_SingleSelection(educationLevel_SingleSelection_TemplateContainer,
             LanguageTextsData.educationLevelList, educationLevel_OptionsLabels, educationLevel_OptionsChackMarks);
-
-        educationLevel_OptionsChackMarks[DemographicsData.currentEducationLevelIndex]
-            .Q<VisualElement>("Foreground_VisualElement").style.display = DisplayStyle.Flex;
         #endregion
 
         #region FieldOfStudy
@@ -142,9 +196,6 @@ public class DemographicsPage : MonoBehaviour
             LanguageTextsData.fieldOfStudyList.Count);
         UI_Utilities.Fill_SingleSelection(fieldOfStudy_SingleSelection_TemplateContainer,
             LanguageTextsData.fieldOfStudyList, fieldOfStudy_OptionsLabels, fieldOfStudy_OptionsChackMarks);
-
-        fieldOfStudy_OptionsChackMarks[DemographicsData.currentFieldOfStudyIndex]
-            .Q<VisualElement>("Foreground_VisualElement").style.display = DisplayStyle.Flex;
         #endregion
 
         #region Job
@@ -159,9 +210,107 @@ public class DemographicsPage : MonoBehaviour
             LanguageTextsData.jobList.Count);
         UI_Utilities.Fill_SingleSelection(job_SingleSelection_TemplateContainer,
             LanguageTextsData.jobList, job_OptionsLabels, job_OptionsChackMarks);
+        #endregion
 
-        job_OptionsChackMarks[DemographicsData.currentJobIndex]
-            .Q<VisualElement>("Foreground_VisualElement").style.display = DisplayStyle.Flex;
+        #region LevelOfExperience
+        levelOfExperience_SingleSelection_TemplateContainer =
+            demographics_ScrollView.Q<VisualElement>("LevelOfExperience_SingleSelection_TemplateContainer");
+        levelOfExperience_WhatAmI_Label =
+            levelOfExperience_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
+
+        levelOfExperience_OptionsLabels = new List<VisualElement>();
+        levelOfExperience_OptionsChackMarks = new List<VisualElement>();
+
+        UI_Utilities.Fix_SingleSelection_Dimentions(levelOfExperience_SingleSelection_TemplateContainer,
+            LanguageTextsData.veryLowToVeryHigh.Count);
+        UI_Utilities.Fill_SingleSelection(levelOfExperience_SingleSelection_TemplateContainer,
+            LanguageTextsData.veryLowToVeryHigh, levelOfExperience_OptionsLabels,
+            levelOfExperience_OptionsChackMarks);
+        #endregion
+
+        #region LevelOfNeed
+        levelOfNeed_SingleSelection_TemplateContainer =
+            demographics_ScrollView.Q<VisualElement>("LevelOfNeed_SingleSelection_TemplateContainer");
+        levelOfNeed_WhatAmI_Label = levelOfNeed_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
+
+        levelOfNeed_OptionsLabels = new List<VisualElement>();
+        levelOfNeed_OptionsChackMarks = new List<VisualElement>();
+
+        UI_Utilities.Fix_SingleSelection_Dimentions(levelOfNeed_SingleSelection_TemplateContainer,
+            LanguageTextsData.veryLowToVeryHigh.Count);
+        UI_Utilities.Fill_SingleSelection(levelOfNeed_SingleSelection_TemplateContainer,
+            LanguageTextsData.veryLowToVeryHigh, levelOfNeed_OptionsLabels, levelOfNeed_OptionsChackMarks);
+        #endregion
+
+        #region LevelOfAnxiety
+        levelOfAnxiety_SingleSelection_TemplateContainer =
+            demographics_ScrollView.Q<VisualElement>("LevelOfAnxiety_SingleSelection_TemplateContainer");
+        levelOfAnxiety_WhatAmI_Label = levelOfAnxiety_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
+
+        levelOfAnxiety_OptionsLabels = new List<VisualElement>();
+        levelOfAnxiety_OptionsChackMarks = new List<VisualElement>();
+
+        UI_Utilities.Fix_SingleSelection_Dimentions(levelOfAnxiety_SingleSelection_TemplateContainer,
+            LanguageTextsData.veryLowToVeryHigh.Count);
+        UI_Utilities.Fill_SingleSelection(levelOfAnxiety_SingleSelection_TemplateContainer,
+            LanguageTextsData.veryLowToVeryHigh, levelOfAnxiety_OptionsLabels, levelOfAnxiety_OptionsChackMarks);
+        #endregion
+
+        #region FormalTraining
+        formalTraining_SingleSelection_TemplateContainer =
+            demographics_ScrollView.Q<VisualElement>("FormalTraining_SingleSelection_TemplateContainer");
+        formalTraining_WhatAmI_Label = formalTraining_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
+
+        formalTraining_OptionsLabels = new List<VisualElement>();
+        formalTraining_OptionsChackMarks = new List<VisualElement>();
+
+        UI_Utilities.Fix_SingleSelection_Dimentions(formalTraining_SingleSelection_TemplateContainer,
+            LanguageTextsData.yesNo.Count);
+        UI_Utilities.Fill_SingleSelection(formalTraining_SingleSelection_TemplateContainer,
+            LanguageTextsData.yesNo, formalTraining_OptionsLabels, formalTraining_OptionsChackMarks);
+        #endregion
+
+        #region TakingMedication
+        takingMedication_SingleSelection_TemplateContainer =
+            demographics_ScrollView.Q<VisualElement>("TakingMedication_SingleSelection_TemplateContainer");
+        takingMedication_WhatAmI_Label =
+            takingMedication_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
+
+        takingMedication_OptionsLabels = new List<VisualElement>();
+        takingMedication_OptionsChackMarks = new List<VisualElement>();
+
+        UI_Utilities.Fix_SingleSelection_Dimentions(takingMedication_SingleSelection_TemplateContainer,
+            LanguageTextsData.yesNo.Count);
+        UI_Utilities.Fill_SingleSelection(takingMedication_SingleSelection_TemplateContainer,
+            LanguageTextsData.yesNo, takingMedication_OptionsLabels, takingMedication_OptionsChackMarks);
+        #endregion
+
+        #region Games3D
+        games3D_SingleSelection_TemplateContainer =
+            demographics_ScrollView.Q<VisualElement>("Games3D_SingleSelection_TemplateContainer");
+        games3D_WhatAmI_Label = games3D_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
+
+        games3D_OptionsLabels = new List<VisualElement>();
+        games3D_OptionsChackMarks = new List<VisualElement>();
+
+        UI_Utilities.Fix_SingleSelection_Dimentions(games3D_SingleSelection_TemplateContainer,
+            LanguageTextsData.veryLowToVeryHigh.Count);
+        UI_Utilities.Fill_SingleSelection(games3D_SingleSelection_TemplateContainer,
+            LanguageTextsData.veryLowToVeryHigh, games3D_OptionsLabels, games3D_OptionsChackMarks);
+        #endregion
+
+        #region SimulationGames
+        simulationGames_SingleSelection_TemplateContainer =
+            demographics_ScrollView.Q<VisualElement>("SimulationGames_SingleSelection_TemplateContainer");
+        simulationGames_WhatAmI_Label = simulationGames_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
+
+        simulationGames_OptionsLabels = new List<VisualElement>();
+        simulationGames_OptionsChackMarks = new List<VisualElement>();
+
+        UI_Utilities.Fix_SingleSelection_Dimentions(simulationGames_SingleSelection_TemplateContainer,
+            LanguageTextsData.veryLowToVeryHigh.Count);
+        UI_Utilities.Fill_SingleSelection(simulationGames_SingleSelection_TemplateContainer,
+            LanguageTextsData.veryLowToVeryHigh, simulationGames_OptionsLabels, simulationGames_OptionsChackMarks);
         #endregion
 
 
@@ -207,9 +356,6 @@ public class DemographicsPage : MonoBehaviour
         age_MinusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnAge_MinusButtonSelected);
         age_PlusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnAge_PlusButtonSelected);
 
-        //SaveButton
-        saveButton_TemplateContainer.RegisterCallback<ClickEvent>(OnSaveButtonSelcted);
-
         //EducationLevel
         for (int i = 0; i < educationLevel_OptionsChackMarks.Count; i++)
         {
@@ -227,6 +373,51 @@ public class DemographicsPage : MonoBehaviour
         {
             job_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnJobSelected);
         }
+
+        //LevelOfExperience
+        for (int i = 0; i < levelOfExperience_OptionsChackMarks.Count; i++)
+        {
+            levelOfExperience_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnLevelOfExperienceSelected);
+        }
+
+        //LevelOfNeed
+        for (int i = 0; i < levelOfNeed_OptionsChackMarks.Count; i++)
+        {
+            levelOfNeed_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnLevelOfNeedSelected);
+        }
+
+        //LevelOfAnxiety
+        for (int i = 0; i < levelOfAnxiety_OptionsChackMarks.Count; i++)
+        {
+            levelOfAnxiety_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnLevelOfAnxietySelected);
+        }
+
+        //FormalTraining
+        for (int i = 0; i < formalTraining_OptionsChackMarks.Count; i++)
+        {
+            formalTraining_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnFormalTrainingSelected);
+        }
+
+        //TakingMedication
+        for (int i = 0; i < takingMedication_OptionsChackMarks.Count; i++)
+        {
+            takingMedication_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnTakingMedicationSelected);
+        }
+
+        //Games3D
+        for (int i = 0; i < games3D_OptionsChackMarks.Count; i++)
+        {
+            games3D_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnGames3DSelected);
+        }
+
+        //SimulationGames
+        for (int i = 0; i < simulationGames_OptionsChackMarks.Count; i++)
+        {
+            simulationGames_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnSimulationGamesSelected);
+        }
+
+        //SaveButton
+        saveButton_TemplateContainer.RegisterCallback<ClickEvent>(OnSaveButtonSelcted);
     }
 
     private void RemoveFunctionality()
@@ -238,9 +429,6 @@ public class DemographicsPage : MonoBehaviour
         //Age
         age_MinusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnAge_MinusButtonSelected);
         age_PlusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnAge_PlusButtonSelected);
-
-        //SaveButton
-        saveButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnSaveButtonSelcted);
 
         //EducationLevel
         for (int i = 0; i < educationLevel_OptionsChackMarks.Count; i++)
@@ -259,6 +447,51 @@ public class DemographicsPage : MonoBehaviour
         {
             job_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnJobSelected);
         }
+
+        //LevelOfExperience
+        for (int i = 0; i < levelOfExperience_OptionsChackMarks.Count; i++)
+        {
+            levelOfExperience_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnLevelOfExperienceSelected);
+        }
+
+        //LevelOfNeed
+        for (int i = 0; i < levelOfNeed_OptionsChackMarks.Count; i++)
+        {
+            levelOfNeed_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnLevelOfNeedSelected);
+        }
+
+        //LevelOfAnxiety
+        for (int i = 0; i < levelOfAnxiety_OptionsChackMarks.Count; i++)
+        {
+            levelOfAnxiety_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnLevelOfAnxietySelected);
+        }
+
+        //FormalTraining
+        for (int i = 0; i < formalTraining_OptionsChackMarks.Count; i++)
+        {
+            formalTraining_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnFormalTrainingSelected);
+        }
+
+        //TakingMedication
+        for (int i = 0; i < takingMedication_OptionsChackMarks.Count; i++)
+        {
+            takingMedication_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnTakingMedicationSelected);
+        }
+
+        //Games3D
+        for (int i = 0; i < games3D_OptionsChackMarks.Count; i++)
+        {
+            games3D_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnGames3DSelected);
+        }
+
+        //SimulationGames
+        for (int i = 0; i < simulationGames_OptionsChackMarks.Count; i++)
+        {
+            simulationGames_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnSimulationGamesSelected);
+        }
+
+        //SaveButton
+        saveButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnSaveButtonSelcted);
     }
 
     #region Gender
@@ -318,7 +551,15 @@ public class DemographicsPage : MonoBehaviour
     #region SaveButton
     private void OnSaveButtonSelcted(ClickEvent clickEvent)
     {
-        Demographics_SaveSystem.Save_Demographics();
+        if (DemographicsData.IsEveryThingSet())
+        {
+            Demographics_SaveSystem.Save_Demographics();
+        }
+        else
+        {
+            //Show Answer Everything
+            Debug.Log("Answer Everything.");
+        }
     }
     #endregion
 
@@ -368,6 +609,111 @@ public class DemographicsPage : MonoBehaviour
     }
     #endregion
 
+    #region LevelOfExperience
+    private void OnLevelOfExperienceSelected(ClickEvent clickEvent)
+    {
+        for (int i = 0; i < levelOfExperience_OptionsChackMarks.Count; i++)
+        {
+            levelOfExperience_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+                .style.display = DisplayStyle.None;
+        }
+        VisualElement visualElement = clickEvent.currentTarget as VisualElement;
+        visualElement.Q<VisualElement>("Foreground_VisualElement")
+            .style.display = DisplayStyle.Flex;
+        DemographicsData.currentLevelOfExperienceIndex = int.Parse(visualElement.name);
+    }
+    #endregion
+
+    #region LevelOfNeed
+    private void OnLevelOfNeedSelected(ClickEvent clickEvent)
+    {
+        for (int i = 0; i < levelOfNeed_OptionsChackMarks.Count; i++)
+        {
+            levelOfNeed_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+                .style.display = DisplayStyle.None;
+        }
+        VisualElement visualElement = clickEvent.currentTarget as VisualElement;
+        visualElement.Q<VisualElement>("Foreground_VisualElement")
+            .style.display = DisplayStyle.Flex;
+        DemographicsData.currentLevelOfNeedIndex = int.Parse(visualElement.name);
+    }
+    #endregion
+
+    #region LevelOfAnxiety
+    private void OnLevelOfAnxietySelected(ClickEvent clickEvent)
+    {
+        for (int i = 0; i < levelOfAnxiety_OptionsChackMarks.Count; i++)
+        {
+            levelOfAnxiety_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+                .style.display = DisplayStyle.None;
+        }
+        VisualElement visualElement = clickEvent.currentTarget as VisualElement;
+        visualElement.Q<VisualElement>("Foreground_VisualElement")
+            .style.display = DisplayStyle.Flex;
+        DemographicsData.currentLevelOfAnxietyIndex = int.Parse(visualElement.name);
+    }
+    #endregion
+
+    #region FormalTraining
+    private void OnFormalTrainingSelected(ClickEvent clickEvent)
+    {
+        for (int i = 0; i < formalTraining_OptionsChackMarks.Count; i++)
+        {
+            formalTraining_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+                .style.display = DisplayStyle.None;
+        }
+        VisualElement visualElement = clickEvent.currentTarget as VisualElement;
+        visualElement.Q<VisualElement>("Foreground_VisualElement")
+            .style.display = DisplayStyle.Flex;
+        DemographicsData.currentFormalTrainingIndex = int.Parse(visualElement.name);
+    }
+    #endregion
+
+    #region TakingMedication
+    private void OnTakingMedicationSelected(ClickEvent clickEvent)
+    {
+        for (int i = 0; i < takingMedication_OptionsChackMarks.Count; i++)
+        {
+            takingMedication_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+                .style.display = DisplayStyle.None;
+        }
+        VisualElement visualElement = clickEvent.currentTarget as VisualElement;
+        visualElement.Q<VisualElement>("Foreground_VisualElement")
+            .style.display = DisplayStyle.Flex;
+        DemographicsData.currentTakingMedicationIndex = int.Parse(visualElement.name);
+    }
+    #endregion
+
+    #region Games3D
+    private void OnGames3DSelected(ClickEvent clickEvent)
+    {
+        for (int i = 0; i < games3D_OptionsChackMarks.Count; i++)
+        {
+            games3D_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+                .style.display = DisplayStyle.None;
+        }
+        VisualElement visualElement = clickEvent.currentTarget as VisualElement;
+        visualElement.Q<VisualElement>("Foreground_VisualElement")
+            .style.display = DisplayStyle.Flex;
+        DemographicsData.currentGames3DIndex = int.Parse(visualElement.name);
+    }
+    #endregion
+
+    #region SimulationGames
+    private void OnSimulationGamesSelected(ClickEvent clickEvent)
+    {
+        for (int i = 0; i < simulationGames_OptionsChackMarks.Count; i++)
+        {
+            simulationGames_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+                .style.display = DisplayStyle.None;
+        }
+        VisualElement visualElement = clickEvent.currentTarget as VisualElement;
+        visualElement.Q<VisualElement>("Foreground_VisualElement")
+            .style.display = DisplayStyle.Flex;
+        DemographicsData.currentSimulationGamesIndex = int.Parse(visualElement.name);
+    }
+    #endregion
+
 
     #endregion
 
@@ -395,7 +741,7 @@ public class DemographicsPage : MonoBehaviour
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
-        #region educationLevel_WhatAmI_Label
+        #region EducationLevel
         educationLevel_WhatAmI_Label.text = LanguageTextsData.educationLevel[SettingsData.currentLanguageIndex];
         educationLevel_WhatAmI_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
@@ -414,7 +760,7 @@ public class DemographicsPage : MonoBehaviour
         }
         #endregion
 
-        #region fieldOfStudy_WhatAmI_Label
+        #region FieldOfStudy
         fieldOfStudy_WhatAmI_Label.text = LanguageTextsData.fieldOfStudy[SettingsData.currentLanguageIndex];
         fieldOfStudy_WhatAmI_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
@@ -433,7 +779,7 @@ public class DemographicsPage : MonoBehaviour
         }
         #endregion
 
-        #region job_WhatAmI_Label
+        #region Job
         job_WhatAmI_Label.text = LanguageTextsData.job[SettingsData.currentLanguageIndex];
         job_WhatAmI_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
@@ -452,6 +798,139 @@ public class DemographicsPage : MonoBehaviour
         }
         #endregion
 
+        #region LevelOfExperience
+        levelOfExperience_WhatAmI_Label.text =
+            LanguageTextsData.levelOfExperience[SettingsData.currentLanguageIndex];
+        levelOfExperience_WhatAmI_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        levelOfExperience_WhatAmI_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+
+        for (int i = 0; i < levelOfExperience_OptionsLabels.Count; i++)
+        {
+            Label label = levelOfExperience_OptionsLabels[i].Q<Label>();
+
+            label.text = LanguageTextsData.veryLowToVeryHigh[i].ListString[SettingsData.currentLanguageIndex];
+            label.languageDirection =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+            label.style.unityFont =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        }
+        #endregion
+
+        #region LevelOfNeed
+        levelOfNeed_WhatAmI_Label.text = LanguageTextsData.levelOfNeed[SettingsData.currentLanguageIndex];
+        levelOfNeed_WhatAmI_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        levelOfNeed_WhatAmI_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+
+        for (int i = 0; i < levelOfNeed_OptionsLabels.Count; i++)
+        {
+            Label label = levelOfNeed_OptionsLabels[i].Q<Label>();
+
+            label.text = LanguageTextsData.veryLowToVeryHigh[i].ListString[SettingsData.currentLanguageIndex];
+            label.languageDirection =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+            label.style.unityFont =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        }
+        #endregion
+
+        #region LevelOfAnxiety
+        levelOfAnxiety_WhatAmI_Label.text = LanguageTextsData.levelOfAnxiety[SettingsData.currentLanguageIndex];
+        levelOfAnxiety_WhatAmI_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        levelOfAnxiety_WhatAmI_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+
+        for (int i = 0; i < levelOfAnxiety_OptionsLabels.Count; i++)
+        {
+            Label label = levelOfAnxiety_OptionsLabels[i].Q<Label>();
+
+            label.text = LanguageTextsData.veryLowToVeryHigh[i].ListString[SettingsData.currentLanguageIndex];
+            label.languageDirection =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+            label.style.unityFont =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        }
+        #endregion
+
+        #region FormalTraining
+        formalTraining_WhatAmI_Label.text = LanguageTextsData.formalTraining[SettingsData.currentLanguageIndex];
+        formalTraining_WhatAmI_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        formalTraining_WhatAmI_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+
+        for (int i = 0; i < formalTraining_OptionsLabels.Count; i++)
+        {
+            Label label = formalTraining_OptionsLabels[i].Q<Label>();
+
+            label.text = LanguageTextsData.yesNo[i].ListString[SettingsData.currentLanguageIndex];
+            label.languageDirection =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+            label.style.unityFont =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        }
+        #endregion
+
+        #region TakingMedication
+        takingMedication_WhatAmI_Label.text = LanguageTextsData.takingMedication[SettingsData.currentLanguageIndex];
+        takingMedication_WhatAmI_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        takingMedication_WhatAmI_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+
+        for (int i = 0; i < takingMedication_OptionsLabels.Count; i++)
+        {
+            Label label = takingMedication_OptionsLabels[i].Q<Label>();
+
+            label.text = LanguageTextsData.yesNo[i].ListString[SettingsData.currentLanguageIndex];
+            label.languageDirection =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+            label.style.unityFont =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        }
+        #endregion
+
+        #region Games3D
+        games3D_WhatAmI_Label.text = LanguageTextsData.games3D[SettingsData.currentLanguageIndex];
+        games3D_WhatAmI_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        games3D_WhatAmI_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+
+        for (int i = 0; i < games3D_OptionsLabels.Count; i++)
+        {
+            Label label = games3D_OptionsLabels[i].Q<Label>();
+
+            label.text = LanguageTextsData.veryLowToVeryHigh[i].ListString[SettingsData.currentLanguageIndex];
+            label.languageDirection =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+            label.style.unityFont =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        }
+        #endregion
+
+        #region SimulationGames
+        simulationGames_WhatAmI_Label.text = LanguageTextsData.simulationGames[SettingsData.currentLanguageIndex];
+        simulationGames_WhatAmI_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        simulationGames_WhatAmI_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+
+        for (int i = 0; i < simulationGames_OptionsLabels.Count; i++)
+        {
+            Label label = simulationGames_OptionsLabels[i].Q<Label>();
+
+            label.text = LanguageTextsData.veryLowToVeryHigh[i].ListString[SettingsData.currentLanguageIndex];
+            label.languageDirection =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+            label.style.unityFont =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        }
+        #endregion
 
 
         #region saveButton_Label
@@ -475,7 +954,7 @@ public class DemographicsPage : MonoBehaviour
             LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
-        #region educationLevel_WhatAmI_Label
+        #region EducationLevel
         educationLevel_WhatAmI_Label.style.fontSize =
             LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
 
@@ -488,7 +967,7 @@ public class DemographicsPage : MonoBehaviour
         }
         #endregion
 
-        #region fieldOfStudy_WhatAmI_Label
+        #region FieldOfStudy
         fieldOfStudy_WhatAmI_Label.style.fontSize =
             LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
 
@@ -501,13 +980,104 @@ public class DemographicsPage : MonoBehaviour
         }
         #endregion
 
-        #region job_WhatAmI_Label
+        #region Job
         job_WhatAmI_Label.style.fontSize =
             LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
 
         for (int i = 0; i < job_OptionsLabels.Count; i++)
         {
             Label label = job_OptionsLabels[i].Q<Label>();
+
+            label.style.fontSize =
+                LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        }
+        #endregion
+
+        #region LevelOfExperience
+        levelOfExperience_WhatAmI_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+
+        for (int i = 0; i < levelOfExperience_OptionsLabels.Count; i++)
+        {
+            Label label = levelOfExperience_OptionsLabels[i].Q<Label>();
+
+            label.style.fontSize =
+                LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        }
+        #endregion
+
+        #region LevelOfNeed
+        levelOfNeed_WhatAmI_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+
+        for (int i = 0; i < levelOfNeed_OptionsLabels.Count; i++)
+        {
+            Label label = levelOfNeed_OptionsLabels[i].Q<Label>();
+
+            label.style.fontSize =
+                LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        }
+        #endregion
+
+        #region LevelOfAnxiety
+        levelOfAnxiety_WhatAmI_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+
+        for (int i = 0; i < levelOfAnxiety_OptionsLabels.Count; i++)
+        {
+            Label label = levelOfAnxiety_OptionsLabels[i].Q<Label>();
+
+            label.style.fontSize =
+                LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        }
+        #endregion
+
+        #region FormalTraining
+        formalTraining_WhatAmI_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+
+        for (int i = 0; i < formalTraining_OptionsLabels.Count; i++)
+        {
+            Label label = formalTraining_OptionsLabels[i].Q<Label>();
+
+            label.style.fontSize =
+                LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        }
+        #endregion
+
+        #region TakingMedication
+        takingMedication_WhatAmI_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+
+        for (int i = 0; i < takingMedication_OptionsLabels.Count; i++)
+        {
+            Label label = takingMedication_OptionsLabels[i].Q<Label>();
+
+            label.style.fontSize =
+                LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        }
+        #endregion
+
+        #region Games3D
+        games3D_WhatAmI_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+
+        for (int i = 0; i < games3D_OptionsLabels.Count; i++)
+        {
+            Label label = games3D_OptionsLabels[i].Q<Label>();
+
+            label.style.fontSize =
+                LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        }
+        #endregion
+
+        #region SimulationGames
+        simulationGames_WhatAmI_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+
+        for (int i = 0; i < simulationGames_OptionsLabels.Count; i++)
+        {
+            Label label = simulationGames_OptionsLabels[i].Q<Label>();
 
             label.style.fontSize =
                 LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
