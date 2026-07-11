@@ -28,6 +28,14 @@ public class LanguageTextsData
     #endregion
 
 
+    #region Door_UI
+    public static List<string> open = new List<string> { "Open", "باز کن" };
+    public static List<string> close = new List<string> { "Close", "ببند" };
+    #endregion
+
+
+
+
     #region MenuParent
 
 
