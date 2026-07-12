@@ -35,7 +35,6 @@ public class LanguageTextsData
 
 
 
-
     #region MenuParent
 
 
@@ -247,7 +246,14 @@ public class LanguageTextsData
 
     #region Laptop
     public static List<string> end = new List<string> { "End", "پایان" };
+    public static List<string> laptopHint = new List<string>
+    {
+        "You can also navigate through the slides using the left and right arrow keys on your keyboard.",
+        "همچنین می‌توانید با استفاده از کلیدهای چپ و راست صفحه‌کلید، بین اسلایدها جابه‌جا شوید."
+    };
+
     #endregion
+
 }
 
 public class Language

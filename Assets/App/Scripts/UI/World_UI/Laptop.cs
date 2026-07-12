@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,7 +10,9 @@ public class Laptop : MonoBehaviour
     private Material projectorScreenMaterial;
     private float emissionIntensity = 1.1f;
 
+
     private int slideIndex = 0;
+    private bool isShowingSlides = false;
 
 
     PanelRenderer panelRenderer;
@@ -25,6 +28,11 @@ public class Laptop : MonoBehaviour
     Label end_Label;
 
 
+    private PlayerInput playerInput;
+    private PlayerInput.UIActions uI;
+
+
+
     private void OnEnable()
     {
         laptopScreenMaterial = laptop_Screen.GetComponent<Renderer>().material;
@@ -35,6 +43,12 @@ public class Laptop : MonoBehaviour
 
         EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
         EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
+
+        playerInput = new PlayerInput();
+        uI = playerInput.UI;
+        uI.Enable();
+        uI.LastSlide.performed += context => { OnChevronLeftSelected(new ClickEvent()); };
+        uI.NextSlide.performed += context => { OnChevronRightSelected(new ClickEvent()); };
     }
 
     private void OnDisable()
@@ -44,6 +58,10 @@ public class Laptop : MonoBehaviour
 
         EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
         EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
+
+        uI.LastSlide.performed -= context => { OnChevronLeftSelected(new ClickEvent()); };
+        uI.NextSlide.performed -= context => { OnChevronRightSelected(new ClickEvent()); };
+        uI.Disable();
     }
 
 
@@ -104,6 +122,7 @@ public class Laptop : MonoBehaviour
         OnEnableEmission();
         SetScreensEmissionColorToWhite();
         slideIndex = 0;
+        isShowingSlides = true;
         SetSlideInScreens(slideIndex);
 
         SetPageActive(controllerPage_VisualElement);
@@ -112,6 +131,11 @@ public class Laptop : MonoBehaviour
 
     private void OnChevronLeftSelected(ClickEvent clickEvent)
     {
+        if (!isShowingSlides)
+        {
+            return;
+        }
+
         slideIndex--;
         if (slideIndex < 0)
         {
@@ -123,9 +147,15 @@ public class Laptop : MonoBehaviour
 
     private void OnChevronRightSelected(ClickEvent clickEvent)
     {
+        if (!isShowingSlides)
+        {
+            return;
+        }
+
         slideIndex++;
         if (slideIndex > GameData.pageTextures.Count - 1)
         {
+            isShowingSlides = false;
             SetPageActive(endPage_VisualElement);
             ResetSlideInScreens();
             OnDisableEmission();

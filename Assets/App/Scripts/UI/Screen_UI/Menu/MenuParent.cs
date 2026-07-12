@@ -12,18 +12,45 @@ public class MenuParent : MonoBehaviour
     [System.NonSerialized] public VisualElement nothingPage_VisualElement;
     [System.NonSerialized] public VisualElement welcomePage_VisualElement;
     [System.NonSerialized] public VisualElement menuTabsAndPages_VisualElement;
+
+    private VisualElement currentActivePage;
     #endregion
+
+    PlayerInput playerInput;
+    PlayerInput.UIActions uI;
 
 
     private void OnEnable()
     {
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
+
+        playerInput = new PlayerInput();
+        uI = playerInput.UI;
+        uI.Enable();
+        uI.Escape.performed += context => { OnEscapeSelected(); };
     }
 
     private void OnDisable()
     {
         panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
+
+        uI.Escape.performed -= context => { OnEscapeSelected(); };
+        uI.Disable();
+    }
+
+    private void OnEscapeSelected()
+    {
+        if (currentActivePage == nothingPage_VisualElement)
+        {
+            SetPageActive(menuTabsAndPages_VisualElement);
+            UI_Utilities.MouseVisible(true);
+        }
+        else if (currentActivePage == menuTabsAndPages_VisualElement)
+        {
+            SetPageActive(nothingPage_VisualElement);
+            UI_Utilities.MouseVisible(false);
+        }
     }
 
     private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
@@ -55,6 +82,7 @@ public class MenuParent : MonoBehaviour
         welcomePage_VisualElement.style.display = DisplayStyle.None;
         menuTabsAndPages_VisualElement.style.display = DisplayStyle.None;
 
+        currentActivePage = page;
         page.style.display = DisplayStyle.Flex;
     }
 
