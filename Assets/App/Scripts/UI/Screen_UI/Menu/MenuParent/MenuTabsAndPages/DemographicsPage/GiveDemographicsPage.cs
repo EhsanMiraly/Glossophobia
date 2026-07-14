@@ -32,7 +32,7 @@ public class GiveDemographicsPage : MonoBehaviour
     Label educationLevel_WhatAmI_Label;
 
     List<VisualElement> educationLevel_OptionsLabels;
-    List<VisualElement> educationLevel_OptionsChackMarks;
+    List<VisualElement> educationLevel_OptionsCheckMarks;
     #endregion
 
     #region FieldOfStudy
@@ -40,7 +40,7 @@ public class GiveDemographicsPage : MonoBehaviour
     Label fieldOfStudy_WhatAmI_Label;
 
     List<VisualElement> fieldOfStudy_OptionsLabels;
-    List<VisualElement> fieldOfStudy_OptionsChackMarks;
+    List<VisualElement> fieldOfStudy_OptionsCheckMarks;
     #endregion
 
     #region Job
@@ -48,7 +48,7 @@ public class GiveDemographicsPage : MonoBehaviour
     Label job_WhatAmI_Label;
 
     List<VisualElement> job_OptionsLabels;
-    List<VisualElement> job_OptionsChackMarks;
+    List<VisualElement> job_OptionsCheckMarks;
     #endregion
 
     #region LevelOfExperience
@@ -56,7 +56,7 @@ public class GiveDemographicsPage : MonoBehaviour
     Label levelOfExperience_WhatAmI_Label;
 
     List<VisualElement> levelOfExperience_OptionsLabels;
-    List<VisualElement> levelOfExperience_OptionsChackMarks;
+    List<VisualElement> levelOfExperience_OptionsCheckMarks;
     #endregion
 
     #region LevelOfNeed
@@ -64,7 +64,7 @@ public class GiveDemographicsPage : MonoBehaviour
     Label levelOfNeed_WhatAmI_Label;
 
     List<VisualElement> levelOfNeed_OptionsLabels;
-    List<VisualElement> levelOfNeed_OptionsChackMarks;
+    List<VisualElement> levelOfNeed_OptionsCheckMarks;
     #endregion
 
     #region LevelOfAnxiety
@@ -72,7 +72,7 @@ public class GiveDemographicsPage : MonoBehaviour
     Label levelOfAnxiety_WhatAmI_Label;
 
     List<VisualElement> levelOfAnxiety_OptionsLabels;
-    List<VisualElement> levelOfAnxiety_OptionsChackMarks;
+    List<VisualElement> levelOfAnxiety_OptionsCheckMarks;
     #endregion
 
     #region FormalTraining
@@ -80,7 +80,7 @@ public class GiveDemographicsPage : MonoBehaviour
     Label formalTraining_WhatAmI_Label;
 
     List<VisualElement> formalTraining_OptionsLabels;
-    List<VisualElement> formalTraining_OptionsChackMarks;
+    List<VisualElement> formalTraining_OptionsCheckMarks;
     #endregion
 
     #region TakingMedication
@@ -88,7 +88,7 @@ public class GiveDemographicsPage : MonoBehaviour
     Label takingMedication_WhatAmI_Label;
 
     List<VisualElement> takingMedication_OptionsLabels;
-    List<VisualElement> takingMedication_OptionsChackMarks;
+    List<VisualElement> takingMedication_OptionsCheckMarks;
     #endregion
 
     #region Games3D
@@ -96,7 +96,7 @@ public class GiveDemographicsPage : MonoBehaviour
     Label games3D_WhatAmI_Label;
 
     List<VisualElement> games3D_OptionsLabels;
-    List<VisualElement> games3D_OptionsChackMarks;
+    List<VisualElement> games3D_OptionsCheckMarks;
     #endregion
 
     #region SimulationGames
@@ -104,7 +104,7 @@ public class GiveDemographicsPage : MonoBehaviour
     Label simulationGames_WhatAmI_Label;
 
     List<VisualElement> simulationGames_OptionsLabels;
-    List<VisualElement> simulationGames_OptionsChackMarks;
+    List<VisualElement> simulationGames_OptionsCheckMarks;
     #endregion
 
 
@@ -173,12 +173,12 @@ public class GiveDemographicsPage : MonoBehaviour
         educationLevel_WhatAmI_Label = educationLevel_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
 
         educationLevel_OptionsLabels = new List<VisualElement>();
-        educationLevel_OptionsChackMarks = new List<VisualElement>();
+        educationLevel_OptionsCheckMarks = new List<VisualElement>();
 
         UI_Utilities.Fix_SingleSelection_Dimentions(educationLevel_SingleSelection_TemplateContainer,
             LanguageTextsData.educationLevelList.Count);
         UI_Utilities.Fill_SingleSelection(educationLevel_SingleSelection_TemplateContainer,
-            LanguageTextsData.educationLevelList, educationLevel_OptionsLabels, educationLevel_OptionsChackMarks);
+            LanguageTextsData.educationLevelList, educationLevel_OptionsLabels, educationLevel_OptionsCheckMarks);
         #endregion
 
         #region FieldOfStudy
@@ -187,12 +187,12 @@ public class GiveDemographicsPage : MonoBehaviour
         fieldOfStudy_WhatAmI_Label = fieldOfStudy_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
 
         fieldOfStudy_OptionsLabels = new List<VisualElement>();
-        fieldOfStudy_OptionsChackMarks = new List<VisualElement>();
+        fieldOfStudy_OptionsCheckMarks = new List<VisualElement>();
 
         UI_Utilities.Fix_SingleSelection_Dimentions(fieldOfStudy_SingleSelection_TemplateContainer,
             LanguageTextsData.fieldOfStudyList.Count);
         UI_Utilities.Fill_SingleSelection(fieldOfStudy_SingleSelection_TemplateContainer,
-            LanguageTextsData.fieldOfStudyList, fieldOfStudy_OptionsLabels, fieldOfStudy_OptionsChackMarks);
+            LanguageTextsData.fieldOfStudyList, fieldOfStudy_OptionsLabels, fieldOfStudy_OptionsCheckMarks);
         #endregion
 
         #region Job
@@ -201,12 +201,12 @@ public class GiveDemographicsPage : MonoBehaviour
         job_WhatAmI_Label = job_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
 
         job_OptionsLabels = new List<VisualElement>();
-        job_OptionsChackMarks = new List<VisualElement>();
+        job_OptionsCheckMarks = new List<VisualElement>();
 
         UI_Utilities.Fix_SingleSelection_Dimentions(job_SingleSelection_TemplateContainer,
             LanguageTextsData.jobList.Count);
         UI_Utilities.Fill_SingleSelection(job_SingleSelection_TemplateContainer,
-            LanguageTextsData.jobList, job_OptionsLabels, job_OptionsChackMarks);
+            LanguageTextsData.jobList, job_OptionsLabels, job_OptionsCheckMarks);
         #endregion
 
         #region LevelOfExperience
@@ -216,13 +216,13 @@ public class GiveDemographicsPage : MonoBehaviour
             levelOfExperience_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
 
         levelOfExperience_OptionsLabels = new List<VisualElement>();
-        levelOfExperience_OptionsChackMarks = new List<VisualElement>();
+        levelOfExperience_OptionsCheckMarks = new List<VisualElement>();
 
         UI_Utilities.Fix_SingleSelection_Dimentions(levelOfExperience_SingleSelection_TemplateContainer,
             LanguageTextsData.veryLowToVeryHigh.Count);
         UI_Utilities.Fill_SingleSelection(levelOfExperience_SingleSelection_TemplateContainer,
             LanguageTextsData.veryLowToVeryHigh, levelOfExperience_OptionsLabels,
-            levelOfExperience_OptionsChackMarks);
+            levelOfExperience_OptionsCheckMarks);
         #endregion
 
         #region LevelOfNeed
@@ -231,12 +231,12 @@ public class GiveDemographicsPage : MonoBehaviour
         levelOfNeed_WhatAmI_Label = levelOfNeed_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
 
         levelOfNeed_OptionsLabels = new List<VisualElement>();
-        levelOfNeed_OptionsChackMarks = new List<VisualElement>();
+        levelOfNeed_OptionsCheckMarks = new List<VisualElement>();
 
         UI_Utilities.Fix_SingleSelection_Dimentions(levelOfNeed_SingleSelection_TemplateContainer,
             LanguageTextsData.veryLowToVeryHigh.Count);
         UI_Utilities.Fill_SingleSelection(levelOfNeed_SingleSelection_TemplateContainer,
-            LanguageTextsData.veryLowToVeryHigh, levelOfNeed_OptionsLabels, levelOfNeed_OptionsChackMarks);
+            LanguageTextsData.veryLowToVeryHigh, levelOfNeed_OptionsLabels, levelOfNeed_OptionsCheckMarks);
         #endregion
 
         #region LevelOfAnxiety
@@ -245,12 +245,12 @@ public class GiveDemographicsPage : MonoBehaviour
         levelOfAnxiety_WhatAmI_Label = levelOfAnxiety_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
 
         levelOfAnxiety_OptionsLabels = new List<VisualElement>();
-        levelOfAnxiety_OptionsChackMarks = new List<VisualElement>();
+        levelOfAnxiety_OptionsCheckMarks = new List<VisualElement>();
 
         UI_Utilities.Fix_SingleSelection_Dimentions(levelOfAnxiety_SingleSelection_TemplateContainer,
             LanguageTextsData.veryLowToVeryHigh.Count);
         UI_Utilities.Fill_SingleSelection(levelOfAnxiety_SingleSelection_TemplateContainer,
-            LanguageTextsData.veryLowToVeryHigh, levelOfAnxiety_OptionsLabels, levelOfAnxiety_OptionsChackMarks);
+            LanguageTextsData.veryLowToVeryHigh, levelOfAnxiety_OptionsLabels, levelOfAnxiety_OptionsCheckMarks);
         #endregion
 
         #region FormalTraining
@@ -259,12 +259,12 @@ public class GiveDemographicsPage : MonoBehaviour
         formalTraining_WhatAmI_Label = formalTraining_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
 
         formalTraining_OptionsLabels = new List<VisualElement>();
-        formalTraining_OptionsChackMarks = new List<VisualElement>();
+        formalTraining_OptionsCheckMarks = new List<VisualElement>();
 
         UI_Utilities.Fix_SingleSelection_Dimentions(formalTraining_SingleSelection_TemplateContainer,
             LanguageTextsData.yesNo.Count);
         UI_Utilities.Fill_SingleSelection(formalTraining_SingleSelection_TemplateContainer,
-            LanguageTextsData.yesNo, formalTraining_OptionsLabels, formalTraining_OptionsChackMarks);
+            LanguageTextsData.yesNo, formalTraining_OptionsLabels, formalTraining_OptionsCheckMarks);
         #endregion
 
         #region TakingMedication
@@ -274,12 +274,12 @@ public class GiveDemographicsPage : MonoBehaviour
             takingMedication_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
 
         takingMedication_OptionsLabels = new List<VisualElement>();
-        takingMedication_OptionsChackMarks = new List<VisualElement>();
+        takingMedication_OptionsCheckMarks = new List<VisualElement>();
 
         UI_Utilities.Fix_SingleSelection_Dimentions(takingMedication_SingleSelection_TemplateContainer,
             LanguageTextsData.yesNo.Count);
         UI_Utilities.Fill_SingleSelection(takingMedication_SingleSelection_TemplateContainer,
-            LanguageTextsData.yesNo, takingMedication_OptionsLabels, takingMedication_OptionsChackMarks);
+            LanguageTextsData.yesNo, takingMedication_OptionsLabels, takingMedication_OptionsCheckMarks);
         #endregion
 
         #region Games3D
@@ -288,12 +288,12 @@ public class GiveDemographicsPage : MonoBehaviour
         games3D_WhatAmI_Label = games3D_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
 
         games3D_OptionsLabels = new List<VisualElement>();
-        games3D_OptionsChackMarks = new List<VisualElement>();
+        games3D_OptionsCheckMarks = new List<VisualElement>();
 
         UI_Utilities.Fix_SingleSelection_Dimentions(games3D_SingleSelection_TemplateContainer,
             LanguageTextsData.veryLowToVeryHigh.Count);
         UI_Utilities.Fill_SingleSelection(games3D_SingleSelection_TemplateContainer,
-            LanguageTextsData.veryLowToVeryHigh, games3D_OptionsLabels, games3D_OptionsChackMarks);
+            LanguageTextsData.veryLowToVeryHigh, games3D_OptionsLabels, games3D_OptionsCheckMarks);
         #endregion
 
         #region SimulationGames
@@ -302,12 +302,12 @@ public class GiveDemographicsPage : MonoBehaviour
         simulationGames_WhatAmI_Label = simulationGames_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
 
         simulationGames_OptionsLabels = new List<VisualElement>();
-        simulationGames_OptionsChackMarks = new List<VisualElement>();
+        simulationGames_OptionsCheckMarks = new List<VisualElement>();
 
         UI_Utilities.Fix_SingleSelection_Dimentions(simulationGames_SingleSelection_TemplateContainer,
             LanguageTextsData.veryLowToVeryHigh.Count);
         UI_Utilities.Fill_SingleSelection(simulationGames_SingleSelection_TemplateContainer,
-            LanguageTextsData.veryLowToVeryHigh, simulationGames_OptionsLabels, simulationGames_OptionsChackMarks);
+            LanguageTextsData.veryLowToVeryHigh, simulationGames_OptionsLabels, simulationGames_OptionsCheckMarks);
         #endregion
 
 
@@ -354,63 +354,63 @@ public class GiveDemographicsPage : MonoBehaviour
         age_PlusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnAge_PlusButtonSelected);
 
         //EducationLevel
-        for (int i = 0; i < educationLevel_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < educationLevel_OptionsCheckMarks.Count; i++)
         {
-            educationLevel_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnEducationLevelSelected);
+            educationLevel_OptionsCheckMarks[i].RegisterCallback<ClickEvent>(OnEducationLevelSelected);
         }
 
         //FieldOfStudy
-        for (int i = 0; i < fieldOfStudy_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < fieldOfStudy_OptionsCheckMarks.Count; i++)
         {
-            fieldOfStudy_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnFieldOfStudySelected);
+            fieldOfStudy_OptionsCheckMarks[i].RegisterCallback<ClickEvent>(OnFieldOfStudySelected);
         }
 
         //Job
-        for (int i = 0; i < job_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < job_OptionsCheckMarks.Count; i++)
         {
-            job_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnJobSelected);
+            job_OptionsCheckMarks[i].RegisterCallback<ClickEvent>(OnJobSelected);
         }
 
         //LevelOfExperience
-        for (int i = 0; i < levelOfExperience_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < levelOfExperience_OptionsCheckMarks.Count; i++)
         {
-            levelOfExperience_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnLevelOfExperienceSelected);
+            levelOfExperience_OptionsCheckMarks[i].RegisterCallback<ClickEvent>(OnLevelOfExperienceSelected);
         }
 
         //LevelOfNeed
-        for (int i = 0; i < levelOfNeed_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < levelOfNeed_OptionsCheckMarks.Count; i++)
         {
-            levelOfNeed_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnLevelOfNeedSelected);
+            levelOfNeed_OptionsCheckMarks[i].RegisterCallback<ClickEvent>(OnLevelOfNeedSelected);
         }
 
         //LevelOfAnxiety
-        for (int i = 0; i < levelOfAnxiety_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < levelOfAnxiety_OptionsCheckMarks.Count; i++)
         {
-            levelOfAnxiety_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnLevelOfAnxietySelected);
+            levelOfAnxiety_OptionsCheckMarks[i].RegisterCallback<ClickEvent>(OnLevelOfAnxietySelected);
         }
 
         //FormalTraining
-        for (int i = 0; i < formalTraining_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < formalTraining_OptionsCheckMarks.Count; i++)
         {
-            formalTraining_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnFormalTrainingSelected);
+            formalTraining_OptionsCheckMarks[i].RegisterCallback<ClickEvent>(OnFormalTrainingSelected);
         }
 
         //TakingMedication
-        for (int i = 0; i < takingMedication_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < takingMedication_OptionsCheckMarks.Count; i++)
         {
-            takingMedication_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnTakingMedicationSelected);
+            takingMedication_OptionsCheckMarks[i].RegisterCallback<ClickEvent>(OnTakingMedicationSelected);
         }
 
         //Games3D
-        for (int i = 0; i < games3D_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < games3D_OptionsCheckMarks.Count; i++)
         {
-            games3D_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnGames3DSelected);
+            games3D_OptionsCheckMarks[i].RegisterCallback<ClickEvent>(OnGames3DSelected);
         }
 
         //SimulationGames
-        for (int i = 0; i < simulationGames_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < simulationGames_OptionsCheckMarks.Count; i++)
         {
-            simulationGames_OptionsChackMarks[i].RegisterCallback<ClickEvent>(OnSimulationGamesSelected);
+            simulationGames_OptionsCheckMarks[i].RegisterCallback<ClickEvent>(OnSimulationGamesSelected);
         }
 
         //SaveButton
@@ -428,63 +428,63 @@ public class GiveDemographicsPage : MonoBehaviour
         age_PlusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnAge_PlusButtonSelected);
 
         //EducationLevel
-        for (int i = 0; i < educationLevel_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < educationLevel_OptionsCheckMarks.Count; i++)
         {
-            educationLevel_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnEducationLevelSelected);
+            educationLevel_OptionsCheckMarks[i].UnregisterCallback<ClickEvent>(OnEducationLevelSelected);
         }
 
         //FieldOfStudy
-        for (int i = 0; i < fieldOfStudy_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < fieldOfStudy_OptionsCheckMarks.Count; i++)
         {
-            fieldOfStudy_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnFieldOfStudySelected);
+            fieldOfStudy_OptionsCheckMarks[i].UnregisterCallback<ClickEvent>(OnFieldOfStudySelected);
         }
 
         //Job
-        for (int i = 0; i < job_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < job_OptionsCheckMarks.Count; i++)
         {
-            job_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnJobSelected);
+            job_OptionsCheckMarks[i].UnregisterCallback<ClickEvent>(OnJobSelected);
         }
 
         //LevelOfExperience
-        for (int i = 0; i < levelOfExperience_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < levelOfExperience_OptionsCheckMarks.Count; i++)
         {
-            levelOfExperience_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnLevelOfExperienceSelected);
+            levelOfExperience_OptionsCheckMarks[i].UnregisterCallback<ClickEvent>(OnLevelOfExperienceSelected);
         }
 
         //LevelOfNeed
-        for (int i = 0; i < levelOfNeed_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < levelOfNeed_OptionsCheckMarks.Count; i++)
         {
-            levelOfNeed_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnLevelOfNeedSelected);
+            levelOfNeed_OptionsCheckMarks[i].UnregisterCallback<ClickEvent>(OnLevelOfNeedSelected);
         }
 
         //LevelOfAnxiety
-        for (int i = 0; i < levelOfAnxiety_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < levelOfAnxiety_OptionsCheckMarks.Count; i++)
         {
-            levelOfAnxiety_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnLevelOfAnxietySelected);
+            levelOfAnxiety_OptionsCheckMarks[i].UnregisterCallback<ClickEvent>(OnLevelOfAnxietySelected);
         }
 
         //FormalTraining
-        for (int i = 0; i < formalTraining_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < formalTraining_OptionsCheckMarks.Count; i++)
         {
-            formalTraining_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnFormalTrainingSelected);
+            formalTraining_OptionsCheckMarks[i].UnregisterCallback<ClickEvent>(OnFormalTrainingSelected);
         }
 
         //TakingMedication
-        for (int i = 0; i < takingMedication_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < takingMedication_OptionsCheckMarks.Count; i++)
         {
-            takingMedication_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnTakingMedicationSelected);
+            takingMedication_OptionsCheckMarks[i].UnregisterCallback<ClickEvent>(OnTakingMedicationSelected);
         }
 
         //Games3D
-        for (int i = 0; i < games3D_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < games3D_OptionsCheckMarks.Count; i++)
         {
-            games3D_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnGames3DSelected);
+            games3D_OptionsCheckMarks[i].UnregisterCallback<ClickEvent>(OnGames3DSelected);
         }
 
         //SimulationGames
-        for (int i = 0; i < simulationGames_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < simulationGames_OptionsCheckMarks.Count; i++)
         {
-            simulationGames_OptionsChackMarks[i].UnregisterCallback<ClickEvent>(OnSimulationGamesSelected);
+            simulationGames_OptionsCheckMarks[i].UnregisterCallback<ClickEvent>(OnSimulationGamesSelected);
         }
 
         //SaveButton
@@ -564,9 +564,9 @@ public class GiveDemographicsPage : MonoBehaviour
     #region EducationLevel
     private void OnEducationLevelSelected(ClickEvent clickEvent)
     {
-        for (int i = 0; i < educationLevel_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < educationLevel_OptionsCheckMarks.Count; i++)
         {
-            educationLevel_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+            educationLevel_OptionsCheckMarks[i].Q<VisualElement>("Foreground_VisualElement")
                 .style.display = DisplayStyle.None;
         }
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
@@ -580,9 +580,9 @@ public class GiveDemographicsPage : MonoBehaviour
     #region FieldOfStudy
     private void OnFieldOfStudySelected(ClickEvent clickEvent)
     {
-        for (int i = 0; i < fieldOfStudy_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < fieldOfStudy_OptionsCheckMarks.Count; i++)
         {
-            fieldOfStudy_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+            fieldOfStudy_OptionsCheckMarks[i].Q<VisualElement>("Foreground_VisualElement")
                 .style.display = DisplayStyle.None;
         }
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
@@ -595,9 +595,9 @@ public class GiveDemographicsPage : MonoBehaviour
     #region Job
     private void OnJobSelected(ClickEvent clickEvent)
     {
-        for (int i = 0; i < job_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < job_OptionsCheckMarks.Count; i++)
         {
-            job_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+            job_OptionsCheckMarks[i].Q<VisualElement>("Foreground_VisualElement")
                 .style.display = DisplayStyle.None;
         }
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
@@ -610,9 +610,9 @@ public class GiveDemographicsPage : MonoBehaviour
     #region LevelOfExperience
     private void OnLevelOfExperienceSelected(ClickEvent clickEvent)
     {
-        for (int i = 0; i < levelOfExperience_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < levelOfExperience_OptionsCheckMarks.Count; i++)
         {
-            levelOfExperience_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+            levelOfExperience_OptionsCheckMarks[i].Q<VisualElement>("Foreground_VisualElement")
                 .style.display = DisplayStyle.None;
         }
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
@@ -625,9 +625,9 @@ public class GiveDemographicsPage : MonoBehaviour
     #region LevelOfNeed
     private void OnLevelOfNeedSelected(ClickEvent clickEvent)
     {
-        for (int i = 0; i < levelOfNeed_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < levelOfNeed_OptionsCheckMarks.Count; i++)
         {
-            levelOfNeed_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+            levelOfNeed_OptionsCheckMarks[i].Q<VisualElement>("Foreground_VisualElement")
                 .style.display = DisplayStyle.None;
         }
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
@@ -640,9 +640,9 @@ public class GiveDemographicsPage : MonoBehaviour
     #region LevelOfAnxiety
     private void OnLevelOfAnxietySelected(ClickEvent clickEvent)
     {
-        for (int i = 0; i < levelOfAnxiety_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < levelOfAnxiety_OptionsCheckMarks.Count; i++)
         {
-            levelOfAnxiety_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+            levelOfAnxiety_OptionsCheckMarks[i].Q<VisualElement>("Foreground_VisualElement")
                 .style.display = DisplayStyle.None;
         }
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
@@ -655,9 +655,9 @@ public class GiveDemographicsPage : MonoBehaviour
     #region FormalTraining
     private void OnFormalTrainingSelected(ClickEvent clickEvent)
     {
-        for (int i = 0; i < formalTraining_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < formalTraining_OptionsCheckMarks.Count; i++)
         {
-            formalTraining_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+            formalTraining_OptionsCheckMarks[i].Q<VisualElement>("Foreground_VisualElement")
                 .style.display = DisplayStyle.None;
         }
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
@@ -670,9 +670,9 @@ public class GiveDemographicsPage : MonoBehaviour
     #region TakingMedication
     private void OnTakingMedicationSelected(ClickEvent clickEvent)
     {
-        for (int i = 0; i < takingMedication_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < takingMedication_OptionsCheckMarks.Count; i++)
         {
-            takingMedication_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+            takingMedication_OptionsCheckMarks[i].Q<VisualElement>("Foreground_VisualElement")
                 .style.display = DisplayStyle.None;
         }
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
@@ -685,9 +685,9 @@ public class GiveDemographicsPage : MonoBehaviour
     #region Games3D
     private void OnGames3DSelected(ClickEvent clickEvent)
     {
-        for (int i = 0; i < games3D_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < games3D_OptionsCheckMarks.Count; i++)
         {
-            games3D_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+            games3D_OptionsCheckMarks[i].Q<VisualElement>("Foreground_VisualElement")
                 .style.display = DisplayStyle.None;
         }
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
@@ -700,9 +700,9 @@ public class GiveDemographicsPage : MonoBehaviour
     #region SimulationGames
     private void OnSimulationGamesSelected(ClickEvent clickEvent)
     {
-        for (int i = 0; i < simulationGames_OptionsChackMarks.Count; i++)
+        for (int i = 0; i < simulationGames_OptionsCheckMarks.Count; i++)
         {
-            simulationGames_OptionsChackMarks[i].Q<VisualElement>("Foreground_VisualElement")
+            simulationGames_OptionsCheckMarks[i].Q<VisualElement>("Foreground_VisualElement")
                 .style.display = DisplayStyle.None;
         }
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
