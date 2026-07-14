@@ -243,6 +243,14 @@ public class LanguageTextsData
         new TwoStrings("Strongly Agree","کاملاً موافقم")
     };
 
+    public static List<string> finish = new List<string> { "Finish", "پایان" };
+
+    public static List<string> last = new List<string> { "Last", "قبلی" };
+    public static List<string> next = new List<string> { "Next", "بعدی" };
+
+    public static List<string> changePRPSA =
+        new List<string> { "Change PRPSA", "تغییر پرسشنامه خودارزیابی" };
+
     #endregion
 
 

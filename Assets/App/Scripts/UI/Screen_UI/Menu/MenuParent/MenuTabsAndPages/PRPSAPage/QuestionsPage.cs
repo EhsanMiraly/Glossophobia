@@ -144,6 +144,7 @@ public class QuestionsPage : MonoBehaviour
         }
         question_Label.text = LanguageTextsData.questions[currentQuestionIndex].
                                 ListString[SettingsData.currentLanguageIndex];
+        nextQuestionButton_Label.text = LanguageTextsData.next[SettingsData.currentLanguageIndex];
         for (int i = 0; i < singleSelection_OptionsCheckMarks.Count; i++)
         {
             singleSelection_OptionsCheckMarks[i].Q<VisualElement>("Foreground_VisualElement")
@@ -163,13 +164,14 @@ public class QuestionsPage : MonoBehaviour
         currentQuestionIndex++;
         if (currentQuestionIndex == LanguageTextsData.questions.Count - 1)
         {
-            //Change to finish then if clicked show change page;
+            nextQuestionButton_Label.text = LanguageTextsData.finish[SettingsData.currentLanguageIndex];
         }
 
         if (currentQuestionIndex > LanguageTextsData.questions.Count - 1)
         {
             currentQuestionIndex = LanguageTextsData.questions.Count - 1;
-            //show change page
+            PRPSAPage.SetPageActive(PRPSAPage.changePage_VisualElement);
+            PRPSA_Before_SaveSystem.Save_PRPSA_Before();
         }
 
         question_Label.text = LanguageTextsData.questions[currentQuestionIndex].
@@ -207,7 +209,6 @@ public class QuestionsPage : MonoBehaviour
         #endregion
 
 
-
         #region SingleSelection
         singleSelection_WhatAmI_Label.text = LanguageTextsData.yourChoice[SettingsData.currentLanguageIndex];
         singleSelection_WhatAmI_Label.languageDirection =
@@ -226,19 +227,35 @@ public class QuestionsPage : MonoBehaviour
                 LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         }
         #endregion
+
+        #region lastQuestionButton_Label
+        lastQuestionButton_Label.text = LanguageTextsData.last[SettingsData.currentLanguageIndex];
+        lastQuestionButton_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        lastQuestionButton_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region nextQuestionButton_Label
+        nextQuestionButton_Label.text = LanguageTextsData.next[SettingsData.currentLanguageIndex];
+        nextQuestionButton_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        nextQuestionButton_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
     }
 
     private void OnFontSizeChanged()
     {
         #region explain_Label
         question_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
 
         #region SingleSelection
         singleSelection_WhatAmI_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
 
         for (int i = 0; i < singleSelection_OptionsLabels.Count; i++)
         {
@@ -247,6 +264,16 @@ public class QuestionsPage : MonoBehaviour
             label.style.fontSize =
                 LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
         }
+        #endregion
+
+        #region lastQuestionButton_Label
+        lastQuestionButton_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region nextQuestionButton_Label
+        nextQuestionButton_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
         #endregion
 
     }
