@@ -69,6 +69,7 @@ public class ChangePage : MonoBehaviour
 
     private void OnchangePRPSAButtonSelected(ClickEvent clickEvent)
     {
+        EventsManager.InvokeOnChangePRPSA_Before();
         PRPSAPage.SetPageActive(PRPSAPage.startPage_VisualElement);
     }
 

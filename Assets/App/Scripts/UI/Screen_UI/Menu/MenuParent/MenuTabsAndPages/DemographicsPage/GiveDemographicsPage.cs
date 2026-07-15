@@ -550,6 +550,7 @@ public class GiveDemographicsPage : MonoBehaviour
     {
         if (DemographicsData.IsEveryThingSet())
         {
+            EventsManager.InvokeOnSetDemographics();
             Demographics_SaveSystem.Save_Demographics();
             demographicsPage.SetPageActive(demographicsPage.changeDemographicsPage_VisualElement);
         }

@@ -1,3 +1,4 @@
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -5,6 +6,9 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(StartPage), typeof(QuestionsPage), typeof(ChangePage))]
 public class PRPSAPage : MonoBehaviour
 {
+    private bool isPRPSA_Before = true;
+
+
     PanelRenderer panelRenderer;
 
     VisualElement PRPSAPage_VisualElement;
@@ -26,6 +30,9 @@ public class PRPSAPage : MonoBehaviour
     private void OnDisable()
     {
         panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
+
+        EventsManager.OnLoggedIn_Event -= OnLoggedIn;
+        EventsManager.OnLoggedOut_Event -= OnLoggedOut;
     }
 
     private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
@@ -36,7 +43,9 @@ public class PRPSAPage : MonoBehaviour
         questionsPage_VisualElement = PRPSAPage_VisualElement.Q<VisualElement>("QuestionsPage_VisualElement");
         changePage_VisualElement = PRPSAPage_VisualElement.Q<VisualElement>("ChangePage_VisualElement");
 
-        InitializeUI();
+        EventsManager.OnLoggedIn_Event += OnLoggedIn;
+        EventsManager.OnLoggedOut_Event += OnLoggedOut;
+        //InitializeUI();
     }
 
     private void InitializeUI()
@@ -50,7 +59,7 @@ public class PRPSAPage : MonoBehaviour
         }
         else
         {
-            //After
+            EventsManager.InvokeOnSetPRPSA_Before();
             SetPageActive(changePage_VisualElement);
         }
 
@@ -65,4 +74,45 @@ public class PRPSAPage : MonoBehaviour
         page.style.display = DisplayStyle.Flex;
     }
 
+
+    #region Events Manager
+
+    #region LoggedIn/LoggedOut
+    private async void OnLoggedIn()
+    {
+        PRPSA_Before_SaveSystem.Load_PRPSA_Before();
+
+        if (!PRPSA_BeforeData.IsAllAnswersGiven())
+        {
+            PRPSA_BeforeData.InitializeAnswers();
+            SetPageActive(startPage_VisualElement);
+        }
+        else
+        {
+            SetPageActive(changePage_VisualElement);
+
+            await Awaitable.WaitForSecondsAsync(3f);
+            EventsManager.InvokeOnSetPRPSA_Before();
+        }
+    }
+
+    private void OnLoggedOut()
+    {
+        PRPSA_BeforeData.InitializeAnswers();
+    }
+    #endregion
+
+    #region SetDemographics/ChangeDemographics
+    private void OnSetDemographics()
+    {
+        //Nothing happens
+    }
+
+    private void OnChangeDemographics()
+    {
+        //Nothing happens
+    }
+    #endregion
+
+    #endregion
 }

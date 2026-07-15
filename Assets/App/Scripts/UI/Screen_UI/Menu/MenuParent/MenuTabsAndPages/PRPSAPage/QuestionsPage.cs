@@ -150,8 +150,12 @@ public class QuestionsPage : MonoBehaviour
             singleSelection_OptionsCheckMarks[i].Q<VisualElement>("Foreground_VisualElement")
                 .style.display = DisplayStyle.None;
         }
-        singleSelection_OptionsCheckMarks[PRPSA_BeforeData.currentAnswers[currentQuestionIndex]].
-                Q<VisualElement>("Foreground_VisualElement").style.display = DisplayStyle.Flex;
+        if (PRPSA_BeforeData.currentAnswers[currentQuestionIndex] != -1)
+        {
+            singleSelection_OptionsCheckMarks[PRPSA_BeforeData.currentAnswers[currentQuestionIndex]].
+                    Q<VisualElement>("Foreground_VisualElement").style.display = DisplayStyle.Flex;
+        }
+
     }
 
     private void OnNextQuestionButtonSelected(ClickEvent clickEvent)
@@ -170,6 +174,7 @@ public class QuestionsPage : MonoBehaviour
         if (currentQuestionIndex > LanguageTextsData.questions.Count - 1)
         {
             currentQuestionIndex = LanguageTextsData.questions.Count - 1;
+            EventsManager.InvokeOnSetPRPSA_Before();
             PRPSAPage.SetPageActive(PRPSAPage.changePage_VisualElement);
             PRPSA_Before_SaveSystem.Save_PRPSA_Before();
         }

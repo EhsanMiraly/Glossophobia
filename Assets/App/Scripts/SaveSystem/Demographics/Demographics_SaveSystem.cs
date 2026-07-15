@@ -21,7 +21,7 @@ public class Demographics_SaveSystem : SaveSystem
         demographics_SaveData.fieldOfStudyIndex = DemographicsData.currentFieldOfStudyIndex;
         demographics_SaveData.jobIndex = DemographicsData.currentJobIndex;
         demographics_SaveData.levelOfExperienceIndex = DemographicsData.currentLevelOfExperienceIndex;
-        demographics_SaveData.levelOfNeedIndex = DemographicsData.currentLevelOfAnxietyIndex;
+        demographics_SaveData.levelOfNeedIndex = DemographicsData.currentLevelOfNeedIndex;
         demographics_SaveData.levelOfAnxietyIndex = DemographicsData.currentLevelOfAnxietyIndex;
         demographics_SaveData.formalTrainingIndex = DemographicsData.currentFormalTrainingIndex;
         demographics_SaveData.takingMedicationIndex = DemographicsData.currentTakingMedicationIndex;
@@ -48,7 +48,7 @@ public class Demographics_SaveSystem : SaveSystem
         DemographicsData.currentFieldOfStudyIndex = demographics_SaveData.fieldOfStudyIndex;
         DemographicsData.currentJobIndex = demographics_SaveData.jobIndex;
         DemographicsData.currentLevelOfExperienceIndex = demographics_SaveData.levelOfExperienceIndex;
-        DemographicsData.currentLevelOfAnxietyIndex = demographics_SaveData.levelOfNeedIndex;
+        DemographicsData.currentLevelOfNeedIndex = demographics_SaveData.levelOfNeedIndex;
         DemographicsData.currentLevelOfAnxietyIndex = demographics_SaveData.levelOfAnxietyIndex;
         DemographicsData.currentFormalTrainingIndex = demographics_SaveData.formalTrainingIndex;
         DemographicsData.currentTakingMedicationIndex = demographics_SaveData.takingMedicationIndex;

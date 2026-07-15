@@ -32,23 +32,64 @@ public class EventsManager
     #endregion
 
 
-    #region Brain Events
-
-    public static event OnNotify OnAddNPC_Event;
-    public static void InvokeOnAddNPC()
+    #region Account
+    public static event OnNotify OnLoggedIn_Event;
+    public static void InvokeOnLoggedIn()
     {
-        OnAddNPC_Event?.Invoke();
+        OnLoggedIn_Event?.Invoke();
     }
 
-    public static event OnNotify OnRemoveNPC_Event;
-    public static void InvokeOnRemoveNPC()
+    public static event OnNotify OnLoggedOut_Event;
+    public static void InvokeOnLoggedOut()
     {
-        OnRemoveNPC_Event?.Invoke();
+        OnLoggedOut_Event?.Invoke();
     }
-
     #endregion
 
+
+    #region Demographics
+    public static event OnNotify OnSetDemographics_Event;
+    public static void InvokeOnSetDemographics()
+    {
+        OnSetDemographics_Event?.Invoke();
+    }
+
+    public static event OnNotify OnChangeDemographics_Event;
+    public static void InvokeOnChangeDemographics()
+    {
+        OnChangeDemographics_Event?.Invoke();
+    }
+    #endregion
+
+
+    #region PRPSA_Before
+    public static event OnNotify OnSetPRPSA_Before_Event;
+    public static void InvokeOnSetPRPSA_Before()
+    {
+        OnSetPRPSA_Before_Event?.Invoke();
+    }
+
+    public static event OnNotify OnChangePRPSA_Before_Event;
+    public static void InvokeOnChangePRPSA_Before()
+    {
+        OnChangePRPSA_Before_Event?.Invoke();
+    }
+    #endregion
+
+
     #region GameLoop Events
+
+    public static event OnNotify OnDoorOpen_Event;
+    public static void InvokeOnDoorOpen()
+    {
+        OnDoorOpen_Event?.Invoke();
+    }
+
+    public static event OnNotify OnDoorClose_Event;
+    public static void InvokeOnDoorClose()
+    {
+        OnDoorClose_Event?.Invoke();
+    }
 
     public static event OnNotify OnGameStarted_Event;
     public static void InvokeOnGameStarted()
@@ -64,6 +105,22 @@ public class EventsManager
 
     #endregion
 
+
+    #region Brain Events
+
+    public static event OnNotify OnAddNPC_Event;
+    public static void InvokeOnAddNPC()
+    {
+        OnAddNPC_Event?.Invoke();
+    }
+
+    public static event OnNotify OnRemoveNPC_Event;
+    public static void InvokeOnRemoveNPC()
+    {
+        OnRemoveNPC_Event?.Invoke();
+    }
+
+    #endregion
 }
 
 public class Timer
@@ -88,7 +145,7 @@ public class Timer
         return false;
     }
 
-    public async void DecreaseOneSecond()
+    public void DecreaseOneSecond()
     {
         Seconds--;
         if (Seconds < 0)
@@ -107,7 +164,7 @@ public class Timer
         }
     }
 
-    public async void IncreaseOneSecond()
+    public void IncreaseOneSecond()
     {
         Seconds++;
         if (Seconds > 59)

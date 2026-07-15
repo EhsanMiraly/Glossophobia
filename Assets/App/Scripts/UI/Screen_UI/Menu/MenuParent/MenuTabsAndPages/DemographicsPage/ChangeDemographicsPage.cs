@@ -70,6 +70,7 @@ public class ChangeDemographicsPage : MonoBehaviour
 
     private void OnChangeDemograsphicsButtonSelected(ClickEvent clickEvent)
     {
+        EventsManager.InvokeOnChangeDemographics();
         demographicsPage.SetPageActive(demographicsPage.giveDemographicsPage_VisualElement);
     }
 

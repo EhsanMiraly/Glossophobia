@@ -137,6 +137,7 @@ public class LogInPage : MonoBehaviour
         {
             if (enteredUsername == AccountData.currentUsername && enteredPassword == AccountData.currentPassword)
             {
+                EventsManager.InvokeOnLoggedIn();
                 accountPage.SetPageActive(accountPage.logOutPage_VisualElement);
             }
             else

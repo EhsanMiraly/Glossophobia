@@ -213,6 +213,7 @@ public class SignUpPage : MonoBehaviour
 
         Account_SaveSystem.Save_Account();
 
+        EventsManager.InvokeOnLoggedIn();
         accountPage.SetPageActive(accountPage.logOutPage_VisualElement);
     }
 

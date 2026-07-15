@@ -21,18 +21,12 @@ public class StartPage : MonoBehaviour
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
         PRPSAPage = GetComponent<PRPSAPage>();
-
-        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
     }
 
     private void OnDisable()
     {
         RemoveFunctionality();
         panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
-
-        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
     }
 
 
@@ -61,10 +55,16 @@ public class StartPage : MonoBehaviour
     private void AddFunctionality()
     {
         startButton_TemplateContainer.RegisterCallback<ClickEvent>(OnStartButtonSelected);
+
+        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
     }
 
     private void RemoveFunctionality()
     {
+        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
+
         startButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnStartButtonSelected);
     }
 

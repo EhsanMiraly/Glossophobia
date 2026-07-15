@@ -27,6 +27,14 @@ public class PRPSA_BeforeData
             return false;
         }
 
+        for (int i = 0; i < currentAnswers.Length; i++)
+        {
+            if (currentAnswers[i] == -1)
+            {
+                return false;
+            }
+        }
+
         return true;
     }
 

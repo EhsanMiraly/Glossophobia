@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -41,11 +42,15 @@ public class AccountPage : MonoBehaviour
         InitializeUI();
     }
 
-    private void InitializeUI()
+    private async void InitializeUI()
     {
+        Account_SaveSystem.Load_Account();
+
         if (AccountData.currentUsername != "" && AccountData.currentPassword != "")
         {
             SetPageActive(logOutPage_VisualElement);
+            await Awaitable.WaitForSecondsAsync(3f);//////////Delete
+            EventsManager.InvokeOnLoggedIn();
         }
         else
         {

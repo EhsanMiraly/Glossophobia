@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -27,17 +28,13 @@ public class LogOutPage : MonoBehaviour
 
         accountPage = GetComponent<AccountPage>();
 
-        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
+
     }
 
     private void OnDisable()
     {
         RemoveFunctionality();
         panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
-
-        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
     }
 
 
@@ -55,10 +52,11 @@ public class LogOutPage : MonoBehaviour
         InitializeUI();
     }
 
-    private void InitializeUI()
+    private async void InitializeUI()
     {
         AddFunctionality();
 
+        await Awaitable.WaitForSecondsAsync(1f);
         OnLanguageChanged();
         OnFontSizeChanged();
     }
@@ -79,16 +77,23 @@ public class LogOutPage : MonoBehaviour
 
     private void AddFunctionality()
     {
+        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
+
         logOutButton_TemplateContainer.RegisterCallback<ClickEvent>(OnLogOutButtonSelected);
     }
 
     private void RemoveFunctionality()
     {
         logOutButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnLogOutButtonSelected);
+
+        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
     }
 
     private void OnLogOutButtonSelected(ClickEvent clickEvent)
     {
+        EventsManager.InvokeOnLoggedOut();
         accountPage.SetPageActive(accountPage.logInPage_VisualElement);
     }
 
