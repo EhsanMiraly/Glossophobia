@@ -79,6 +79,30 @@ public class EventsManager
 
     #region GameLoop Events
 
+    public static event OnNotify OnSimulationStarted_Event;
+    public static void InvokeOnSimulationStarted()
+    {
+        OnSimulationStarted_Event?.Invoke();
+    }
+
+    public static event OnNotify OnSimulationPaused_Event;
+    public static void InvokeOnSimulationPaused()
+    {
+        OnSimulationPaused_Event?.Invoke();
+    }
+
+    public static event OnNotify OnSimulationResumed_Event;
+    public static void InvokeOnSimulationResumed()
+    {
+        OnSimulationResumed_Event?.Invoke();
+    }
+
+    public static event OnNotify OnSimulationEnded_Event;
+    public static void InvokeOnSimulationEnded()
+    {
+        OnSimulationEnded_Event?.Invoke();
+    }
+
     public static event OnNotify OnDoorOpen_Event;
     public static void InvokeOnDoorOpen()
     {

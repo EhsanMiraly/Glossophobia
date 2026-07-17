@@ -1,66 +1,49 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ScenesManager : MonoBehaviour
 {
-    /*
-    public void Initialize()
-    {
-        EventsManager.OnStartLevel_Event += OnStartLevel;
-        EventsManager.OnPauseLevel_Event += OnPauseLevel;
-        EventsManager.OnResumeLevel_Event += OnResumeLevel;
-        EventsManager.OnStopLevel_Event += OnStopLevel;
 
+    public void OnEnable()
+    {
+        EventsManager.OnSimulationStarted_Event += OnSimulationStarted;
+        EventsManager.OnSimulationPaused_Event += OnSimulationPaused;
+        EventsManager.OnSimulationResumed_Event += OnSimulationResumed;
+        EventsManager.OnSimulationEnded_Event += OnSimulationEnded;
     }
 
     private void OnDisable()
     {
-        EventsManager.OnStartLevel_Event -= OnStartLevel;
-        EventsManager.OnPauseLevel_Event -= OnPauseLevel;
-        EventsManager.OnResumeLevel_Event -= OnResumeLevel;
-        EventsManager.OnStopLevel_Event -= OnStopLevel;
+        EventsManager.OnSimulationStarted_Event -= OnSimulationStarted;
+        EventsManager.OnSimulationPaused_Event -= OnSimulationPaused;
+        EventsManager.OnSimulationResumed_Event -= OnSimulationResumed;
+        EventsManager.OnSimulationEnded_Event -= OnSimulationEnded;
     }
 
-
-    public async void OnStartLevel(object o, GameState_EventArgs gameState_EventArgs)
+    private async void OnSimulationStarted()
     {
         Time.timeScale = 1;
-        GameData.CurrentLevelNumber = gameState_EventArgs.LevelNumber;
-        GameData.IsPlaying = true;
 
-        string sceneName = "";
-        if (gameState_EventArgs.LevelNumber < 10)
-        {
-            sceneName = "Level0" + gameState_EventArgs.LevelNumber;
-        }
-        else
-        {
-            sceneName = "Level" + gameState_EventArgs.LevelNumber;
-        }
-
-        GameData.currentLevelName = sceneName;
-        await SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        await SceneManager.LoadSceneAsync("SimulationScene", LoadSceneMode.Additive);
     }
 
-    public void OnPauseLevel()
+    public void OnSimulationPaused()
     {
-        Time.timeScale = 0.01f;
+        Time.timeScale = 0.001f;
     }
 
-    public void OnResumeLevel()
+    public void OnSimulationResumed()
     {
         Time.timeScale = 1;
     }
 
-    public async void OnStopLevel()
+    private async void OnSimulationEnded()
     {
-        if (SceneManager.GetSceneByName(GameData.currentLevelName).isLoaded)
+        if (SceneManager.GetSceneByName("SimulationScene").isLoaded)
         {
-            await SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName(GameData.currentLevelName));
+            await SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName("SimulationScene"));
         }
-
-        PlayerData.ResetPlayerData();
-        GameData.ResetGameData();
     }
-    */
+
 }
