@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseScene_Initializer
   mainCamera_GameObject: {fileID: 249754433786346922, guid: 09acd9100bd34394ba16ba4ab770b3ed, type: 3}
-  ui_GameObject: {fileID: 5009927837665781430, guid: 8668a7b1d56b1d5499e53691a8f79195, type: 3}
+  screenUI_GameObject: {fileID: 5009927837665781430, guid: 8668a7b1d56b1d5499e53691a8f79195, type: 3}
 --- !u!1 &1609363171
 GameObject:
   m_ObjectHideFlags: 1

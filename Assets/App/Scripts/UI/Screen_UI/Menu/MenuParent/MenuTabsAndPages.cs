@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -34,7 +35,7 @@ public class MenuTabsAndPages : MonoBehaviour
     [System.NonSerialized] public VisualElement settingsPage_VisualElement;
     #endregion
 
-
+    private bool isUIReady = false;
 
     private void OnEnable()
     {
@@ -42,6 +43,8 @@ public class MenuTabsAndPages : MonoBehaviour
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
         menuParent = GetComponent<MenuParent>();
+
+        AddFunctionality();
     }
 
     private void OnDisable()
@@ -74,14 +77,17 @@ public class MenuTabsAndPages : MonoBehaviour
         settingsPage_VisualElement = pagesHolder_VisualElement.Q<VisualElement>("SettingsPage_VisualElement");
         #endregion
 
+        account_Label.RegisterCallback<ClickEvent>(OnAccountTabSelected);
+
+        settings_Label.RegisterCallback<ClickEvent>(OnSettingsTabSelected);
+
+        isUIReady = true;
 
         InitializeUI();
     }
 
     private void InitializeUI()
     {
-        AddFunctionality();
-
         OnLanguageChanged();
         OnFontSizeChanged();
 
@@ -108,10 +114,9 @@ public class MenuTabsAndPages : MonoBehaviour
         EventsManager.OnSetPRPSA_Before_Event += OnSetPRPSA_Before;
         EventsManager.OnChangePRPSA_Before_Event += OnChangePRPSA_Before;
 
-
-        account_Label.RegisterCallback<ClickEvent>(OnAccountTabSelected);
-
-        settings_Label.RegisterCallback<ClickEvent>(OnSettingsTabSelected);
+        //This Two Deleted Because they are null in OnEnable
+        //account_Label.RegisterCallback<ClickEvent>(OnAccountTabSelected);
+        //settings_Label.RegisterCallback<ClickEvent>(OnSettingsTabSelected);
     }
 
     private void RemoveFunctionality()
@@ -252,8 +257,12 @@ public class MenuTabsAndPages : MonoBehaviour
     }
 
     #region LogIn/LogOut
-    private void OnLoggedIn()
+    private async void OnLoggedIn()
     {
+        while (!isUIReady)
+        {
+            await Awaitable.WaitForSecondsAsync(0.1f);
+        }
         //UnBlur Tab
         demographics_Label.RegisterCallback<ClickEvent>(OnDemographicsTabSelected);
     }
@@ -268,8 +277,12 @@ public class MenuTabsAndPages : MonoBehaviour
     #endregion
 
     #region SetDemographics/ChangeDemographics
-    private void OnSetDemographics()
+    private async void OnSetDemographics()
     {
+        while (!isUIReady)
+        {
+            await Awaitable.WaitForSecondsAsync(0.1f);
+        }
         //UnBlur Tab
         PRPSA_Label.RegisterCallback<ClickEvent>(OnPRPSATabSelected);
     }
@@ -282,8 +295,12 @@ public class MenuTabsAndPages : MonoBehaviour
     #endregion
 
     #region SetPRPSA_Before/ChangePRPSA_Before
-    private void OnSetPRPSA_Before()
+    private async void OnSetPRPSA_Before()
     {
+        while (!isUIReady)
+        {
+            await Awaitable.WaitForSecondsAsync(0.1f);
+        }
         //UnBlur Tab
         startPlaying_Label.RegisterCallback<ClickEvent>(OnStartPlayingTabSelected);
     }

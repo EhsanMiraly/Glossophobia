@@ -4,7 +4,7 @@ using UnityEngine;
 public class BaseScene_Initializer : MonoBehaviour
 {
     [SerializeField] GameObject mainCamera_GameObject;
-    [SerializeField] GameObject ui_GameObject;
+    [SerializeField] GameObject screenUI_GameObject;
 
 
     private async void Awake()
@@ -19,7 +19,7 @@ public class BaseScene_Initializer : MonoBehaviour
 
             loadingWindow_PopUp.SetProgress(20);
 
-            ui_GameObject = Instantiate(ui_GameObject);
+            screenUI_GameObject = Instantiate(screenUI_GameObject);
 
             loadingWindow_PopUp.SetProgress(100);
         }

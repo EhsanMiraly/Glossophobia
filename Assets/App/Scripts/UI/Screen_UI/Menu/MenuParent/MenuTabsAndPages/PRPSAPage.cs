@@ -21,18 +21,22 @@ public class PRPSAPage : MonoBehaviour
     #endregion
 
 
+    private bool isUIReady = false;
+
+
     private void OnEnable()
     {
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
+
+        AddFunctionality();
     }
 
     private void OnDisable()
     {
-        panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
+        RemoveFunctionality();
 
-        EventsManager.OnLoggedIn_Event -= OnLoggedIn;
-        EventsManager.OnLoggedOut_Event -= OnLoggedOut;
+        panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
     }
 
     private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
@@ -43,27 +47,24 @@ public class PRPSAPage : MonoBehaviour
         questionsPage_VisualElement = PRPSAPage_VisualElement.Q<VisualElement>("QuestionsPage_VisualElement");
         changePage_VisualElement = PRPSAPage_VisualElement.Q<VisualElement>("ChangePage_VisualElement");
 
+        isUIReady = true;
+    }
+
+
+    #region Functionality
+    private void AddFunctionality()
+    {
         EventsManager.OnLoggedIn_Event += OnLoggedIn;
         EventsManager.OnLoggedOut_Event += OnLoggedOut;
-        //InitializeUI();
     }
 
-    private void InitializeUI()
+    private void RemoveFunctionality()
     {
-        PRPSA_Before_SaveSystem.Load_PRPSA_Before();
-
-        if (!PRPSA_BeforeData.IsAllAnswersGiven())
-        {
-            PRPSA_BeforeData.InitializeAnswers();
-            SetPageActive(startPage_VisualElement);
-        }
-        else
-        {
-            EventsManager.InvokeOnSetPRPSA_Before();
-            SetPageActive(changePage_VisualElement);
-        }
-
+        EventsManager.OnLoggedIn_Event -= OnLoggedIn;
+        EventsManager.OnLoggedOut_Event -= OnLoggedOut;
     }
+    #endregion
+
 
     public void SetPageActive(VisualElement page)
     {
@@ -80,6 +81,11 @@ public class PRPSAPage : MonoBehaviour
     #region LoggedIn/LoggedOut
     private async void OnLoggedIn()
     {
+        while (!isUIReady)
+        {
+            await Awaitable.WaitForSecondsAsync(0.1f);
+        }
+
         PRPSA_Before_SaveSystem.Load_PRPSA_Before();
 
         if (!PRPSA_BeforeData.IsAllAnswersGiven())
@@ -91,7 +97,6 @@ public class PRPSAPage : MonoBehaviour
         {
             SetPageActive(changePage_VisualElement);
 
-            await Awaitable.WaitForSecondsAsync(3f);
             EventsManager.InvokeOnSetPRPSA_Before();
         }
     }

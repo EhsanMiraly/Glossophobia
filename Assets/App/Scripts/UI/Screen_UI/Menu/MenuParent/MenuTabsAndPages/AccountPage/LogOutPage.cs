@@ -56,7 +56,6 @@ public class LogOutPage : MonoBehaviour
     {
         AddFunctionality();
 
-        await Awaitable.WaitForSecondsAsync(1f);
         OnLanguageChanged();
         OnFontSizeChanged();
     }

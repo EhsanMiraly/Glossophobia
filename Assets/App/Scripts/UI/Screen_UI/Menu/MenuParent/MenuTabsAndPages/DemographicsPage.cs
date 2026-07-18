@@ -20,21 +20,20 @@ public class DemographicsPage : MonoBehaviour
     [System.NonSerialized] public VisualElement changeDemographicsPage_VisualElement;
     #endregion
 
-
+    private bool isUIReady = false;
 
     private void OnEnable()
     {
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
-
+        AddFunctionality();
     }
 
     private void OnDisable()
     {
+        RemoveFunctionality();
         panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
-
-        EventsManager.OnLoggedIn_Event -= OnLoggedIn;
     }
 
 
@@ -47,24 +46,22 @@ public class DemographicsPage : MonoBehaviour
         changeDemographicsPage_VisualElement =
             demographicsPage_VisualElement.Q<VisualElement>("ChangeDemographicsPage_VisualElement");
 
-        EventsManager.OnLoggedIn_Event += OnLoggedIn;
-        //InitializeUI();
+        isUIReady = true;
     }
 
-    private void InitializeUI()
+
+    #region Functionality
+    private void AddFunctionality()
     {
-        Demographics_SaveSystem.Load_Demographics();
-
-        if (DemographicsData.IsEveryThingSet())
-        {
-            EventsManager.InvokeOnSetDemographics();
-            SetPageActive(changeDemographicsPage_VisualElement);
-        }
-        else
-        {
-            SetPageActive(giveDemographicsPage_VisualElement);
-        }
+        EventsManager.OnLoggedIn_Event += OnLoggedIn;
     }
+
+    private void RemoveFunctionality()
+    {
+        EventsManager.OnLoggedIn_Event -= OnLoggedIn;
+    }
+    #endregion
+
 
     public void SetPageActive(VisualElement page)
     {
@@ -80,13 +77,16 @@ public class DemographicsPage : MonoBehaviour
     #region LoggedIn/LoggedOut
     private async void OnLoggedIn()
     {
+        while (!isUIReady)
+        {
+            await Awaitable.WaitForSecondsAsync(0.1f);
+        }
+
         Demographics_SaveSystem.Load_Demographics();
 
         if (DemographicsData.IsEveryThingSet())
         {
             SetPageActive(changeDemographicsPage_VisualElement);
-
-            await Awaitable.WaitForSecondsAsync(3f);
             EventsManager.InvokeOnSetDemographics();
         }
         else

@@ -46,18 +46,12 @@ public class SignUpPage : MonoBehaviour
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
         accountPage = GetComponent<AccountPage>();
-
-        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
     }
 
     private void OnDisable()
     {
         RemoveFunctionality();
         panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
-
-        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
     }
 
 
@@ -106,6 +100,9 @@ public class SignUpPage : MonoBehaviour
 
     private void AddFunctionality()
     {
+        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
+
         username_TextField.RegisterValueChangedCallback(OnUsernameValueChanged);
         password_TextField.RegisterValueChangedCallback(OnPasswordValueChanged);
         repeatPassword_TextField.RegisterValueChangedCallback(OnRepeatPasswordValueChanged);
@@ -122,6 +119,9 @@ public class SignUpPage : MonoBehaviour
 
         goToLogInButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnGoToLogInButtonSelected);
         signUpButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnSignUpButtonSelected);
+
+        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
     }
 
 

@@ -21,6 +21,8 @@ public class AccountPage : MonoBehaviour
 
     private void OnEnable()
     {
+        Account_SaveSystem.Load_Account();
+
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
     }
@@ -44,12 +46,9 @@ public class AccountPage : MonoBehaviour
 
     private async void InitializeUI()
     {
-        Account_SaveSystem.Load_Account();
-
         if (AccountData.currentUsername != "" && AccountData.currentPassword != "")
         {
             SetPageActive(logOutPage_VisualElement);
-            await Awaitable.WaitForSecondsAsync(3f);//////////Delete
             EventsManager.InvokeOnLoggedIn();
         }
         else
