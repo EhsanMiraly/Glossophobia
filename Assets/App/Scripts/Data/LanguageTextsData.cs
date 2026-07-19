@@ -258,8 +258,11 @@ public class LanguageTextsData
 
     public static List<string> deletePDF = new List<string> { "Delete pdf", "حذف فایل" };
     public static List<string> addPDF = new List<string> { "Add pdf", "اضافه کردن فایل" };
-    public static List<string> goForward = new List<string> { "Go Forward", "برو جلو" };
+    //public static List<string> startPlaying = new List<string> { "Go Forward", "برو جلو" };
 
+    public static List<string> timer = new List<string> { "Timer", "زمان سنج" };
+    public static List<string> hour = new List<string> { "Hour: ", "ساعت: " };
+    public static List<string> minute = new List<string> { "Minute: ", "دقیقه: " };
     #endregion
 
 

@@ -5,9 +5,11 @@ public class BaseScene_Initializer : MonoBehaviour
 {
     [SerializeField] GameObject mainCamera_GameObject;
     [SerializeField] GameObject screenUI_GameObject;
+    [SerializeField] GameObject scenesManager_GameObject;
 
 
-    private async void Awake()
+
+    private void Awake()
     {
         Settings_SaveSystem.Load_Settings();
 
@@ -20,6 +22,10 @@ public class BaseScene_Initializer : MonoBehaviour
             loadingWindow_PopUp.SetProgress(20);
 
             screenUI_GameObject = Instantiate(screenUI_GameObject);
+
+            loadingWindow_PopUp.SetProgress(30);
+
+            scenesManager_GameObject = Instantiate(scenesManager_GameObject);
 
             loadingWindow_PopUp.SetProgress(100);
         }

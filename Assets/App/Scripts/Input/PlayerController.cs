@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -24,7 +26,18 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         characterController = GetComponent<CharacterController>();
+
+
+        #region Add Camera To Player
+
+        camera = FindAnyObjectByType<Camera>();
+        camera.transform.parent = this.transform;
+        camera.transform.localPosition = new Vector3(0, 1, 0);
+        camera.transform.localRotation = Quaternion.identity;
         camera = GetComponentInChildren<Camera>();
+
+        #endregion
+
 
         playerInput = new PlayerInput();
         onFoot = playerInput.OnFoot;
@@ -33,6 +46,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
+        #region Remove Camera From Player
+        GameObject cameraParent = new GameObject();
+        camera.transform.parent = cameraParent.transform;
+        SceneManager.MoveGameObjectToScene(cameraParent, SceneManager.GetSceneByName("BaseScene"));
+        #endregion
+
         onFoot.Disable();
     }
 

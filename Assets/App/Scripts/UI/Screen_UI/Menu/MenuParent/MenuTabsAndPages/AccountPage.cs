@@ -44,7 +44,7 @@ public class AccountPage : MonoBehaviour
         InitializeUI();
     }
 
-    private async void InitializeUI()
+    private void InitializeUI()
     {
         if (AccountData.currentUsername != "" && AccountData.currentPassword != "")
         {

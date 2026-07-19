@@ -14,11 +14,6 @@ public class StartPlayingPage : MonoBehaviour
     VisualElement startPlayingPage_VisualElement;
 
 
-    #region Playing
-    VisualElement playing_VisualElement;
-    #endregion
-
-
     #region PDF
     VisualElement pdf_VisualElement;
 
@@ -28,15 +23,31 @@ public class StartPlayingPage : MonoBehaviour
     Label deletePDFButton_Label;
     VisualElement addPDFButton_TemplateContainer;
     Label addPDFButton_Label;
-    VisualElement goForwardButton_TemplateContainer;
-    Label goForwardButton_Label;
-    #endregion
-
 
     VisualTreeAsset pdfLabel_Template;
     List<VisualElement> pdfLabels;
 
     Label currentPDF_Label = null;
+    #endregion
+
+
+
+    #region Playing
+    VisualElement playing_VisualElement;
+
+    VisualElement timer_TemplateContainer;
+    Label timer_Label;
+    VisualElement hour_MinusButton_TemplateContainer;
+    Label hour_Label;
+    VisualElement hour_PlusButton_TemplateContainer;
+    VisualElement minute_MinusButton_TemplateContainer;
+    Label minute_Label;
+    VisualElement minute_PlusButton_TemplateContainer;
+
+
+    VisualElement startPlayingButton_TemplateContainer;
+    Label startPlayingButton_Label;
+    #endregion
 
 
 
@@ -67,10 +78,6 @@ public class StartPlayingPage : MonoBehaviour
     {
         startPlayingPage_VisualElement = root.Q<VisualElement>("StartPlayingPage_VisualElement");
 
-        #region Playing
-        playing_VisualElement = startPlayingPage_VisualElement.Q<VisualElement>("Playing_VisualElement");
-        #endregion
-
         #region PDF
         pdf_VisualElement = startPlayingPage_VisualElement.Q<VisualElement>("PDF_VisualElement");
 
@@ -81,8 +88,28 @@ public class StartPlayingPage : MonoBehaviour
         deletePDFButton_Label = deletePDFButton_TemplateContainer.Q<Label>();
         addPDFButton_TemplateContainer = pdf_VisualElement.Q<VisualElement>("AddPDFButton_TemplateContainer");
         addPDFButton_Label = addPDFButton_TemplateContainer.Q<Label>();
-        goForwardButton_TemplateContainer = pdf_VisualElement.Q<VisualElement>("GoForwardButton_TemplateContainer");
-        goForwardButton_Label = goForwardButton_TemplateContainer.Q<Label>();
+        #endregion
+
+        #region Playing
+        playing_VisualElement = startPlayingPage_VisualElement.Q<VisualElement>("Playing_VisualElement");
+
+        timer_TemplateContainer = playing_VisualElement.Q<VisualElement>("Timer_TemplateContainer");
+        timer_Label = timer_TemplateContainer.Q<Label>("Timer_Label");
+        hour_MinusButton_TemplateContainer =
+            timer_TemplateContainer.Q<VisualElement>("Hour_MinusButton_TemplateContainer");
+        hour_Label = timer_TemplateContainer.Q<Label>("Hour_Label");
+        hour_PlusButton_TemplateContainer =
+            timer_TemplateContainer.Q<VisualElement>("Hour_PlusButton_TemplateContainer");
+        minute_MinusButton_TemplateContainer =
+            timer_TemplateContainer.Q<VisualElement>("Minute_MinusButton_TemplateContainer");
+        minute_Label = timer_TemplateContainer.Q<Label>("Minute_Label");
+        minute_PlusButton_TemplateContainer =
+            timer_TemplateContainer.Q<VisualElement>("Minute_PlusButton_TemplateContainer");
+
+        startPlayingButton_TemplateContainer =
+            playing_VisualElement.Q<VisualElement>("StartPlayingButton_TemplateContainer");
+        startPlayingButton_Label = startPlayingButton_TemplateContainer.Q<Label>();
+
         #endregion
 
         InitializeUI();
@@ -153,14 +180,28 @@ public class StartPlayingPage : MonoBehaviour
     {
         deletePDFButton_TemplateContainer.RegisterCallback<ClickEvent>(OnDeletePDFButtonSelected);
         addPDFButton_TemplateContainer.RegisterCallback<ClickEvent>(OnAddPDFButtonSelected);
-        goForwardButton_TemplateContainer.RegisterCallback<ClickEvent>(OnGoForwardButtonSelected);
+
+        hour_MinusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnHour_MinusButtonSelected);
+        hour_PlusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnHour_PlusButtonSelected);
+
+        minute_MinusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnMinute_MinusButtonSelected);
+        minute_PlusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnMinute_PlusButtonSelected);
+
+        startPlayingButton_TemplateContainer.RegisterCallback<ClickEvent>(OnStartPlayingButtonSelected);
     }
 
     private void RemoveFunctionality()
     {
         deletePDFButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnDeletePDFButtonSelected);
         addPDFButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnAddPDFButtonSelected);
-        goForwardButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnGoForwardButtonSelected);
+
+        hour_MinusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnHour_MinusButtonSelected);
+        hour_PlusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnHour_PlusButtonSelected);
+
+        minute_MinusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnMinute_MinusButtonSelected);
+        minute_PlusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnMinute_PlusButtonSelected);
+
+        startPlayingButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnStartPlayingButtonSelected);
     }
 
 
@@ -180,16 +221,78 @@ public class StartPlayingPage : MonoBehaviour
         ResetPDFsInScrollView();
     }
 
-    private async void OnGoForwardButtonSelected(ClickEvent clickEvent)
+    private void OnHour_MinusButtonSelected(ClickEvent clickEvent)
     {
-        if (currentPDF_Label != null)
+        GameData.initialTimer.Hours--;
+        if (GameData.initialTimer.Hours < 0)
         {
-            await PdfToImage.StartConversion();///////////////////////////////////////////////
-            Debug.Log(GameData.pageTextures.Count);/////////////OK -Delete
+            GameData.initialTimer.Hours = 0;
+        }
+        hour_Label.text =
+            LanguageTextsData.hour[SettingsData.currentLanguageIndex] + GameData.initialTimer.Hours;
+    }
 
-            UI_Utilities.MouseVisible(false);
+    private void OnHour_PlusButtonSelected(ClickEvent clickEvent)
+    {
+        GameData.initialTimer.Hours++;
+        if (GameData.initialTimer.Hours > 10)
+        {
+            GameData.initialTimer.Hours = 10;
+        }
+        hour_Label.text =
+            LanguageTextsData.hour[SettingsData.currentLanguageIndex] + GameData.initialTimer.Hours;
+    }
 
-            menuParent.SetPageActive(menuParent.nothingPage_VisualElement);
+    private void OnMinute_MinusButtonSelected(ClickEvent clickEvent)
+    {
+        GameData.initialTimer.Minutes--;
+        if (GameData.initialTimer.Minutes < 0)
+        {
+            GameData.initialTimer.Minutes = 0;
+        }
+        minute_Label.text =
+            LanguageTextsData.minute[SettingsData.currentLanguageIndex] + GameData.initialTimer.Minutes;
+    }
+
+    private void OnMinute_PlusButtonSelected(ClickEvent clickEvent)
+    {
+        GameData.initialTimer.Minutes++;
+        if (GameData.initialTimer.Minutes > 59)
+        {
+            GameData.initialTimer.Minutes = 59;
+        }
+        minute_Label.text =
+            LanguageTextsData.minute[SettingsData.currentLanguageIndex] + GameData.initialTimer.Minutes;
+    }
+
+
+    private async void OnStartPlayingButtonSelected(ClickEvent clickEvent)
+    {
+        if (currentPDF_Label != null) // And Scene not Loaded And Not Playing
+        {
+            using (LoadingWindow_PopUp loadingWindow_PopUp = new LoadingWindow_PopUp(new GameObject()))
+            {
+                loadingWindow_PopUp.SetProgress(10);
+
+                EventsManager.InvokeOnSimulationStarted();
+                loadingWindow_PopUp.SetProgress(20);
+
+                UI_Utilities.MouseVisible(false);
+                loadingWindow_PopUp.SetProgress(30);
+
+                GameData.remainingTimer = new Timer(GameData.initialTimer.Hours,
+                    GameData.initialTimer.Minutes, GameData.initialTimer.Seconds);
+                loadingWindow_PopUp.SetProgress(40);
+
+                await PdfToImage.StartConversion();
+                loadingWindow_PopUp.SetProgress(50);
+
+                menuParent.SetPageActive(menuParent.nothingPage_VisualElement);
+                loadingWindow_PopUp.SetProgress(60);
+
+                await Awaitable.WaitForSecondsAsync(2f);//Remove Later after Fixing Door Animation
+                loadingWindow_PopUp.SetProgress(100);//Remove Later after Fixing Door Animation
+            }
         }
     }
 
@@ -236,11 +339,11 @@ public class StartPlayingPage : MonoBehaviour
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
-        #region goForwardButton_Label
-        goForwardButton_Label.text = LanguageTextsData.goForward[SettingsData.currentLanguageIndex];
-        goForwardButton_Label.languageDirection =
+        #region startPlayingButton_Label
+        startPlayingButton_Label.text = LanguageTextsData.startPlaying[SettingsData.currentLanguageIndex];
+        startPlayingButton_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
-        goForwardButton_Label.style.unityFont =
+        startPlayingButton_Label.style.unityFont =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
@@ -249,6 +352,28 @@ public class StartPlayingPage : MonoBehaviour
             Label label = pdfLabels[i].Q<Label>();
             FixPDFLabel_Template(label);
         }
+
+        #region Timer
+        timer_Label.text = LanguageTextsData.timer[SettingsData.currentLanguageIndex];
+        timer_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        timer_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+
+        hour_Label.text =
+            LanguageTextsData.hour[SettingsData.currentLanguageIndex] + GameData.initialTimer.Hours;
+        hour_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        hour_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+
+        minute_Label.text =
+            LanguageTextsData.minute[SettingsData.currentLanguageIndex] + GameData.initialTimer.Minutes;
+        minute_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        minute_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
     }
 
     private void OnFontSizeChanged()
@@ -264,7 +389,7 @@ public class StartPlayingPage : MonoBehaviour
         #endregion
 
         #region goForwardButton_Label
-        goForwardButton_Label.style.fontSize =
+        startPlayingButton_Label.style.fontSize =
             LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
         #endregion
 
@@ -273,6 +398,17 @@ public class StartPlayingPage : MonoBehaviour
             Label label = pdfLabels[i].Q<Label>();
             FixPDFLabel_Template(label);
         }
+
+        #region Timer
+        timer_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+
+        hour_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+
+        minute_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+        #endregion
     }
 
     #endregion

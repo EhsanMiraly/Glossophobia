@@ -24,7 +24,10 @@ public class ScenesManager : MonoBehaviour
     private async void OnSimulationStarted()
     {
         Time.timeScale = 1;
-
+        if (SceneManager.GetSceneByName("SimulationScene").isLoaded)
+        {
+            return;
+        }
         await SceneManager.LoadSceneAsync("SimulationScene", LoadSceneMode.Additive);
     }
 

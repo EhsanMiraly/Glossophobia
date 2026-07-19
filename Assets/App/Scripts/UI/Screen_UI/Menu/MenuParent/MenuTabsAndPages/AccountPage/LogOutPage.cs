@@ -52,7 +52,7 @@ public class LogOutPage : MonoBehaviour
         InitializeUI();
     }
 
-    private async void InitializeUI()
+    private void InitializeUI()
     {
         AddFunctionality();
 

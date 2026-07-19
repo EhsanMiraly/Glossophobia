@@ -10,8 +10,8 @@ public class GameData
     public static List<Texture2D> pageTextures = new List<Texture2D>();
 
     //Timer Data
-    public static Timer initialTimer = new Timer(0, 1, 0);
-    public static Timer remainingTimer = new Timer(0, 1, 0);
+    public static Timer initialTimer = new Timer(0, 5, 0);
+    public static Timer remainingTimer = new Timer(0, 0, 0);
     public static Timer extraTimer = new Timer(0, 0, 0);
 
 
