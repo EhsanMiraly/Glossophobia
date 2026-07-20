@@ -230,27 +230,27 @@ public class MenuTabsAndPages : MonoBehaviour
     {
         #region Account_Label
         account_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
         #region demographics_Label
         demographics_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
         #region PRPSA_Label
         PRPSA_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
         #region startPlaying_Label
         startPlaying_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
         #region Settings_Label
         settings_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
 

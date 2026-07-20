@@ -17,6 +17,9 @@ public class WelcomePage : MonoBehaviour
     Label start_Label;
 
 
+    VisualElement currentSelected;
+
+
     private void OnEnable()
     {
         panelRenderer = GetComponent<PanelRenderer>();
@@ -81,11 +84,20 @@ public class WelcomePage : MonoBehaviour
         VisualElement farsiButton_Background_VisualElement =
             farsiButton_TemplateContainer.Q<VisualElement>("Background_VisualElement");
 
-        englishButton_Background_VisualElement.RemoveFromClassList("ButtonSelected");
-        farsiButton_Background_VisualElement.RemoveFromClassList("ButtonSelected");
+        if (currentSelected != null)
+        {
+            currentSelected.Q<VisualElement>("Background_VisualElement").
+                RemoveFromClassList("ButtonSelected");
+            currentSelected.Q<VisualElement>("Background_VisualElement").
+                AddToClassList("ButtonNotSelected");
+        }
 
         languageButton_TemplateContainer.Q<VisualElement>("Background_VisualElement").
+            RemoveFromClassList("ButtonNotSelected");
+        languageButton_TemplateContainer.Q<VisualElement>("Background_VisualElement").
             AddToClassList("ButtonSelected");
+
+        currentSelected = languageButton_TemplateContainer;
     }
 
 

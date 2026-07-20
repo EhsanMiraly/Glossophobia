@@ -97,7 +97,7 @@ public class ChangePage : MonoBehaviour
     {
         #region changePRPSAButton_Label
         changePRPSAButton_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
     }
 

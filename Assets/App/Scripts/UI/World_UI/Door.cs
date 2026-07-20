@@ -112,12 +112,12 @@ public class Door : MonoBehaviour
     {
         #region door_Label0
         door_Label0.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategorySmall[1];
         #endregion
 
         #region door_Label1
         door_Label1.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategorySmall[1];
         #endregion
     }
 

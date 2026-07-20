@@ -118,12 +118,12 @@ public class LaptopHint : MonoBehaviour
     {
         #region hint_Label
         hint_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySuperSmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategorySuperSmall[0];
         #endregion
 
         #region okButton_Label
         okButton_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySuperSmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategorySuperSmall[0];
         #endregion
     }
 

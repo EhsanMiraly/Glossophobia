@@ -20,21 +20,25 @@ public class LogOutPage : MonoBehaviour
     Label logOutButton_Label;
     #endregion
 
+    private bool isUIReady = false;
+
 
     private void OnEnable()
     {
+        ConnectEvents();
+
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
         accountPage = GetComponent<AccountPage>();
-
-
     }
 
     private void OnDisable()
     {
         RemoveFunctionality();
         panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
+
+        DisconnectEvents();
     }
 
 
@@ -54,6 +58,8 @@ public class LogOutPage : MonoBehaviour
 
     private void InitializeUI()
     {
+        isUIReady = true;
+
         AddFunctionality();
 
         OnLanguageChanged();
@@ -76,18 +82,12 @@ public class LogOutPage : MonoBehaviour
 
     private void AddFunctionality()
     {
-        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
-
         logOutButton_TemplateContainer.RegisterCallback<ClickEvent>(OnLogOutButtonSelected);
     }
 
     private void RemoveFunctionality()
     {
         logOutButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnLogOutButtonSelected);
-
-        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
     }
 
     private void OnLogOutButtonSelected(ClickEvent clickEvent)
@@ -101,6 +101,22 @@ public class LogOutPage : MonoBehaviour
 
 
     #region Events Manager
+
+    private void ConnectEvents()
+    {
+        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
+
+        EventsManager.OnLoggedIn_Event += OnLoggedIn;
+    }
+
+    private void DisconnectEvents()
+    {
+        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
+
+        EventsManager.OnLoggedIn_Event -= OnLoggedIn;
+    }
 
     private void OnLanguageChanged()
     {
@@ -133,18 +149,29 @@ public class LogOutPage : MonoBehaviour
     {
         #region You Are Signed In As Label
         youAreSignedInAs_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
         #region username_Label
         username_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryBig[SettingsData.currentFontSizeIndex];
         #endregion
 
         #region logOutButton_Label
         logOutButton_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
+    }
+
+
+    private async void OnLoggedIn()
+    {
+        while (!isUIReady)
+        {
+            await Awaitable.WaitForSecondsAsync(0.1f);
+        }
+
+        username_Label.text = AccountData.currentUsername;
     }
 
     #endregion

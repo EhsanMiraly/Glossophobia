@@ -27,6 +27,21 @@
     border-left-width: 2px;
 }
 
+.ButtonNotSelected {
+    border-left-color: rgb(150, 150, 150);
+    border-right-color: rgb(150, 150, 150);
+    border-top-color: rgb(150, 150, 150);
+    border-bottom-color: rgb(150, 150, 150);
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
 .PDFSelected {
     border-left-color: rgb(0, 255, 0);
     border-right-color: rgb(0, 255, 0);

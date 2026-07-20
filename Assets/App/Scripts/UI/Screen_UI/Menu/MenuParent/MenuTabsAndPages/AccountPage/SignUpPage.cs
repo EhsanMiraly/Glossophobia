@@ -243,7 +243,7 @@ public class SignUpPage : MonoBehaviour
         #endregion
 
         #region username_TextField_TextElement
-        username_TextField.value = LanguageTextsData.username[SettingsData.currentLanguageIndex];
+        username_TextField.value = "";
         username_TextField_TextElement.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
         username_TextField_TextElement.style.unityFont =
@@ -260,7 +260,7 @@ public class SignUpPage : MonoBehaviour
         #endregion
 
         #region password_TextField_TextElement
-        password_TextField.value = LanguageTextsData.password[SettingsData.currentLanguageIndex];
+        password_TextField.value = "";
         password_TextField_TextElement.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
         password_TextField_TextElement.style.unityFont =
@@ -277,8 +277,7 @@ public class SignUpPage : MonoBehaviour
         #endregion
 
         #region repeatPassword_TextField_TextElement
-        repeatPassword_TextField.value =
-        LanguageTextsData.repeatPassword[SettingsData.currentLanguageIndex];
+        repeatPassword_TextField.value = "";
         repeatPassword_TextField_TextElement.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
         repeatPassword_TextField_TextElement.style.unityFont =
@@ -326,9 +325,9 @@ public class SignUpPage : MonoBehaviour
 
     private void OnFontSizeChanged()
     {
-        #region Log In Label
+        #region Sign Up Label
         signUp_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryBig[SettingsData.currentFontSizeIndex];
         #endregion
 
         #region username_TextField_Label
@@ -363,23 +362,23 @@ public class SignUpPage : MonoBehaviour
 
         #region goToLogInButton_Label
         goToLogInButton_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
         #region signUpButton_Label
         signUpButton_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
 
         #region Problems Label
         problems_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
         #region HowTo Label
         howTo_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
     }

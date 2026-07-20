@@ -45,6 +45,7 @@ MonoBehaviour:
   obsoleteScenesToNotBake: []
   m_LightingScenarios:
   - Default
+  - 7
   cellDescs:
     m_Keys: 0000000009000000030000000c000000010000000a000000040000000d000000
     m_Values:
@@ -190,6 +191,7 @@ MonoBehaviour:
   scenarios:
     m_Keys:
     - Default
+    - 7
     m_Values:
     - sceneHash: -1862406747
       cellDataAsset:
@@ -240,6 +242,79 @@ MonoBehaviour:
           - offset: 1310720
             elementCount: 1
         m_Asset: {fileID: 4900000, guid: 2431a56a95f5a844ebdb3ef8d72c826f, type: 3}
+      cellProbeOcclusionDataAsset:
+        m_AssetGUID: 
+        m_StreamableAssetPath: APVStreamingAssets\b364cb7805f90454e8fb304365dc347f\.bytes
+        m_ElementSize: 0
+        m_StreamableCellDescs:
+          m_Keys: 0000000009000000030000000c000000010000000a000000040000000d000000
+          m_Values:
+          - offset: 0
+            elementCount: 2
+          - offset: 0
+            elementCount: 1
+          - offset: 0
+            elementCount: 3
+          - offset: 0
+            elementCount: 1
+          - offset: 0
+            elementCount: 1
+          - offset: 0
+            elementCount: 1
+          - offset: 0
+            elementCount: 1
+          - offset: 0
+            elementCount: 1
+        m_Asset: {fileID: 0}
+    - sceneHash: -1862406747
+      cellDataAsset:
+        m_AssetGUID: 10a8958b55108a24e9056044ae38b5c6
+        m_StreamableAssetPath: APVStreamingAssets\b364cb7805f90454e8fb304365dc347f\10a8958b55108a24e9056044ae38b5c6.bytes
+        m_ElementSize: 131072
+        m_StreamableCellDescs:
+          m_Keys: 0000000009000000030000000c000000010000000a000000040000000d000000
+          m_Values:
+          - offset: 0
+            elementCount: 2
+          - offset: 262144
+            elementCount: 1
+          - offset: 393216
+            elementCount: 3
+          - offset: 786432
+            elementCount: 1
+          - offset: 917504
+            elementCount: 1
+          - offset: 1048576
+            elementCount: 1
+          - offset: 1179648
+            elementCount: 1
+          - offset: 1310720
+            elementCount: 1
+        m_Asset: {fileID: 4900000, guid: 10a8958b55108a24e9056044ae38b5c6, type: 3}
+      cellOptionalDataAsset:
+        m_AssetGUID: 11a40587a0852cf4db059f14d796db56
+        m_StreamableAssetPath: APVStreamingAssets\b364cb7805f90454e8fb304365dc347f\11a40587a0852cf4db059f14d796db56.bytes
+        m_ElementSize: 131072
+        m_StreamableCellDescs:
+          m_Keys: 0000000009000000030000000c000000010000000a000000040000000d000000
+          m_Values:
+          - offset: 0
+            elementCount: 2
+          - offset: 262144
+            elementCount: 1
+          - offset: 393216
+            elementCount: 3
+          - offset: 786432
+            elementCount: 1
+          - offset: 917504
+            elementCount: 1
+          - offset: 1048576
+            elementCount: 1
+          - offset: 1179648
+            elementCount: 1
+          - offset: 1310720
+            elementCount: 1
+        m_Asset: {fileID: 4900000, guid: 11a40587a0852cf4db059f14d796db56, type: 3}
       cellProbeOcclusionDataAsset:
         m_AssetGUID: 
         m_StreamableAssetPath: APVStreamingAssets\b364cb7805f90454e8fb304365dc347f\.bytes
@@ -345,7 +420,7 @@ MonoBehaviour:
   supportLayerMaskChunkSize: 0
   supportOffsetsChunkSize: 98304
   supportDataChunkSize: 262144
-  lightingScenario: Default
+  lightingScenario: 7
   version: 2
   freezePlacement: 0
   probeOffset: {x: 0, y: 0, z: 0}

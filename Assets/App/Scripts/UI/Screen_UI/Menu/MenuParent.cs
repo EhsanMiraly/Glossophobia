@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 
-[RequireComponent(typeof(WelcomePage), typeof(MenuTabsAndPages), typeof(NothingPage))] //Delete NothingPage?
+[RequireComponent(typeof(WelcomePage), typeof(MenuTabsAndPages), typeof(NothingPage))]
 public class MenuParent : MonoBehaviour
 {
     PanelRenderer panelRenderer;

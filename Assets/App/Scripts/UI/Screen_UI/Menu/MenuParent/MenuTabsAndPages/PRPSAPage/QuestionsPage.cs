@@ -252,15 +252,15 @@ public class QuestionsPage : MonoBehaviour
 
     private void OnFontSizeChanged()
     {
-        #region explain_Label
+        #region question_Label
         question_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryBig[SettingsData.currentFontSizeIndex];
         #endregion
 
 
         #region SingleSelection
         singleSelection_WhatAmI_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
 
         for (int i = 0; i < singleSelection_OptionsLabels.Count; i++)
         {
@@ -273,12 +273,12 @@ public class QuestionsPage : MonoBehaviour
 
         #region lastQuestionButton_Label
         lastQuestionButton_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
         #region nextQuestionButton_Label
         nextQuestionButton_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
     }

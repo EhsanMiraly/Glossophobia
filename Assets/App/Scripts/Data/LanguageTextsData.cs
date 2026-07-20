@@ -63,11 +63,8 @@ public class LanguageTextsData
 
     #region AccountPage
     public static List<string> logIn = new List<string> { "Log in", "ورود به حساب کاربری" };
-    public static List<string> username = new List<string> { "Username", "نام کاربری" };
-    public static List<string> enterUsername = new List<string> { "Enter username???", "نام کاربری را وارد کنید" };
-    public static List<string> password = new List<string> { "Password", "رمز عبور" };
-    public static List<string> enterPassword = new List<string> { "Enter password??", "رمز عبور را وارد کنید" };
-    public static List<string> repeatPassword = new List<string> { "Repeat password", "تکرار رمز عبور" };
+    public static List<string> enterUsername = new List<string> { "Enter username", "نام کاربری را وارد کنید" };
+    public static List<string> enterPassword = new List<string> { "Enter password", "رمز عبور را وارد کنید" };
     public static List<string> enterRepeatPassword = new List<string> {
         "Enter repeat password???", "تکرار رمز عبور را وارد کنید" };
 
@@ -85,7 +82,7 @@ public class LanguageTextsData
         "Password length must be 8 characters or more", "رمز عبور باید 8 کاراکتر یا بیشتر باشد" };
     public static List<string> passwordConfirmationPassword = new List<string> {
         "The password does not match the confirmation password", "رمز عبور با تکرار رمز عبور همخوانی ندارد" };
-    public static List<string> howTo = new List<string> { "Usable characters: ", "کاراکترهای قابل استفاده: " };
+    public static List<string> howTo = new List<string> { "Usable characters", "کاراکترهای قابل استفاده" };
 
     public static List<string> youAreSignedInAs = new List<string> {
         "You are signed in as", "شما با این عنوان وارد شده‌اید" };
@@ -283,9 +280,9 @@ public class LanguageTextsData
 
 
     public static List<int> fontSize_CategorySuperSmall = new List<int> { 2, 4, 6 };
-    public static List<int> fontSize_CategorySmall = new List<int> { 10, 15, 20 };
-    public static List<int> fontSize_CategoryAverage = new List<int> { 20, 25, 30 };
-    public static List<int> fontSize_CategoryBig = new List<int> { 40, 60, 80 };
+    public static List<int> fontSize_CategorySmall = new List<int> { 12, 16, 20 };
+    public static List<int> fontSize_CategoryAverage = new List<int> { 20, 24, 28 };
+    public static List<int> fontSize_CategoryBig = new List<int> { 35, 40, 45 };
 
     public static List<string> soundVolume = new List<string> { "Sound volume: ", "بلندی صدا: " };
 

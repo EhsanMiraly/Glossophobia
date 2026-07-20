@@ -168,7 +168,7 @@ public class StartPlayingPage : MonoBehaviour
     {
         label.languageDirection = LanguageTextsData.languages[1].languageDirection;
         label.style.unityFont = LanguageTextsData.languages[1].font;
-        label.style.fontSize = LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        label.style.fontSize = LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
     }
 
     #endregion
@@ -380,17 +380,17 @@ public class StartPlayingPage : MonoBehaviour
     {
         #region deletePDFButton_Label
         deletePDFButton_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
         #region addPDFButton_Label
         addPDFButton_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
-        #region goForwardButton_Label
+        #region startPlayingButton_Label
         startPlayingButton_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
         for (int i = 0; i < pdfLabels.Count; i++)
@@ -404,10 +404,10 @@ public class StartPlayingPage : MonoBehaviour
             LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
 
         hour_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
 
         minute_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
         #endregion
     }
 

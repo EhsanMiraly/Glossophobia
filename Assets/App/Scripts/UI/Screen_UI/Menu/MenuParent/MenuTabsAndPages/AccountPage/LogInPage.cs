@@ -173,7 +173,7 @@ public class LogInPage : MonoBehaviour
         #endregion
 
         #region username_TextField_TextElement
-        username_TextField_TextElement.text = LanguageTextsData.username[SettingsData.currentLanguageIndex];
+        username_TextField_TextElement.text = "";
         username_TextField_TextElement.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
         username_TextField_TextElement.style.unityFont =
@@ -190,7 +190,7 @@ public class LogInPage : MonoBehaviour
         #endregion
 
         #region password_TextField_TextElement
-        password_TextField_TextElement.text = LanguageTextsData.password[SettingsData.currentLanguageIndex];
+        password_TextField_TextElement.text = "";
         password_TextField_TextElement.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
         password_TextField_TextElement.style.unityFont =
@@ -226,7 +226,7 @@ public class LogInPage : MonoBehaviour
     {
         #region Log In Label
         logIn_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryBig[SettingsData.currentFontSizeIndex];
         #endregion
 
         #region username_TextField_Label
@@ -254,17 +254,17 @@ public class LogInPage : MonoBehaviour
 
         #region goToSignUpButton_Label
         goToSignUpButton_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
         #region logInButton_Label
         logInButton_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
         #region Problems Label
         problems_Label.style.fontSize =
-            LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
     }
 

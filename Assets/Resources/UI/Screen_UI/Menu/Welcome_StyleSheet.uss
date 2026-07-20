@@ -22,8 +22,6 @@
     margin-right: 0;
     margin-bottom: 0;
     margin-left: 0;
-    width: 40%;
+    width: 20%;
     height: 100%;
 }
-
-
