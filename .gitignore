@@ -109,3 +109,9 @@ InitTestScene*.unity*
 
 #My Own Assets
 /[Aa]ssets/[Aa]pp/[Nn]ew/
+/[Aa]ssets/[Pp]lugins/
+/[Aa]ssets/[Ee]ditor Default Resources/
+/[Aa]ssets/[Ee]xternalDependencyManager/
+/[Aa]ssets/[Ff]irebase/
+/[Aa]ssets/[Pp]ackages/
+
