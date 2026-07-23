@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Firebase.Auth;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -62,8 +63,8 @@ public class LogOutPage : MonoBehaviour
 
         AddFunctionality();
 
-        OnLanguageChanged();
-        OnFontSizeChanged();
+        //OnLanguageChanged();
+        //OnFontSizeChanged();
     }
 
 
@@ -92,8 +93,16 @@ public class LogOutPage : MonoBehaviour
 
     private void OnLogOutButtonSelected(ClickEvent clickEvent)
     {
-        EventsManager.InvokeOnLoggedOut();
-        accountPage.SetPageActive(accountPage.logInPage_VisualElement);
+        if (FirebaseAuth.DefaultInstance.CurrentUser != null)
+        {
+            FirebaseAuth.DefaultInstance.SignOut();
+            EventsManager.InvokeOnLoggedOut();
+            accountPage.SetPageActive(accountPage.logInPage_VisualElement);
+        }
+        else
+        {
+            Debug.Log("No user is currently logged in.");
+        }
     }
 
     #endregion
@@ -129,7 +138,7 @@ public class LogOutPage : MonoBehaviour
         #endregion
 
         #region username_Label
-        username_Label.text = AccountData.currentUsername;
+        username_Label.text = FirebaseAuth.DefaultInstance.CurrentUser.Email;
         username_Label.languageDirection =
             LanguageTextsData.languages[0].languageDirection;
         username_Label.style.unityFont =
@@ -171,7 +180,7 @@ public class LogOutPage : MonoBehaviour
             await Awaitable.WaitForSecondsAsync(0.1f);
         }
 
-        username_Label.text = AccountData.currentUsername;
+        username_Label.text = FirebaseAuth.DefaultInstance.CurrentUser.Email;
     }
 
     #endregion

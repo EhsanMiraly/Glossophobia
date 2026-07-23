@@ -1,4 +1,8 @@
 using System;
+using System.Threading.Tasks;
+using Firebase;
+using Firebase.Auth;
+using Firebase.Extensions;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -189,9 +193,8 @@ public class SignUpPage : MonoBehaviour
         accountPage.SetPageActive(accountPage.logInPage_VisualElement);
     }
 
-    private void OnSignUpButtonSelected(ClickEvent clickEvent)
+    private async void OnSignUpButtonSelected(ClickEvent clickEvent)
     {
-        //Change To Fire Base Later
         if (enteredUsername.Length < 8)
         {
             problems_Label.text = LanguageTextsData.usernameLength[SettingsData.currentLanguageIndex];
@@ -208,13 +211,51 @@ public class SignUpPage : MonoBehaviour
             return;
         }
 
-        AccountData.currentUsername = enteredUsername;
-        AccountData.currentPassword = enteredPassword;
+        await FirebaseAuth.DefaultInstance.CreateUserWithEmailAndPasswordAsync(enteredUsername, enteredPassword)
+           .ContinueWithOnMainThread(task =>
+           {
+               if (task.IsCanceled)
+               {
+                   //signUpFail_Event?.Invoke();
+                   return;
+               }
+               if (task.IsFaulted)
+               {
+                   //signUpFail_Event?.Invoke();
 
-        Account_SaveSystem.Save_Account();
+                   foreach (var e in task.Exception.Flatten().InnerExceptions)
+                   {
+                       FirebaseException firebaseEx = e as FirebaseException;
+                       if (firebaseEx != null)
+                       {
+                           var errorCode = (AuthError)firebaseEx.ErrorCode;
 
-        EventsManager.InvokeOnLoggedIn();
-        accountPage.SetPageActive(accountPage.logOutPage_VisualElement);
+                           switch (errorCode)
+                           {
+                               case AuthError.InvalidEmail:
+                                   Debug.Log("InValid Email");
+                                   //signUpInvalidEmail_Event?.Invoke();
+                                   break;
+                               case AuthError.WeakPassword:
+                                   Debug.Log("Weak Password");
+                                   //signUpWeakPassword_Event?.Invoke();
+                                   break;
+                               case AuthError.EmailAlreadyInUse:
+                                   Debug.Log("Email Already In Use");
+                                   //signUpEmailAlreadyInUse_Event?.Invoke();
+                                   break;
+                               default:
+                                   break;
+                           }
+                       }
+                   }
+
+                   return;
+               }
+
+               EventsManager.InvokeOnLoggedIn();
+               accountPage.SetPageActive(accountPage.logOutPage_VisualElement);
+           });
     }
 
     #endregion

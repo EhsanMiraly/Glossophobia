@@ -3,10 +3,6 @@ using UnityEngine;
 
 public class AccountData : MonoBehaviour
 {
-    public static string currentUsername = "";
-    public static string currentPassword = "";
-
-
     private static string usernamePasswordCharacters =
         "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789!@#$%^&*()-_=+[]{}|;:'\",.<>/?`~";
 

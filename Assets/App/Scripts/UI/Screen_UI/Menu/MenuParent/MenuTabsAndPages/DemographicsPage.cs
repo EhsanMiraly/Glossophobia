@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEditor.ProjectWindowCallback;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UIElements;
 

@@ -1,11 +1,13 @@
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Firebase.Auth;
 
 
 [RequireComponent(typeof(LogInPage), typeof(SignUpPage), typeof(LogOutPage))]
 public class AccountPage : MonoBehaviour
 {
+    private FirebaseAuth firebaseAuthenticator;
+
     PanelRenderer panelRenderer;
 
     VisualElement accountPage_VisualElement;
@@ -17,19 +19,24 @@ public class AccountPage : MonoBehaviour
     [System.NonSerialized] public VisualElement logOutPage_VisualElement;
     #endregion
 
+    private bool isUIReady = false;
 
 
     private void OnEnable()
     {
-        Account_SaveSystem.Load_Account();
+        firebaseAuthenticator = FirebaseAuth.DefaultInstance;
+        firebaseAuthenticator.StateChanged += AuthStateChanged;
 
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
     }
 
+
     private void OnDisable()
     {
         panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
+
+        firebaseAuthenticator.StateChanged -= AuthStateChanged;
     }
 
 
@@ -41,12 +48,18 @@ public class AccountPage : MonoBehaviour
         signUpPage_VisualElement = accountPage_VisualElement.Q<VisualElement>("SignUpPage_VisualElement");
         logOutPage_VisualElement = accountPage_VisualElement.Q<VisualElement>("LogOutPage_VisualElement");
 
-        InitializeUI();
+        isUIReady = true;
     }
 
-    private void InitializeUI()
+
+    private async void AuthStateChanged(object sender, System.EventArgs eventArgs)
     {
-        if (AccountData.currentUsername != "" && AccountData.currentPassword != "")
+        while (!isUIReady)
+        {
+            await Awaitable.WaitForSecondsAsync(0.1f);
+        }
+
+        if (firebaseAuthenticator.CurrentUser != null && firebaseAuthenticator.CurrentUser.IsValid())
         {
             SetPageActive(logOutPage_VisualElement);
             EventsManager.InvokeOnLoggedIn();

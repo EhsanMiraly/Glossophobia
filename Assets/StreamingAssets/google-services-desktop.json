@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "540413162181",
+    "project_id": "glossophobia",
+    "storage_bucket": "glossophobia.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540413162181:android:4e10f42d1ec9734deff6ac",
+        "android_client_info": {
+          "package_name": "com.glossophobia.ehsanmiraaly"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA62YPafH9pp0ZBFA9N3-2XVeDo-_Wpiw0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

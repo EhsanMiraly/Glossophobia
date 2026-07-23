@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Firebase.Auth;
+using Firebase.Extensions;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -132,19 +134,19 @@ public class LogInPage : MonoBehaviour
 
     private void OnLogInButtonSelected(ClickEvent clickEvent)
     {
-        //Change To Fire Base Later
-        if (enteredUsername != "" && enteredPassword != "")
-        {
-            if (enteredUsername == AccountData.currentUsername && enteredPassword == AccountData.currentPassword)
+        FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(enteredUsername, enteredPassword)
+            .ContinueWithOnMainThread(task =>
             {
+                if (task.IsCanceled || task.IsFaulted)
+                {
+                    problems_Label.text =
+                        LanguageTextsData.wrongUsernameOrPassword[SettingsData.currentLanguageIndex];
+                    return;
+                }
+
                 EventsManager.InvokeOnLoggedIn();
                 accountPage.SetPageActive(accountPage.logOutPage_VisualElement);
-            }
-            else
-            {
-                problems_Label.text = LanguageTextsData.wrongUsernameOrPassword[SettingsData.currentLanguageIndex];
-            }
-        }
+            });
     }
 
     #endregion
