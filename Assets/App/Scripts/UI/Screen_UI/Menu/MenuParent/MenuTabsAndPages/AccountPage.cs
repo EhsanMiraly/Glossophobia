@@ -6,8 +6,6 @@ using Firebase.Auth;
 [RequireComponent(typeof(LogInPage), typeof(SignUpPage), typeof(LogOutPage))]
 public class AccountPage : MonoBehaviour
 {
-    private FirebaseAuth firebaseAuthenticator;
-
     PanelRenderer panelRenderer;
 
     VisualElement accountPage_VisualElement;
@@ -24,19 +22,18 @@ public class AccountPage : MonoBehaviour
 
     private void OnEnable()
     {
-        firebaseAuthenticator = FirebaseAuth.DefaultInstance;
-        firebaseAuthenticator.StateChanged += AuthStateChanged;
-
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
+
+        ConnectEvents();
     }
 
 
     private void OnDisable()
     {
-        panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
+        DisconnectEvents();
 
-        firebaseAuthenticator.StateChanged -= AuthStateChanged;
+        panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
     }
 
 
@@ -52,23 +49,38 @@ public class AccountPage : MonoBehaviour
     }
 
 
-    private async void AuthStateChanged(object sender, System.EventArgs eventArgs)
+    #region Events Manager
+
+    private void ConnectEvents()
+    {
+        FirebaseAuth.DefaultInstance.StateChanged += OnAuthStateChanged;
+    }
+
+    private void DisconnectEvents()
+    {
+        FirebaseAuth.DefaultInstance.StateChanged -= OnAuthStateChanged;
+    }
+
+
+    private async void OnAuthStateChanged(object sender, System.EventArgs eventArgs)
     {
         while (!isUIReady)
         {
-            await Awaitable.WaitForSecondsAsync(0.1f);
+            await Awaitable.EndOfFrameAsync();
         }
 
-        if (firebaseAuthenticator.CurrentUser != null && firebaseAuthenticator.CurrentUser.IsValid())
+        if (FirebaseAuth.DefaultInstance.CurrentUser != null && FirebaseAuth.DefaultInstance.CurrentUser.IsValid())
         {
             SetPageActive(logOutPage_VisualElement);
             EventsManager.InvokeOnLoggedIn();
         }
         else
         {
-            SetPageActive(logInPage_VisualElement);
+            SetPageActive(signUpPage_VisualElement);
         }
     }
+
+    #endregion
 
 
     public void SetPageActive(VisualElement page)

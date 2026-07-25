@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
 using UnityEngine;
@@ -18,9 +19,9 @@ public class LogInPage : MonoBehaviour
 
     #region LogInPage Parts
     Label logIn_Label;
-    TextField username_TextField;
-    Label username_TextField_Label;
-    TextElement username_TextField_TextElement;
+    TextField email_TextField;
+    Label email_TextField_Label;
+    TextElement email_TextField_TextElement;
     TextField password_TextField;
     Label password_TextField_Label;
     TextElement password_TextField_TextElement;
@@ -33,7 +34,7 @@ public class LogInPage : MonoBehaviour
 
 
     #region TextFields
-    string enteredUsername = "";
+    string enteredEmail = "";
     string enteredPassword = "";
     #endregion
 
@@ -45,11 +46,16 @@ public class LogInPage : MonoBehaviour
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
         accountPage = GetComponent<AccountPage>();
+
+        ConnectEvents();
     }
 
     private void OnDisable()
     {
+        DisconnectEvents();
+
         RemoveFunctionality();
+
         panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
     }
 
@@ -60,9 +66,9 @@ public class LogInPage : MonoBehaviour
 
         logIn_Label = logInPage_VisualElement.Q<Label>("LogIn_Label");
 
-        username_TextField = logInPage_VisualElement.Q<TextField>("Username_TextField");
-        username_TextField_Label = (Label)username_TextField.Query<TextElement>().ToList()[0];
-        username_TextField_TextElement = username_TextField.Query<TextElement>().ToList()[1];
+        email_TextField = logInPage_VisualElement.Q<TextField>("Email_TextField");
+        email_TextField_Label = (Label)email_TextField.Query<TextElement>().ToList()[0];
+        email_TextField_TextElement = email_TextField.Query<TextElement>().ToList()[1];
 
         password_TextField = logInPage_VisualElement.Q<TextField>("Password_TextField");
         password_TextField_Label = (Label)password_TextField.Query<TextElement>().ToList()[0];
@@ -77,11 +83,6 @@ public class LogInPage : MonoBehaviour
         problems_Label = logInPage_VisualElement.Q<Label>("Problems_Label");
 
 
-        InitializeUI();
-    }
-
-    private void InitializeUI()
-    {
         AddFunctionality();
 
         OnLanguageChanged();
@@ -93,10 +94,7 @@ public class LogInPage : MonoBehaviour
 
     private void AddFunctionality()
     {
-        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
-
-        username_TextField.RegisterValueChangedCallback(OnUsernameValueChanged);
+        email_TextField.RegisterValueChangedCallback(OnEmailValueChanged);
         password_TextField.RegisterValueChangedCallback(OnPasswordValueChanged);
 
         goToSignUpButton_TemplateContainer.RegisterCallback<ClickEvent>(OnGoToSignUpButtonSelected);
@@ -105,20 +103,17 @@ public class LogInPage : MonoBehaviour
 
     private void RemoveFunctionality()
     {
-        username_TextField.UnregisterValueChangedCallback(OnUsernameValueChanged);
+        email_TextField.UnregisterValueChangedCallback(OnEmailValueChanged);
         password_TextField.UnregisterValueChangedCallback(OnPasswordValueChanged);
 
         goToSignUpButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnGoToSignUpButtonSelected);
         logInButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnLogInButtonSelected);
-
-        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
     }
 
 
-    private void OnUsernameValueChanged(ChangeEvent<string> changeEvent)
+    private void OnEmailValueChanged(ChangeEvent<string> changeEvent)
     {
-        enteredUsername = changeEvent.newValue;
+        enteredEmail = changeEvent.newValue;
     }
 
     private void OnPasswordValueChanged(ChangeEvent<string> changeEvent)
@@ -126,27 +121,74 @@ public class LogInPage : MonoBehaviour
         enteredPassword = changeEvent.newValue;
     }
 
-
     private void OnGoToSignUpButtonSelected(ClickEvent clickEvent)
     {
         accountPage.SetPageActive(accountPage.signUpPage_VisualElement);
     }
 
-    private void OnLogInButtonSelected(ClickEvent clickEvent)
+    private async void OnLogInButtonSelected(ClickEvent clickEvent)
     {
-        FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(enteredUsername, enteredPassword)
-            .ContinueWithOnMainThread(task =>
-            {
-                if (task.IsCanceled || task.IsFaulted)
-                {
-                    problems_Label.text =
-                        LanguageTextsData.wrongUsernameOrPassword[SettingsData.currentLanguageIndex];
-                    return;
-                }
+        logInButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnLogInButtonSelected);
 
-                EventsManager.InvokeOnLoggedIn();
-                accountPage.SetPageActive(accountPage.logOutPage_VisualElement);
-            });
+        try
+        {
+            await FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(enteredEmail, enteredPassword);
+
+            EventsManager.InvokeOnLoggedIn();
+            accountPage.SetPageActive(accountPage.logOutPage_VisualElement);
+        }
+        catch (Exception ex)
+        {
+            FirebaseException firebaseException = ex.GetBaseException() as FirebaseException;
+
+            if (firebaseException == null)
+            {
+                problems_Label.text = LanguageTextsData.wrongEmailOrPassword[SettingsData.currentLanguageIndex];
+                return;
+            }
+
+            AuthError error = (AuthError)firebaseException.ErrorCode;
+
+            switch (error)
+            {
+                case AuthError.UserNotFound:
+                    problems_Label.text =
+                        LanguageTextsData.wrongEmailOrPassword[SettingsData.currentLanguageIndex];
+                    break;
+
+                case AuthError.WrongPassword:
+                    problems_Label.text =
+                        LanguageTextsData.wrongEmailOrPassword[SettingsData.currentLanguageIndex];
+                    break;
+
+                case AuthError.InvalidEmail:
+                    problems_Label.text =
+                        LanguageTextsData.invalidEmail[SettingsData.currentLanguageIndex];
+                    break;
+
+                case AuthError.NetworkRequestFailed:
+                    problems_Label.text =
+                        LanguageTextsData.networkRequestFailed[SettingsData.currentLanguageIndex];
+                    break;
+
+                case AuthError.TooManyRequests:
+                    problems_Label.text =
+                        LanguageTextsData.tooManyRequests[SettingsData.currentLanguageIndex];
+                    break;
+
+                case AuthError.OperationNotAllowed:
+                    problems_Label.text =
+                        LanguageTextsData.operationNotAllowed[SettingsData.currentLanguageIndex];
+                    break;
+
+                default:
+                    problems_Label.text =
+                        LanguageTextsData.unknownError[SettingsData.currentLanguageIndex];
+                    break;
+            }
+        }
+
+        logInButton_TemplateContainer.RegisterCallback<ClickEvent>(OnLogInButtonSelected);
     }
 
     #endregion
@@ -155,6 +197,18 @@ public class LogInPage : MonoBehaviour
 
 
     #region Events Manager
+
+    private void ConnectEvents()
+    {
+        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
+    }
+
+    private void DisconnectEvents()
+    {
+        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
+    }
 
     private void OnLanguageChanged()
     {
@@ -166,19 +220,19 @@ public class LogInPage : MonoBehaviour
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
-        #region username_TextField_Label
-        username_TextField_Label.text = LanguageTextsData.enterUsername[SettingsData.currentLanguageIndex];
-        username_TextField_Label.languageDirection =
+        #region email_TextField_Label
+        email_TextField_Label.text = LanguageTextsData.enterEmail[SettingsData.currentLanguageIndex];
+        email_TextField_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
-        username_TextField_Label.style.unityFont =
+        email_TextField_Label.style.unityFont =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
-        #region username_TextField_TextElement
-        username_TextField_TextElement.text = "";
-        username_TextField_TextElement.languageDirection =
+        #region email_TextField_TextElement
+        email_TextField_TextElement.text = "";
+        email_TextField_TextElement.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
-        username_TextField_TextElement.style.unityFont =
+        email_TextField_TextElement.style.unityFont =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
@@ -231,13 +285,13 @@ public class LogInPage : MonoBehaviour
             LanguageTextsData.fontSize_CategoryBig[SettingsData.currentFontSizeIndex];
         #endregion
 
-        #region username_TextField_Label
-        username_TextField_Label.style.fontSize =
+        #region email_TextField_Label
+        email_TextField_Label.style.fontSize =
             LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
         #endregion
 
-        #region username_TextField_TextElement
-        username_TextField_TextElement.style.fontSize =
+        #region email_TextField_TextElement
+        email_TextField_TextElement.style.fontSize =
             LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
         #endregion
 
@@ -250,9 +304,6 @@ public class LogInPage : MonoBehaviour
         password_TextField_TextElement.style.fontSize =
             LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
         #endregion
-
-
-        //Texts in text fields
 
         #region goToSignUpButton_Label
         goToSignUpButton_Label.style.fontSize =

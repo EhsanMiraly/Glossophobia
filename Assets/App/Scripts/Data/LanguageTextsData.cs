@@ -63,32 +63,47 @@ public class LanguageTextsData
 
     #region AccountPage
     public static List<string> logIn = new List<string> { "Log in", "ورود به حساب کاربری" };
-    public static List<string> enterUsername = new List<string> { "Enter username", "نام کاربری را وارد کنید" };
+    public static List<string> enterEmail = new List<string> { "Enter email", "ایمیل را وارد کنید" };
     public static List<string> enterPassword = new List<string> { "Enter password", "رمز عبور را وارد کنید" };
     public static List<string> enterRepeatPassword = new List<string> {
         "Enter repeat password???", "تکرار رمز عبور را وارد کنید" };
 
-    public static List<string> wrongUsernameOrPassword = new List<string> {
-        "Wrong username or password", "نام کاربری یا رمز عبور اشتباه است" };
+    public static List<string> wrongEmailOrPassword = new List<string> {
+        "Wrong email or password.", "ایمیل یا رمز عبور اشتباه است." };
 
     public static List<string> signUpPage = new List<string> { "Sign up page", "صفحه ایجاد حساب کاربری" };
     public static List<string> logInPage = new List<string> { "Log in page", "صفحه ورود به حساب کاربری" };
 
     public static List<string> signUp = new List<string> { "Sign up", "ایجاد حساب کاربری" };
-    public static List<string> wrongCharacter = new List<string> { "Wrong character", "کاراکتر اشتباه" };
-    public static List<string> usernameLength = new List<string> {
-        "Username length must be 8 characters or more", "نام کاربری باید 8 کاراکتر یا بیشتر باشد" };
-    public static List<string> passwordLength = new List<string> {
-        "Password length must be 8 characters or more", "رمز عبور باید 8 کاراکتر یا بیشتر باشد" };
     public static List<string> passwordConfirmationPassword = new List<string> {
         "The password does not match the confirmation password", "رمز عبور با تکرار رمز عبور همخوانی ندارد" };
-    public static List<string> howTo = new List<string> { "Usable characters", "کاراکترهای قابل استفاده" };
 
     public static List<string> youAreSignedInAs = new List<string> {
         "You are signed in as", "شما با این عنوان وارد شده‌اید" };
 
     public static List<string> logOut = new List<string> {
         "Log out", "خروج از حساب کاربری" };
+
+    public static List<string> invalidEmail = new List<string> {
+        "Please enter a valid email address.", "لطفاً یک آدرس ایمیل معتبر وارد کنید." };
+    public static List<string> weakPassword = new List<string> {
+        "Your password is too weak. Please use a stronger password.",
+        "رمز عبور شما ضعیف است. لطفاً از رمز عبور قوی‌تری استفاده کنید." };
+    public static List<string> emailAlreadyInUse = new List<string> {
+        "This email address is already registered. Please use another email or log in.",
+        "این ایمیل قبلاً ثبت شده است. لطفاً از ایمیل دیگری استفاده کنید یا وارد شوید." };
+    public static List<string> networkRequestFailed = new List<string> {
+        "Unable to connect to the server. Please check your internet connection.",
+        "اتصال به سرور برقرار نشد. لطفاً اتصال اینترنت خود را بررسی کنید." };
+    public static List<string> tooManyRequests = new List<string> {
+        "Too many attempts. Please try again later.",
+        "تعداد درخواست‌ها بیش از حد مجاز است. لطفاً بعداً دوباره تلاش کنید." };
+    public static List<string> operationNotAllowed = new List<string> {
+        "This sign-in method is currently unavailable.",
+        "این روش ثبت‌نام در حال حاضر در دسترس نیست." };
+    public static List<string> unknownError = new List<string> {
+        "An unknown error occurred. Please try again.",
+        "یک خطای ناشناخته رخ داد. لطفاً دوباره تلاش کنید." };
 
     #endregion
 

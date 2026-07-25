@@ -16,7 +16,7 @@ public class LogOutPage : MonoBehaviour
 
     #region LogOutPage Parts
     Label youAreSignedInAs_Label;
-    Label username_Label;
+    Label email_Label;
     VisualElement logOutButton_TemplateContainer;
     Label logOutButton_Label;
     #endregion
@@ -26,20 +26,21 @@ public class LogOutPage : MonoBehaviour
 
     private void OnEnable()
     {
-        ConnectEvents();
-
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
         accountPage = GetComponent<AccountPage>();
+
+        ConnectEvents();
     }
 
     private void OnDisable()
     {
-        RemoveFunctionality();
-        panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
-
         DisconnectEvents();
+
+        RemoveFunctionality();
+
+        panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
     }
 
 
@@ -48,35 +49,18 @@ public class LogOutPage : MonoBehaviour
         logOutPage_VisualElement = root.Q<VisualElement>("LogOutPage_VisualElement");
 
         youAreSignedInAs_Label = logOutPage_VisualElement.Q<Label>("YouAreSignedInAs_Label");
-        username_Label = logOutPage_VisualElement.Q<Label>("Username_Label");
+        email_Label = logOutPage_VisualElement.Q<Label>("Email_Label");
         logOutButton_TemplateContainer = logOutPage_VisualElement.
             Q<VisualElement>("LogOutButton_TemplateContainer");
         logOutButton_Label = logOutButton_TemplateContainer.Q<Label>();
-        Fix_LogOutButton_Dimentions(logOutButton_TemplateContainer);
 
-        InitializeUI();
-    }
-
-    private void InitializeUI()
-    {
         isUIReady = true;
 
         AddFunctionality();
 
-        //OnLanguageChanged();
-        //OnFontSizeChanged();
+        OnLanguageChanged();
+        OnFontSizeChanged();
     }
-
-
-    #region UI Utilities
-
-    private void Fix_LogOutButton_Dimentions(VisualElement logOutButton)
-    {
-        logOutButton.style.width = Length.Percent(30);
-        logOutButton.style.height = Screen.width / 25f;
-    }
-
-    #endregion
 
 
     #region Functionality
@@ -97,12 +81,9 @@ public class LogOutPage : MonoBehaviour
         {
             FirebaseAuth.DefaultInstance.SignOut();
             EventsManager.InvokeOnLoggedOut();
-            accountPage.SetPageActive(accountPage.logInPage_VisualElement);
         }
-        else
-        {
-            Debug.Log("No user is currently logged in.");
-        }
+
+        accountPage.SetPageActive(accountPage.logInPage_VisualElement);
     }
 
     #endregion
@@ -137,11 +118,11 @@ public class LogOutPage : MonoBehaviour
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
-        #region username_Label
-        username_Label.text = FirebaseAuth.DefaultInstance.CurrentUser.Email;
-        username_Label.languageDirection =
+        #region email_Label
+        email_Label.text = "";
+        email_Label.languageDirection =
             LanguageTextsData.languages[0].languageDirection;
-        username_Label.style.unityFont =
+        email_Label.style.unityFont =
             LanguageTextsData.languages[0].font;
         #endregion
 
@@ -161,8 +142,8 @@ public class LogOutPage : MonoBehaviour
             LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
-        #region username_Label
-        username_Label.style.fontSize =
+        #region email_Label
+        email_Label.style.fontSize =
             LanguageTextsData.fontSize_CategoryBig[SettingsData.currentFontSizeIndex];
         #endregion
 
@@ -177,10 +158,10 @@ public class LogOutPage : MonoBehaviour
     {
         while (!isUIReady)
         {
-            await Awaitable.WaitForSecondsAsync(0.1f);
+            await Awaitable.EndOfFrameAsync();
         }
 
-        username_Label.text = FirebaseAuth.DefaultInstance.CurrentUser.Email;
+        email_Label.text = FirebaseAuth.DefaultInstance.CurrentUser.Email;
     }
 
     #endregion

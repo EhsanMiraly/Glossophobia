@@ -1,8 +1,375 @@
+using System;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.Events;
+using Firebase;
+using Firebase.Auth;
+
+
+public class AuthenticatorManager : MonoBehaviour
+{
+    private FirebaseAuth firebaseAuthenticator;
+
+
+    [Header("Log In Events")]
+    public UnityEvent logInFail_Event;
+    public UnityEvent logInSuccess_Event;
+
+
+    [Header("Sign Up Events")]
+    public UnityEvent signUpFail_Event;
+    public UnityEvent signUpSuccess_Event;
+    public UnityEvent signUpInvalidEmail_Event;
+    public UnityEvent signUpWeakPassword_Event;
+    public UnityEvent signUpEmailAlreadyInUse_Event;
+
+
+    [Header("Sign Out Events")]
+    public UnityEvent signOutSuccess_Event;
+
+
+    [Header("Reset Password Events")]
+    public UnityEvent resetPasswordFail_Event;
+    public UnityEvent userNotFound_Event;
+    public UnityEvent invalidEmail_Event;
+    public UnityEvent resetPasswordSuccess_Event;
+
+
+    [Header("Delete Account Events")]
+    public UnityEvent deleteAccountFail_Event;
+    public UnityEvent deleteAccountSuccess_Event;
+
+
+    [Header("Send Email Verification Events")]
+    public UnityEvent sendEmailVerificationFail_Event;
+    public UnityEvent sendEmailVerificationSuccess_Event;
+
+
+
+    private void Awake()
+    {
+        firebaseAuthenticator = FirebaseAuth.DefaultInstance;
+    }
+
+
+    private void OnEnable()
+    {
+        if (firebaseAuthenticator != null)
+            firebaseAuthenticator.StateChanged += AuthStateChanged;
+    }
+
+
+    private void OnDisable()
+    {
+        if (firebaseAuthenticator != null)
+            firebaseAuthenticator.StateChanged -= AuthStateChanged;
+    }
+
+
+
+    private void AuthStateChanged(object sender, EventArgs eventArgs)
+    {
+        FirebaseUser user = firebaseAuthenticator.CurrentUser;
+
+
+        if (user != null && user.IsValid())
+        {
+            Debug.Log($"User logged in : {user.Email}");
+        }
+        else
+        {
+            Debug.Log("No user logged in.");
+        }
+    }
+
+
+
+    // ==========================
+    // LOGIN
+    // ==========================
+
+    public async Task LogIn_WithEmail(string email, string password)
+    {
+        try
+        {
+            await FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(email, password);
+
+            EventsManager.InvokeOnLoggedIn();
+        }
+        catch (Exception ex)
+        {
+            FirebaseException firebaseException = ex.GetBaseException() as FirebaseException;
+
+            if (firebaseException == null)
+            {
+                //wrongEmailOrPassword
+                return;
+            }
+
+            AuthError error = (AuthError)firebaseException.ErrorCode;
+
+            switch (error)
+            {
+                case AuthError.UserNotFound:
+                    break;
+
+                case AuthError.WrongPassword:
+                    break;
+
+                case AuthError.InvalidEmail:
+                    break;
+
+                case AuthError.NetworkRequestFailed:
+                    break;
+
+                case AuthError.TooManyRequests:
+                    break;
+
+                case AuthError.OperationNotAllowed:
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+
+
+    // ==========================
+    // SIGN UP
+    // ==========================
+
+    public async Task SignUp_WithEmail(string email, string password)
+    {
+        try
+        {
+            await FirebaseAuth.DefaultInstance.CreateUserWithEmailAndPasswordAsync(email, password);
+
+            EventsManager.InvokeOnLoggedIn();
+        }
+        catch (Exception ex)
+        {
+            FirebaseException firebaseException = ex.GetBaseException() as FirebaseException;
+
+            if (firebaseException == null)
+            {
+                return;
+            }
+
+            AuthError error = (AuthError)firebaseException.ErrorCode;
+
+            switch (error)
+            {
+                case AuthError.InvalidEmail:
+                    break;
+
+                case AuthError.WeakPassword:
+                    break;
+                case AuthError.EmailAlreadyInUse:
+                    break;
+
+                case AuthError.NetworkRequestFailed:
+                    break;
+
+                case AuthError.TooManyRequests:
+                    break;
+
+                case AuthError.OperationNotAllowed:
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+
+
+    // ==========================
+    // SIGN OUT
+    // ==========================
+
+    public void SignOut()
+    {
+        if (FirebaseAuth.DefaultInstance.CurrentUser != null)
+        {
+            FirebaseAuth.DefaultInstance.SignOut();
+            EventsManager.InvokeOnLoggedOut();
+        }
+        //Else do else
+    }
+
+
+
+
+    // ==========================
+    // DELETE ACCOUNT
+    // ==========================
+
+    public async Task DeleteAccount(string email, string password)
+    {
+        try
+        {
+            FirebaseUser user = firebaseAuthenticator.CurrentUser;
+
+
+            if (user == null)
+            {
+                deleteAccountFail_Event?.Invoke();
+                return;
+            }
+
+
+
+            Credential credential =
+                EmailAuthProvider.GetCredential(email, password);
+
+
+
+            await user.ReauthenticateAsync(credential);
+
+
+
+            await user.DeleteAsync();
+
+
+
+            deleteAccountSuccess_Event?.Invoke();
+        }
+        catch (Exception ex)
+        {
+            deleteAccountFail_Event?.Invoke();
+
+            LogFirebaseException(ex);
+        }
+    }
+
+
+
+
+    // ==========================
+    // EMAIL VERIFICATION
+    // ==========================
+
+    public async Task SendEmailVerification()
+    {
+        try
+        {
+            FirebaseUser user = firebaseAuthenticator.CurrentUser;
+
+
+            if (user == null)
+            {
+                sendEmailVerificationFail_Event?.Invoke();
+                return;
+            }
+
+
+
+            await user.SendEmailVerificationAsync();
+
+
+
+            sendEmailVerificationSuccess_Event?.Invoke();
+        }
+        catch (Exception ex)
+        {
+            sendEmailVerificationFail_Event?.Invoke();
+
+            LogFirebaseException(ex);
+        }
+    }
+
+
+
+
+    // ==========================
+    // RESET PASSWORD
+    // ==========================
+
+    public async Task ResetPassword(string email)
+    {
+        try
+        {
+            await firebaseAuthenticator.SendPasswordResetEmailAsync(email);
+
+
+            resetPasswordSuccess_Event?.Invoke();
+        }
+        catch (Exception ex)
+        {
+            resetPasswordFail_Event?.Invoke();
+
+
+            AuthError? error = GetAuthError(ex);
+
+
+            switch (error)
+            {
+                case AuthError.UserNotFound:
+                    userNotFound_Event?.Invoke();
+                    break;
+
+
+                case AuthError.InvalidEmail:
+                    invalidEmail_Event?.Invoke();
+                    break;
+            }
+
+
+            LogFirebaseException(ex);
+        }
+    }
+
+
+
+
+    // ==========================
+    // ERROR HANDLING
+    // ==========================
+
+
+    private AuthError? GetAuthError(Exception ex)
+    {
+        FirebaseException firebaseException =
+            ex.GetBaseException() as FirebaseException;
+
+
+        if (firebaseException == null)
+            return null;
+
+
+        return (AuthError)firebaseException.ErrorCode;
+    }
+
+
+
+    private void LogFirebaseException(Exception ex)
+    {
+        Debug.LogException(ex);
+
+
+        AuthError? error = GetAuthError(ex);
+
+
+        if (error.HasValue)
+        {
+            Debug.Log($"Firebase Auth Error : {error.Value}");
+        }
+    }
+}
+
+
+
+
+/*
 using UnityEngine;
 using Firebase.Auth;
 using Firebase.Extensions;
 using UnityEngine.Events;
 using Firebase;
+using System.Threading.Tasks;
 
 public class AuthenticatorManager : MonoBehaviour
 {
@@ -73,6 +440,7 @@ public class AuthenticatorManager : MonoBehaviour
 
     public void LogIn_WithEmail(string email, string password)
     {
+        //1
         firebaseAuthenticator.SignInWithEmailAndPasswordAsync(email, password)
             .ContinueWithOnMainThread(task =>
             {
@@ -84,6 +452,16 @@ public class AuthenticatorManager : MonoBehaviour
 
                 logInSuccess_Event?.Invoke();
             });
+
+        //2
+        Task task = firebaseAuthenticator.SignInWithEmailAndPasswordAsync(email, password);
+        if (task.IsCanceled || task.IsFaulted)
+        {
+            logInFail_Event?.Invoke();
+            return;
+        }
+
+        logInSuccess_Event?.Invoke();
     }
 
     public void SignUp_WithEmail(string email, string password)
@@ -237,3 +615,4 @@ public class AuthenticatorManager : MonoBehaviour
 
 
 }
+*/
