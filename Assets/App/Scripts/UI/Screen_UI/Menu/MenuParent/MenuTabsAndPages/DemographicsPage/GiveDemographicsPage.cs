@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,20 +13,21 @@ public class GiveDemographicsPage : MonoBehaviour
 
 
     #region Gender
-    VisualElement gender_PreviousNextSelector_TemplateContainer;
-    VisualElement gender_ChevronLeft_TemplateContainer;
-    Label gender_Text_Label;
-    VisualElement gender_ChevronRight_TemplateContainer;
+    VisualElement gender_SingleSelection_TemplateContainer;
+    Label gender_WhatAmI_Label;
+
+    List<VisualElement> gender_OptionsLabels;
+    List<VisualElement> gender_OptionsCheckMarks;
     #endregion
 
+    #region AgeGroup
+    VisualElement ageGroup_SingleSelection_TemplateContainer;
+    Label ageGroup_WhatAmI_Label;
 
-    #region Age
-    VisualElement age_LabeledSliderInt_TemplateContainer;
-    Label age_Text_Label;
-    VisualElement age_MinusButton_TemplateContainer;
-    VisualElement age_InvisibleForeground_VisualElement;
-    VisualElement age_PlusButton_TemplateContainer;
+    List<VisualElement> ageGroup_OptionsLabels;
+    List<VisualElement> ageGroup_OptionsCheckMarks;
     #endregion
+
 
     #region EducationLevel
     VisualElement educationLevel_SingleSelection_TemplateContainer;
@@ -140,32 +142,35 @@ public class GiveDemographicsPage : MonoBehaviour
             giveDemographicsPage_VisualElement.Q<ScrollView>("GiveDemographics_ScrollView");
         UI_Utilities.Initialize_ScrollView(giveDemographics_ScrollView);
 
+
         #region Gender
-        gender_PreviousNextSelector_TemplateContainer = giveDemographics_ScrollView.
-            Q<VisualElement>("Gender_PreviousNextSelector_TemplateContainer");
-        gender_ChevronLeft_TemplateContainer = gender_PreviousNextSelector_TemplateContainer.
-            Q<VisualElement>("ChevronLeft_TemplateContainer");
-        gender_Text_Label = gender_PreviousNextSelector_TemplateContainer.Q<Label>("Text_Label");
-        gender_ChevronRight_TemplateContainer = gender_PreviousNextSelector_TemplateContainer.
-            Q<VisualElement>("ChevronRight_TemplateContainer");
-        UI_Utilities.Fix_PreviousNextSelector_Dimentions(gender_PreviousNextSelector_TemplateContainer);
+        gender_SingleSelection_TemplateContainer =
+            giveDemographics_ScrollView.Q<VisualElement>("Gender_SingleSelection_TemplateContainer");
+        gender_WhatAmI_Label = gender_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
+
+        gender_OptionsLabels = new List<VisualElement>();
+        gender_OptionsCheckMarks = new List<VisualElement>();
+
+        UI_Utilities.Fix_SingleSelection_Dimentions(gender_SingleSelection_TemplateContainer,
+            LanguageTextsData.genderList.Count);
+        UI_Utilities.Fill_SingleSelection(gender_SingleSelection_TemplateContainer,
+            LanguageTextsData.genderList, gender_OptionsLabels, gender_OptionsCheckMarks);
         #endregion
 
-        #region Age
-        age_LabeledSliderInt_TemplateContainer = giveDemographics_ScrollView.
-            Q<VisualElement>("Age_LabeledSliderInt_TemplateContainer");
-        age_Text_Label = age_LabeledSliderInt_TemplateContainer.
-            Q<Label>("Text_Label");
-        age_MinusButton_TemplateContainer = age_LabeledSliderInt_TemplateContainer.
-            Q<VisualElement>("MinusButton_TemplateContainer");
-        age_InvisibleForeground_VisualElement = age_LabeledSliderInt_TemplateContainer.
-            Q<VisualElement>("InvisibleForeground_VisualElement");
-        age_InvisibleForeground_VisualElement.style.width =
-            Length.Percent(DemographicsData.currentAge);
-        age_PlusButton_TemplateContainer = age_LabeledSliderInt_TemplateContainer.
-            Q<VisualElement>("PlusButton_TemplateContainer");
-        UI_Utilities.Fix_LabeledSliderInt_Dimentions(age_LabeledSliderInt_TemplateContainer);
+        #region AgeGroup
+        ageGroup_SingleSelection_TemplateContainer =
+            giveDemographics_ScrollView.Q<VisualElement>("AgeGroup_SingleSelection_TemplateContainer");
+        ageGroup_WhatAmI_Label = ageGroup_SingleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
+
+        ageGroup_OptionsLabels = new List<VisualElement>();
+        ageGroup_OptionsCheckMarks = new List<VisualElement>();
+
+        UI_Utilities.Fix_SingleSelection_Dimentions(ageGroup_SingleSelection_TemplateContainer,
+            LanguageTextsData.ageGroupList.Count);
+        UI_Utilities.Fill_SingleSelection(ageGroup_SingleSelection_TemplateContainer,
+            LanguageTextsData.ageGroupList, ageGroup_OptionsLabels, ageGroup_OptionsCheckMarks);
         #endregion
+
 
         #region EducationLevel
         educationLevel_SingleSelection_TemplateContainer =
@@ -346,12 +351,16 @@ public class GiveDemographicsPage : MonoBehaviour
     private void AddFunctionality()
     {
         //Gender
-        gender_ChevronLeft_TemplateContainer.RegisterCallback<ClickEvent>(OnGender_ChevronLeftSelected);
-        gender_ChevronRight_TemplateContainer.RegisterCallback<ClickEvent>(OnGender_ChevronRightSelected);
+        for (int i = 0; i < gender_OptionsCheckMarks.Count; i++)
+        {
+            gender_OptionsCheckMarks[i].RegisterCallback<ClickEvent>(OnGenderSelected);
+        }
 
-        //Age
-        age_MinusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnAge_MinusButtonSelected);
-        age_PlusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnAge_PlusButtonSelected);
+        //AgeGroup
+        for (int i = 0; i < ageGroup_OptionsCheckMarks.Count; i++)
+        {
+            ageGroup_OptionsCheckMarks[i].RegisterCallback<ClickEvent>(OnAgeGroupSelected);
+        }
 
         //EducationLevel
         for (int i = 0; i < educationLevel_OptionsCheckMarks.Count; i++)
@@ -420,12 +429,16 @@ public class GiveDemographicsPage : MonoBehaviour
     private void RemoveFunctionality()
     {
         //Gender
-        gender_ChevronLeft_TemplateContainer.UnregisterCallback<ClickEvent>(OnGender_ChevronLeftSelected);
-        gender_ChevronRight_TemplateContainer.UnregisterCallback<ClickEvent>(OnGender_ChevronRightSelected);
+        for (int i = 0; i < gender_OptionsCheckMarks.Count; i++)
+        {
+            gender_OptionsCheckMarks[i].UnregisterCallback<ClickEvent>(OnGenderSelected);
+        }
 
-        //Age
-        age_MinusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnAge_MinusButtonSelected);
-        age_PlusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnAge_PlusButtonSelected);
+        //AgeGroup
+        for (int i = 0; i < ageGroup_OptionsCheckMarks.Count; i++)
+        {
+            ageGroup_OptionsCheckMarks[i].UnregisterCallback<ClickEvent>(OnAgeGroupSelected);
+        }
 
         //EducationLevel
         for (int i = 0; i < educationLevel_OptionsCheckMarks.Count; i++)
@@ -491,74 +504,35 @@ public class GiveDemographicsPage : MonoBehaviour
         saveButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnSaveButtonSelcted);
     }
 
+
     #region Gender
-    private void OnGender_ChevronLeftSelected(ClickEvent clickEvent)
+    private void OnGenderSelected(ClickEvent clickEvent)
     {
-        DemographicsData.currentGenderIndex--;
-        if (DemographicsData.currentGenderIndex < 0)
+        for (int i = 0; i < gender_OptionsCheckMarks.Count; i++)
         {
-            DemographicsData.currentGenderIndex = LanguageTextsData.genderList.Count - 1;
+            gender_OptionsCheckMarks[i].Q<VisualElement>("Foreground_VisualElement")
+                .style.display = DisplayStyle.None;
         }
-        gender_Text_Label.text = LanguageTextsData.genderList[DemographicsData.currentGenderIndex]
-            .ListString[SettingsData.currentLanguageIndex];
-    }
-
-    private void OnGender_ChevronRightSelected(ClickEvent clickEvent)
-    {
-        DemographicsData.currentGenderIndex++;
-        if (DemographicsData.currentGenderIndex >= LanguageTextsData.genderList.Count)
-        {
-            DemographicsData.currentGenderIndex = 0;
-        }
-        gender_Text_Label.text = LanguageTextsData.genderList[DemographicsData.currentGenderIndex]
-            .ListString[SettingsData.currentLanguageIndex];
+        VisualElement visualElement = clickEvent.currentTarget as VisualElement;
+        visualElement.Q<VisualElement>("Foreground_VisualElement")
+            .style.display = DisplayStyle.Flex;
+        demographicsPage.demographics.genderIndex = int.Parse(visualElement.name);
     }
     #endregion
 
-    #region Age
 
-    private void OnAge_MinusButtonSelected(ClickEvent clickEvent)
+    #region AgeGroup
+    private void OnAgeGroupSelected(ClickEvent clickEvent)
     {
-        DemographicsData.currentAge -= 1;
-        if (DemographicsData.currentAge < 1)
+        for (int i = 0; i < ageGroup_OptionsCheckMarks.Count; i++)
         {
-            DemographicsData.currentAge = 1;
+            ageGroup_OptionsCheckMarks[i].Q<VisualElement>("Foreground_VisualElement")
+                .style.display = DisplayStyle.None;
         }
-        age_Text_Label.text = LanguageTextsData.age[SettingsData.currentLanguageIndex] +
-            DemographicsData.currentAge;
-        age_InvisibleForeground_VisualElement.style.width =
-            Length.Percent(DemographicsData.currentAge);
-    }
-
-    private void OnAge_PlusButtonSelected(ClickEvent clickEvent)
-    {
-        DemographicsData.currentAge += 1;
-        if (DemographicsData.currentAge > 100)
-        {
-            DemographicsData.currentAge = 100;
-        }
-        age_Text_Label.text = LanguageTextsData.age[SettingsData.currentLanguageIndex] +
-            DemographicsData.currentAge;
-        age_InvisibleForeground_VisualElement.style.width =
-            Length.Percent(DemographicsData.currentAge);
-    }
-
-    #endregion
-
-    #region SaveButton
-    private void OnSaveButtonSelcted(ClickEvent clickEvent)
-    {
-        if (DemographicsData.IsEveryThingSet())
-        {
-            EventsManager.InvokeOnSetDemographics();
-            Demographics_SaveSystem.Save_Demographics();
-            demographicsPage.SetPageActive(demographicsPage.changeDemographicsPage_VisualElement);
-        }
-        else
-        {
-            AnswerEveryThingWindow_PopUp answerEveryThingWindow_PopUp =
-                new AnswerEveryThingWindow_PopUp(new GameObject());
-        }
+        VisualElement visualElement = clickEvent.currentTarget as VisualElement;
+        visualElement.Q<VisualElement>("Foreground_VisualElement")
+            .style.display = DisplayStyle.Flex;
+        demographicsPage.demographics.ageGroupIndex = int.Parse(visualElement.name);
     }
     #endregion
 
@@ -573,7 +547,7 @@ public class GiveDemographicsPage : MonoBehaviour
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
         visualElement.Q<VisualElement>("Foreground_VisualElement")
             .style.display = DisplayStyle.Flex;
-        DemographicsData.currentEducationLevelIndex = int.Parse(visualElement.name);
+        demographicsPage.demographics.educationLevelIndex = int.Parse(visualElement.name);
     }
     #endregion
 
@@ -589,7 +563,7 @@ public class GiveDemographicsPage : MonoBehaviour
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
         visualElement.Q<VisualElement>("Foreground_VisualElement")
             .style.display = DisplayStyle.Flex;
-        DemographicsData.currentFieldOfStudyIndex = int.Parse(visualElement.name);
+        demographicsPage.demographics.fieldOfStudyIndex = int.Parse(visualElement.name);
     }
     #endregion
 
@@ -604,7 +578,7 @@ public class GiveDemographicsPage : MonoBehaviour
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
         visualElement.Q<VisualElement>("Foreground_VisualElement")
             .style.display = DisplayStyle.Flex;
-        DemographicsData.currentJobIndex = int.Parse(visualElement.name);
+        demographicsPage.demographics.jobIndex = int.Parse(visualElement.name);
     }
     #endregion
 
@@ -619,7 +593,7 @@ public class GiveDemographicsPage : MonoBehaviour
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
         visualElement.Q<VisualElement>("Foreground_VisualElement")
             .style.display = DisplayStyle.Flex;
-        DemographicsData.currentLevelOfExperienceIndex = int.Parse(visualElement.name);
+        demographicsPage.demographics.levelOfExperienceIndex = int.Parse(visualElement.name);
     }
     #endregion
 
@@ -634,7 +608,7 @@ public class GiveDemographicsPage : MonoBehaviour
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
         visualElement.Q<VisualElement>("Foreground_VisualElement")
             .style.display = DisplayStyle.Flex;
-        DemographicsData.currentLevelOfNeedIndex = int.Parse(visualElement.name);
+        demographicsPage.demographics.levelOfNeedIndex = int.Parse(visualElement.name);
     }
     #endregion
 
@@ -649,7 +623,7 @@ public class GiveDemographicsPage : MonoBehaviour
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
         visualElement.Q<VisualElement>("Foreground_VisualElement")
             .style.display = DisplayStyle.Flex;
-        DemographicsData.currentLevelOfAnxietyIndex = int.Parse(visualElement.name);
+        demographicsPage.demographics.levelOfAnxietyIndex = int.Parse(visualElement.name);
     }
     #endregion
 
@@ -664,7 +638,7 @@ public class GiveDemographicsPage : MonoBehaviour
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
         visualElement.Q<VisualElement>("Foreground_VisualElement")
             .style.display = DisplayStyle.Flex;
-        DemographicsData.currentFormalTrainingIndex = int.Parse(visualElement.name);
+        demographicsPage.demographics.formalTrainingIndex = int.Parse(visualElement.name);
     }
     #endregion
 
@@ -679,7 +653,7 @@ public class GiveDemographicsPage : MonoBehaviour
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
         visualElement.Q<VisualElement>("Foreground_VisualElement")
             .style.display = DisplayStyle.Flex;
-        DemographicsData.currentTakingMedicationIndex = int.Parse(visualElement.name);
+        demographicsPage.demographics.takingMedicationIndex = int.Parse(visualElement.name);
     }
     #endregion
 
@@ -694,7 +668,7 @@ public class GiveDemographicsPage : MonoBehaviour
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
         visualElement.Q<VisualElement>("Foreground_VisualElement")
             .style.display = DisplayStyle.Flex;
-        DemographicsData.currentGames3DIndex = int.Parse(visualElement.name);
+        demographicsPage.demographics.games3DIndex = int.Parse(visualElement.name);
     }
     #endregion
 
@@ -709,10 +683,26 @@ public class GiveDemographicsPage : MonoBehaviour
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
         visualElement.Q<VisualElement>("Foreground_VisualElement")
             .style.display = DisplayStyle.Flex;
-        DemographicsData.currentSimulationGamesIndex = int.Parse(visualElement.name);
+        demographicsPage.demographics.simulationGamesIndex = int.Parse(visualElement.name);
     }
     #endregion
 
+    #region SaveButton
+    private async void OnSaveButtonSelcted(ClickEvent clickEvent)
+    {
+        if (demographicsPage.demographics.IsEveryThingSet())
+        {
+            EventsManager.InvokeOnSetDemographics();
+            await FireStoreManager.SaveDemographics(demographicsPage.demographics);
+            demographicsPage.SetPageActive(demographicsPage.changeDemographicsPage_VisualElement);
+        }
+        else
+        {
+            AnswerEveryThingWindow_PopUp answerEveryThingWindow_PopUp =
+                new AnswerEveryThingWindow_PopUp(new GameObject());
+        }
+    }
+    #endregion
 
     #endregion
 
@@ -722,23 +712,44 @@ public class GiveDemographicsPage : MonoBehaviour
 
     private void OnLanguageChanged()
     {
-        #region gender_Text_Label
-        gender_Text_Label.text = LanguageTextsData.genderList[DemographicsData.currentGenderIndex]
-            .ListString[SettingsData.currentLanguageIndex];
-        gender_Text_Label.languageDirection =
+        #region Gender
+        gender_WhatAmI_Label.text = LanguageTextsData.gender[SettingsData.currentLanguageIndex];
+        gender_WhatAmI_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
-        gender_Text_Label.style.unityFont =
+        gender_WhatAmI_Label.style.unityFont =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+
+        for (int i = 0; i < gender_OptionsLabels.Count; i++)
+        {
+            Label label = gender_OptionsLabels[i].Q<Label>();
+
+            label.text = LanguageTextsData.genderList[i].ListString[SettingsData.currentLanguageIndex];
+            label.languageDirection =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+            label.style.unityFont =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        }
         #endregion
 
-        #region age_Text_Label
-        age_Text_Label.text = age_Text_Label.text = LanguageTextsData.age[SettingsData.currentLanguageIndex] +
-            DemographicsData.currentAge;
-        age_Text_Label.languageDirection =
+        #region AgeGroup
+        ageGroup_WhatAmI_Label.text = LanguageTextsData.ageGroup[SettingsData.currentLanguageIndex];
+        ageGroup_WhatAmI_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
-        age_Text_Label.style.unityFont =
+        ageGroup_WhatAmI_Label.style.unityFont =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+
+        for (int i = 0; i < ageGroup_OptionsLabels.Count; i++)
+        {
+            Label label = ageGroup_OptionsLabels[i].Q<Label>();
+
+            label.text = LanguageTextsData.ageGroupList[i].ListString[SettingsData.currentLanguageIndex];
+            label.languageDirection =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+            label.style.unityFont =
+                LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        }
         #endregion
+
 
         #region EducationLevel
         educationLevel_WhatAmI_Label.text = LanguageTextsData.educationLevel[SettingsData.currentLanguageIndex];
@@ -943,14 +954,30 @@ public class GiveDemographicsPage : MonoBehaviour
 
     private void OnFontSizeChanged()
     {
-        #region gender_Text_Label
-        gender_Text_Label.style.fontSize =
+        #region Gender
+        gender_WhatAmI_Label.style.fontSize =
             LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+
+        for (int i = 0; i < gender_OptionsLabels.Count; i++)
+        {
+            Label label = gender_OptionsLabels[i].Q<Label>();
+
+            label.style.fontSize =
+                LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        }
         #endregion
 
-        #region age_Text_Label
-        age_Text_Label.style.fontSize =
+        #region AgeGroup
+        ageGroup_WhatAmI_Label.style.fontSize =
             LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+
+        for (int i = 0; i < ageGroup_OptionsLabels.Count; i++)
+        {
+            Label label = ageGroup_OptionsLabels[i].Q<Label>();
+
+            label.style.fontSize =
+                LanguageTextsData.fontSize_CategorySmall[SettingsData.currentFontSizeIndex];
+        }
         #endregion
 
         #region EducationLevel

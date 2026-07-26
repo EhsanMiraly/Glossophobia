@@ -116,12 +116,22 @@ public class LanguageTextsData
     public static List<string> gender = new List<string> { "Gender", "جنسیت" };
     public static List<TwoStrings> genderList = new List<TwoStrings>
     {
-        new TwoStrings("Gender: Male","جنسیت: مرد"),
-        new TwoStrings("Gender: Female","جنسیت: زن"),
-        new TwoStrings("Gender: Other","جنسیت: سایر")
+        new TwoStrings("Male","مرد"),
+        new TwoStrings("Female","زن"),
+        new TwoStrings("Other","سایر")
     };
 
-    public static List<string> age = new List<string> { "Age: ", "سن: " };
+    public static List<string> ageGroup = new List<string> { "Age group", "گروه سنی" };
+    public static List<TwoStrings> ageGroupList = new List<TwoStrings>
+    {
+        new TwoStrings("Child _ Under 12 years","کودک _ کمتر از ۱۲ سال"),
+        new TwoStrings("Adolescent _ 12–17 years","نوجوان _ ۱۲ تا ۱۷ سال"),
+        new TwoStrings("Young Adult _ 18–25 years","جوان _ ۱۸ تا ۲۵ سال"),
+        new TwoStrings("Early Adulthood _ 26–35 years","بزرگسالی اولیه _ ۲۶ تا ۳۵ سال"),
+        new TwoStrings("Middle Adulthood _ 36–55 years","بزرگسالی میانی _ ۳۶ تا ۵۵ سال"),
+        new TwoStrings("Older Adult _ 56–65 years","بزرگسال مسن _ ۵۶ تا ۶۵ سال"),
+        new TwoStrings("Elderly / Older Adult _ Above 65 years","سالمند _ بالاتر از ۶۵ سال")
+    };
 
     public static List<string> educationLevel = new List<string> { "Education level", "سطح تحصیلات" };
     public static List<TwoStrings> educationLevelList = new List<TwoStrings>()

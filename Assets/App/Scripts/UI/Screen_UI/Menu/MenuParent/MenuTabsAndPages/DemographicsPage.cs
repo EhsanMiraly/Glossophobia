@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -5,6 +6,8 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(GiveDemographicsPage), typeof(ChangeDemographicsPage))]
 public class DemographicsPage : MonoBehaviour
 {
+    public Demographics demographics = new Demographics();
+
     PanelRenderer panelRenderer;
 
     VisualElement demographicsPage_VisualElement;
@@ -74,12 +77,12 @@ public class DemographicsPage : MonoBehaviour
     {
         while (!isUIReady)
         {
-            await Awaitable.WaitForSecondsAsync(0.1f);
+            await Awaitable.EndOfFrameAsync();
         }
 
-        Demographics_SaveSystem.Load_Demographics();
+        demographics = await FireStoreManager.LoadDemographics();
 
-        if (DemographicsData.IsEveryThingSet())
+        if (demographics.IsEveryThingSet())
         {
             SetPageActive(changeDemographicsPage_VisualElement);
             EventsManager.InvokeOnSetDemographics();
