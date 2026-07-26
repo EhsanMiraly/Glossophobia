@@ -1,5 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
+using Firebase;
+using Firebase.Auth;
+using Firebase.Firestore;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -505,7 +510,7 @@ public class GiveDemographicsPage : MonoBehaviour
     }
 
 
-    #region Gender
+
     private void OnGenderSelected(ClickEvent clickEvent)
     {
         for (int i = 0; i < gender_OptionsCheckMarks.Count; i++)
@@ -518,10 +523,8 @@ public class GiveDemographicsPage : MonoBehaviour
             .style.display = DisplayStyle.Flex;
         demographicsPage.demographics.genderIndex = int.Parse(visualElement.name);
     }
-    #endregion
 
 
-    #region AgeGroup
     private void OnAgeGroupSelected(ClickEvent clickEvent)
     {
         for (int i = 0; i < ageGroup_OptionsCheckMarks.Count; i++)
@@ -534,9 +537,8 @@ public class GiveDemographicsPage : MonoBehaviour
             .style.display = DisplayStyle.Flex;
         demographicsPage.demographics.ageGroupIndex = int.Parse(visualElement.name);
     }
-    #endregion
 
-    #region EducationLevel
+
     private void OnEducationLevelSelected(ClickEvent clickEvent)
     {
         for (int i = 0; i < educationLevel_OptionsCheckMarks.Count; i++)
@@ -549,10 +551,8 @@ public class GiveDemographicsPage : MonoBehaviour
             .style.display = DisplayStyle.Flex;
         demographicsPage.demographics.educationLevelIndex = int.Parse(visualElement.name);
     }
-    #endregion
 
 
-    #region FieldOfStudy
     private void OnFieldOfStudySelected(ClickEvent clickEvent)
     {
         for (int i = 0; i < fieldOfStudy_OptionsCheckMarks.Count; i++)
@@ -565,9 +565,8 @@ public class GiveDemographicsPage : MonoBehaviour
             .style.display = DisplayStyle.Flex;
         demographicsPage.demographics.fieldOfStudyIndex = int.Parse(visualElement.name);
     }
-    #endregion
 
-    #region Job
+
     private void OnJobSelected(ClickEvent clickEvent)
     {
         for (int i = 0; i < job_OptionsCheckMarks.Count; i++)
@@ -580,9 +579,8 @@ public class GiveDemographicsPage : MonoBehaviour
             .style.display = DisplayStyle.Flex;
         demographicsPage.demographics.jobIndex = int.Parse(visualElement.name);
     }
-    #endregion
 
-    #region LevelOfExperience
+
     private void OnLevelOfExperienceSelected(ClickEvent clickEvent)
     {
         for (int i = 0; i < levelOfExperience_OptionsCheckMarks.Count; i++)
@@ -595,9 +593,8 @@ public class GiveDemographicsPage : MonoBehaviour
             .style.display = DisplayStyle.Flex;
         demographicsPage.demographics.levelOfExperienceIndex = int.Parse(visualElement.name);
     }
-    #endregion
 
-    #region LevelOfNeed
+
     private void OnLevelOfNeedSelected(ClickEvent clickEvent)
     {
         for (int i = 0; i < levelOfNeed_OptionsCheckMarks.Count; i++)
@@ -610,9 +607,8 @@ public class GiveDemographicsPage : MonoBehaviour
             .style.display = DisplayStyle.Flex;
         demographicsPage.demographics.levelOfNeedIndex = int.Parse(visualElement.name);
     }
-    #endregion
 
-    #region LevelOfAnxiety
+
     private void OnLevelOfAnxietySelected(ClickEvent clickEvent)
     {
         for (int i = 0; i < levelOfAnxiety_OptionsCheckMarks.Count; i++)
@@ -625,9 +621,8 @@ public class GiveDemographicsPage : MonoBehaviour
             .style.display = DisplayStyle.Flex;
         demographicsPage.demographics.levelOfAnxietyIndex = int.Parse(visualElement.name);
     }
-    #endregion
 
-    #region FormalTraining
+
     private void OnFormalTrainingSelected(ClickEvent clickEvent)
     {
         for (int i = 0; i < formalTraining_OptionsCheckMarks.Count; i++)
@@ -640,9 +635,8 @@ public class GiveDemographicsPage : MonoBehaviour
             .style.display = DisplayStyle.Flex;
         demographicsPage.demographics.formalTrainingIndex = int.Parse(visualElement.name);
     }
-    #endregion
 
-    #region TakingMedication
+
     private void OnTakingMedicationSelected(ClickEvent clickEvent)
     {
         for (int i = 0; i < takingMedication_OptionsCheckMarks.Count; i++)
@@ -655,9 +649,8 @@ public class GiveDemographicsPage : MonoBehaviour
             .style.display = DisplayStyle.Flex;
         demographicsPage.demographics.takingMedicationIndex = int.Parse(visualElement.name);
     }
-    #endregion
 
-    #region Games3D
+
     private void OnGames3DSelected(ClickEvent clickEvent)
     {
         for (int i = 0; i < games3D_OptionsCheckMarks.Count; i++)
@@ -670,9 +663,8 @@ public class GiveDemographicsPage : MonoBehaviour
             .style.display = DisplayStyle.Flex;
         demographicsPage.demographics.games3DIndex = int.Parse(visualElement.name);
     }
-    #endregion
 
-    #region SimulationGames
+
     private void OnSimulationGamesSelected(ClickEvent clickEvent)
     {
         for (int i = 0; i < simulationGames_OptionsCheckMarks.Count; i++)
@@ -685,24 +677,90 @@ public class GiveDemographicsPage : MonoBehaviour
             .style.display = DisplayStyle.Flex;
         demographicsPage.demographics.simulationGamesIndex = int.Parse(visualElement.name);
     }
-    #endregion
 
-    #region SaveButton
+
     private async void OnSaveButtonSelcted(ClickEvent clickEvent)
     {
+        saveButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnSaveButtonSelcted);
+
         if (demographicsPage.demographics.IsEveryThingSet())
         {
-            EventsManager.InvokeOnSetDemographics();
-            await FireStoreManager.SaveDemographics(demographicsPage.demographics);
-            demographicsPage.SetPageActive(demographicsPage.changeDemographicsPage_VisualElement);
+            try
+            {
+                if (FirebaseAuth.DefaultInstance.CurrentUser == null)
+                {
+                    new MessageWindow_PopUp(new GameObject(),
+                        LanguageTextsData.thereIsSomethingWrongWithYourAccount[SettingsData.currentLanguageIndex]);
+                    saveButton_TemplateContainer.RegisterCallback<ClickEvent>(OnSaveButtonSelcted);
+                    return;
+                }
+
+                DocumentReference playerDocument =
+                    FirebaseFirestore.DefaultInstance.Collection(FireStoreNames.players_Collection).
+                        Document(FirebaseAuth.DefaultInstance.CurrentUser.UserId);
+
+                Dictionary<string, object> demographics_Dictionary = new Dictionary<string, object>()
+                {
+                    { FireStoreNames.genderIndex, demographicsPage.demographics.genderIndex },
+                    { FireStoreNames.ageGroupIndex, demographicsPage.demographics.ageGroupIndex },
+                    { FireStoreNames.educationLevelIndex, demographicsPage.demographics.educationLevelIndex },
+                    { FireStoreNames.fieldOfStudyIndex, demographicsPage.demographics.fieldOfStudyIndex },
+                    { FireStoreNames.jobIndex, demographicsPage.demographics.jobIndex },
+                    { FireStoreNames.levelOfExperienceIndex, demographicsPage.demographics.levelOfExperienceIndex },
+                    { FireStoreNames.levelOfNeedIndex, demographicsPage.demographics.levelOfNeedIndex },
+                    { FireStoreNames.levelOfAnxietyIndex, demographicsPage.demographics.levelOfAnxietyIndex },
+                    { FireStoreNames.formalTrainingIndex, demographicsPage.demographics.formalTrainingIndex },
+                    { FireStoreNames.takingMedicationIndex, demographicsPage.demographics.takingMedicationIndex },
+                    { FireStoreNames.games3DIndex, demographicsPage.demographics.games3DIndex },
+                    { FireStoreNames.simulationGamesIndex, demographicsPage.demographics.simulationGamesIndex }
+                };
+
+                Dictionary<string, object> update = new Dictionary<string, object>()
+                {
+                    { FireStoreNames.demographics_Map, demographics_Dictionary }
+                };
+
+                await playerDocument.SetAsync(update, SetOptions.MergeAll);
+
+                demographicsPage.SetPageActive(demographicsPage.changeDemographicsPage_VisualElement);
+                EventsManager.InvokeOnSetDemographics();
+            }
+            catch (FirestoreException firestoreException)
+            {
+                switch (firestoreException.ErrorCode)
+                {
+                    case FirestoreError.Unavailable:
+                        new MessageWindow_PopUp(new GameObject(),
+                            LanguageTextsData.unavailable[SettingsData.currentLanguageIndex]);
+                        break;
+                    case FirestoreError.DeadlineExceeded:
+                        new MessageWindow_PopUp(new GameObject(),
+                            LanguageTextsData.deadlineExceeded[SettingsData.currentLanguageIndex]);
+                        break;
+                    case FirestoreError.Unauthenticated:
+                        new MessageWindow_PopUp(new GameObject(),
+                            LanguageTextsData.unauthenticated[SettingsData.currentLanguageIndex]);
+                        break;
+                    default:
+                        new MessageWindow_PopUp(new GameObject(),
+                            LanguageTextsData.thereIsSomethingWrong[SettingsData.currentLanguageIndex]);
+                        break;
+                }
+            }
+            catch
+            {
+                new MessageWindow_PopUp(new GameObject(),
+                    LanguageTextsData.thereIsSomethingWrong[SettingsData.currentLanguageIndex]);
+            }
         }
         else
         {
-            AnswerEveryThingWindow_PopUp answerEveryThingWindow_PopUp =
-                new AnswerEveryThingWindow_PopUp(new GameObject());
+            new MessageWindow_PopUp(new GameObject(),
+                LanguageTextsData.answerEveryThing[SettingsData.currentLanguageIndex]);
         }
+
+        saveButton_TemplateContainer.RegisterCallback<ClickEvent>(OnSaveButtonSelcted);
     }
-    #endregion
 
     #endregion
 

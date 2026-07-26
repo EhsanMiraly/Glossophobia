@@ -20,9 +20,24 @@ public class LanguageTextsData
     public static List<string> loading = new List<string> { "Loading...", "در حال لود شدن..." };
     #endregion
 
-    #region AnswerEveryThingPage_PopUp
+    #region MessageWindow_PopUp
     public static List<string> answerEveryThing =
         new List<string> { "Answer every thing", "به همه چیز جواب بدید" };
+    public static List<string> thereIsSomethingWrong =
+    new List<string> { "There is something wrong.", "مشکلی پیش آمده است." };
+    public static List<string> thereIsSomethingWrongWithYourAccount = new List<string>
+        { "There is something wrong with your account.", "مشکلی برای حساب شما پیش آمده است." };
+
+    public static List<string> unavailable = new List<string>
+        { "Unable to connect to the server. Please check your internet connection and try again.",
+        "امکان اتصال به سرور وجود ندارد. لطفاً اتصال اینترنت خود را بررسی کنید و دوباره تلاش کنید." };
+    public static List<string> deadlineExceeded = new List<string>
+        { "The request took too long. Please check your internet connection and try again.",
+        "درخواست بیش از حد طول کشید. لطفاً اتصال اینترنت خود را بررسی کنید و دوباره تلاش کنید." };
+    public static List<string> unauthenticated = new List<string>
+        { "Your session has expired. Please log in again.",
+        "نشست شما منقضی شده است. لطفاً دوباره وارد حساب خود شوید." };
+
     public static List<string> ok =
         new List<string> { "Ok", "باشه" };
     #endregion

@@ -9,12 +9,11 @@ using Firebase;
 
 public class FireStoreManager
 {
-    private const string players_Collection = "Players";
-    private const string demographics_Map = "Demographics";
 
 
 
 
+    /*
     #region Utilities
 
     private async void CheckAndFixDependencies()
@@ -47,21 +46,7 @@ public class FireStoreManager
     #endregion
 
 
-    #region Demographics
-
-    private const string genderIndex = "genderIndex";
-    private const string ageGroupIndex = "ageGroupIndex";
-    private const string educationLevelIndex = "educationLevelIndex";
-    private const string fieldOfStudyIndex = "fieldOfStudyIndex";
-    private const string jobIndex = "jobIndex";
-    private const string levelOfExperienceIndex = "levelOfExperienceIndex";
-    private const string levelOfNeedIndex = "levelOfNeedIndex";
-    private const string levelOfAnxietyIndex = "levelOfAnxietyIndex";
-    private const string formalTrainingIndex = "formalTrainingIndex";
-    private const string takingMedicationIndex = "takingMedicationIndex";
-    private const string games3DIndex = "games3DIndex";
-    private const string simulationGamesIndex = "simulationGamesIndex";
-
+    
 
     public static async Task SaveDemographics(Demographics demographics)
     {
@@ -142,5 +127,5 @@ public class FireStoreManager
     }
 
     #endregion
-
+    */
 }

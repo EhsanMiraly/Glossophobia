@@ -1,4 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Firebase.Auth;
+using Firebase.Firestore;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -80,8 +84,89 @@ public class DemographicsPage : MonoBehaviour
             await Awaitable.EndOfFrameAsync();
         }
 
-        demographics = await FireStoreManager.LoadDemographics();
+        try
+        {
+            if (FirebaseAuth.DefaultInstance.CurrentUser == null)
+            {
+                new MessageWindow_PopUp(new GameObject(),
+                    LanguageTextsData.thereIsSomethingWrongWithYourAccount[SettingsData.currentLanguageIndex]);
+                return;
+            }
 
+            DocumentReference playerDocument =
+                FirebaseFirestore.DefaultInstance.Collection(FireStoreNames.players_Collection).
+                    Document(FirebaseAuth.DefaultInstance.CurrentUser.UserId);
+
+            DocumentSnapshot snapshot = await playerDocument.GetSnapshotAsync();
+
+            if (!snapshot.Exists)
+            {
+                demographics = new Demographics();
+                InitializeUI();
+                return;
+            }
+
+            Dictionary<string, object> data = snapshot.ToDictionary();
+
+            if (!data.ContainsKey(FireStoreNames.demographics_Map))
+            {
+                demographics = new Demographics();
+                InitializeUI();
+                return;
+            }
+
+            Dictionary<string, object> demographics_Dictionary =
+                data[FireStoreNames.demographics_Map] as Dictionary<string, object>;
+
+            demographics = new Demographics
+                (
+                    Convert.ToInt32(demographics_Dictionary[FireStoreNames.genderIndex]),
+                    Convert.ToInt32(demographics_Dictionary[FireStoreNames.ageGroupIndex]),
+                    Convert.ToInt32(demographics_Dictionary[FireStoreNames.educationLevelIndex]),
+                    Convert.ToInt32(demographics_Dictionary[FireStoreNames.fieldOfStudyIndex]),
+                    Convert.ToInt32(demographics_Dictionary[FireStoreNames.jobIndex]),
+                    Convert.ToInt32(demographics_Dictionary[FireStoreNames.levelOfExperienceIndex]),
+                    Convert.ToInt32(demographics_Dictionary[FireStoreNames.levelOfNeedIndex]),
+                    Convert.ToInt32(demographics_Dictionary[FireStoreNames.levelOfAnxietyIndex]),
+                    Convert.ToInt32(demographics_Dictionary[FireStoreNames.formalTrainingIndex]),
+                    Convert.ToInt32(demographics_Dictionary[FireStoreNames.takingMedicationIndex]),
+                    Convert.ToInt32(demographics_Dictionary[FireStoreNames.games3DIndex]),
+                    Convert.ToInt32(demographics_Dictionary[FireStoreNames.simulationGamesIndex])
+                );
+            InitializeUI();
+            return;
+        }
+        catch (FirestoreException firestoreException)
+        {
+            switch (firestoreException.ErrorCode)
+            {
+                case FirestoreError.Unavailable:
+                    new MessageWindow_PopUp(new GameObject(),
+                        LanguageTextsData.unavailable[SettingsData.currentLanguageIndex]);
+                    break;
+                case FirestoreError.DeadlineExceeded:
+                    new MessageWindow_PopUp(new GameObject(),
+                        LanguageTextsData.deadlineExceeded[SettingsData.currentLanguageIndex]);
+                    break;
+                case FirestoreError.Unauthenticated:
+                    new MessageWindow_PopUp(new GameObject(),
+                        LanguageTextsData.unauthenticated[SettingsData.currentLanguageIndex]);
+                    break;
+                default:
+                    new MessageWindow_PopUp(new GameObject(),
+                        LanguageTextsData.thereIsSomethingWrong[SettingsData.currentLanguageIndex]);
+                    break;
+            }
+        }
+        catch
+        {
+            new MessageWindow_PopUp(new GameObject(),
+                LanguageTextsData.thereIsSomethingWrong[SettingsData.currentLanguageIndex]);
+        }
+    }
+
+    private void InitializeUI()
+    {
         if (demographics.IsEveryThingSet())
         {
             SetPageActive(changeDemographicsPage_VisualElement);

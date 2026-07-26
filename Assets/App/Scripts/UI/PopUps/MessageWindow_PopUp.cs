@@ -1,33 +1,35 @@
-using System;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AnswerEveryThingWindow_PopUp
+
+public class MessageWindow_PopUp
 {
     GameObject parent;
+    string message;
 
-    VisualTreeAsset answerEveryThingWindow_Template;
+    VisualTreeAsset messageWindow_Template;
 
     PanelRenderer panelRenderer;
 
-    Label answerEveryThing_Label;
+    Label message_Label;
 
     VisualElement okButton_TemplateContainer;
     Label okButton_Label;
 
 
-    public AnswerEveryThingWindow_PopUp(GameObject parent)
+    public MessageWindow_PopUp(GameObject parent, string message)
     {
         this.parent = parent;
-        parent.name = "AnswerEveryThingWindow_PopUp";
+        this.message = message;
+
+        parent.name = "MessageWindow_PopUp";
         parent.layer = LayerMask.NameToLayer("UI");
 
         panelRenderer = parent.AddComponent<PanelRenderer>();
         panelRenderer.panelSettings = Resources.Load<PanelSettings>("UI/PanelSettings/Screen_UI_PanelSettings");
-        answerEveryThingWindow_Template =
-            Resources.Load<VisualTreeAsset>("UI/Screen_UI/PopUps/AnswerEveryThingWindow_Template");
-        panelRenderer.visualTreeAsset = answerEveryThingWindow_Template;
+        messageWindow_Template =
+            Resources.Load<VisualTreeAsset>("UI/Screen_UI/PopUps/MessageWindow_Template");
+        panelRenderer.visualTreeAsset = messageWindow_Template;
         panelRenderer.sortingOrder = 100;
 
         panelRenderer.RegisterUIReloadCallback(UIReloadCallback);
@@ -35,18 +37,17 @@ public class AnswerEveryThingWindow_PopUp
 
     private void UIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
     {
-        answerEveryThing_Label = root.Q<Label>("AnswerEveryThing_Label");
+        message_Label = root.Q<Label>("Message_Label");
 
         okButton_TemplateContainer = root.Q<VisualElement>("OkButton_TemplateContainer");
         okButton_Label = okButton_TemplateContainer.Q<Label>("Text_Label");
 
-        answerEveryThing_Label.text =
-            LanguageTextsData.answerEveryThing[SettingsData.currentLanguageIndex];
-        answerEveryThing_Label.languageDirection =
+        message_Label.text = message;
+        message_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
-        answerEveryThing_Label.style.unityFont =
+        message_Label.style.unityFont =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
-        answerEveryThing_Label.style.fontSize =
+        message_Label.style.fontSize =
             LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
 
 
@@ -67,10 +68,9 @@ public class AnswerEveryThingWindow_PopUp
         {
             UnityEngine.Object.Destroy(parent);
             parent = null;
-            answerEveryThingWindow_Template = null;
+            messageWindow_Template = null;
             panelRenderer.UnregisterUIReloadCallback(UIReloadCallback);
             panelRenderer = null;
         }
     }
-
 }
