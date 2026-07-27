@@ -6,7 +6,7 @@ public class ChangePage : MonoBehaviour
 {
     PanelRenderer panelRenderer;
 
-    PRPSAPage PRPSAPage;
+    BaselinePRPSAPage baselinePRPSAPage;
 
     VisualElement changePage_VisualElement;
 
@@ -19,19 +19,18 @@ public class ChangePage : MonoBehaviour
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
-        PRPSAPage = GetComponent<PRPSAPage>();
+        baselinePRPSAPage = GetComponent<BaselinePRPSAPage>();
 
-        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
+        ConnectEvents();
     }
 
     private void OnDisable()
     {
-        RemoveFunctionality();
-        panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
+        DisconnectEvents();
 
-        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
+        RemoveFunctionality();
+
+        panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
     }
 
     private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
@@ -41,6 +40,7 @@ public class ChangePage : MonoBehaviour
         changePRPSAButton_TemplateContainer =
             changePage_VisualElement.Q<VisualElement>("ChangePRPSAButton_TemplateContainer");
         changePRPSAButton_Label = changePRPSAButton_TemplateContainer.Q<Label>("Text_Label");
+
         InitializeUI();
     }
 
@@ -70,7 +70,7 @@ public class ChangePage : MonoBehaviour
     private void OnchangePRPSAButtonSelected(ClickEvent clickEvent)
     {
         EventsManager.InvokeOnChangePRPSA_Before();
-        PRPSAPage.SetPageActive(PRPSAPage.startPage_VisualElement);
+        baselinePRPSAPage.SetPageActive(baselinePRPSAPage.startPage_VisualElement);
     }
 
     #endregion
@@ -79,6 +79,18 @@ public class ChangePage : MonoBehaviour
 
 
     #region Events Manager
+
+    private void ConnectEvents()
+    {
+        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
+    }
+
+    private void DisconnectEvents()
+    {
+        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
+    }
 
     private void OnLanguageChanged()
     {

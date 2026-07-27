@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 
-[RequireComponent(typeof(AccountPage), typeof(DemographicsPage), typeof(PRPSAPage))]
+[RequireComponent(typeof(AccountPage), typeof(DemographicsPage), typeof(BaselinePRPSAPage))]
 [RequireComponent(typeof(StartPlayingPage), typeof(SettingsPage))]
 public class MenuTabsAndPages : MonoBehaviour
 {
@@ -19,7 +19,7 @@ public class MenuTabsAndPages : MonoBehaviour
     #region Tabs
     Label account_Label;
     Label demographics_Label;
-    Label PRPSA_Label;
+    Label baselinePRPSA_Label;
     Label startPlaying_Label;
     Label settings_Label;
 
@@ -30,7 +30,7 @@ public class MenuTabsAndPages : MonoBehaviour
     #region Pages
     [System.NonSerialized] public VisualElement accountPage_VisualElement;
     [System.NonSerialized] public VisualElement demographicsPage_VisualElement;
-    [System.NonSerialized] public VisualElement PRPSAPage_VisualElement;
+    [System.NonSerialized] public VisualElement baselinePRPSAPage_VisualElement;
     [System.NonSerialized] public VisualElement startPlayingPage_VisualElement;
     [System.NonSerialized] public VisualElement settingsPage_VisualElement;
     #endregion
@@ -62,7 +62,7 @@ public class MenuTabsAndPages : MonoBehaviour
         #region Tabs
         account_Label = tabsHolder_VisualElement.Q<Label>("Account_Label");
         demographics_Label = tabsHolder_VisualElement.Q<Label>("Demographics_Label"); //Blur Tab
-        PRPSA_Label = tabsHolder_VisualElement.Q<Label>("PRPSA_Label");
+        baselinePRPSA_Label = tabsHolder_VisualElement.Q<Label>("BaselinePRPSA_Label");
         startPlaying_Label = tabsHolder_VisualElement.Q<Label>("StartPlaying_Label");
         settings_Label = tabsHolder_VisualElement.Q<Label>("Settings_Label");
         #endregion
@@ -71,7 +71,8 @@ public class MenuTabsAndPages : MonoBehaviour
         accountPage_VisualElement = pagesHolder_VisualElement.Q<VisualElement>("AccountPage_VisualElement");
         demographicsPage_VisualElement =
             pagesHolder_VisualElement.Q<VisualElement>("DemographicsPage_VisualElement");
-        PRPSAPage_VisualElement = pagesHolder_VisualElement.Q<VisualElement>("PRPSAPage_VisualElement");
+        baselinePRPSAPage_VisualElement =
+            pagesHolder_VisualElement.Q<VisualElement>("BaselinePRPSAPage_VisualElement");
         startPlayingPage_VisualElement =
             pagesHolder_VisualElement.Q<VisualElement>("StartPlayingPage_VisualElement");
         settingsPage_VisualElement = pagesHolder_VisualElement.Q<VisualElement>("SettingsPage_VisualElement");
@@ -93,6 +94,7 @@ public class MenuTabsAndPages : MonoBehaviour
 
         currentTabSelected = account_Label;
         SetTabActive(accountPage_VisualElement);
+        account_Label.RemoveFromClassList("TabNotSelected");
         account_Label.AddToClassList("TabSelected");
     }
 
@@ -142,6 +144,7 @@ public class MenuTabsAndPages : MonoBehaviour
     private void OnAccountTabSelected(ClickEvent clickEvent)
     {
         SetTabActive(accountPage_VisualElement);
+        account_Label.RemoveFromClassList("TabNotSelected");
         account_Label.AddToClassList("TabSelected");
         currentTabSelected = account_Label;
     }
@@ -149,20 +152,23 @@ public class MenuTabsAndPages : MonoBehaviour
     private void OnDemographicsTabSelected(ClickEvent clickEvent)
     {
         SetTabActive(demographicsPage_VisualElement);
+        demographics_Label.RemoveFromClassList("TabNotSelected");
         demographics_Label.AddToClassList("TabSelected");
         currentTabSelected = demographics_Label;
     }
 
     private void OnPRPSATabSelected(ClickEvent clickEvent)
     {
-        SetTabActive(PRPSAPage_VisualElement);
-        PRPSA_Label.AddToClassList("TabSelected");
-        currentTabSelected = PRPSA_Label;
+        SetTabActive(baselinePRPSAPage_VisualElement);
+        baselinePRPSA_Label.RemoveFromClassList("TabNotSelected");
+        baselinePRPSA_Label.AddToClassList("TabSelected");
+        currentTabSelected = baselinePRPSA_Label;
     }
 
     private void OnStartPlayingTabSelected(ClickEvent clickEvent)
     {
         SetTabActive(startPlayingPage_VisualElement);
+        startPlaying_Label.RemoveFromClassList("TabNotSelected");
         startPlaying_Label.AddToClassList("TabSelected");
         currentTabSelected = startPlaying_Label;
     }
@@ -171,6 +177,7 @@ public class MenuTabsAndPages : MonoBehaviour
     private void OnSettingsTabSelected(ClickEvent clickEvent)
     {
         SetTabActive(settingsPage_VisualElement);
+        settings_Label.RemoveFromClassList("TabNotSelected");
         settings_Label.AddToClassList("TabSelected");
         currentTabSelected = settings_Label;
 
@@ -200,10 +207,10 @@ public class MenuTabsAndPages : MonoBehaviour
         #endregion
 
         #region PRPSA_Label
-        PRPSA_Label.text = LanguageTextsData.PRPSA[SettingsData.currentLanguageIndex];
-        PRPSA_Label.languageDirection =
+        baselinePRPSA_Label.text = LanguageTextsData.baselinePRPSA[SettingsData.currentLanguageIndex];
+        baselinePRPSA_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
-        PRPSA_Label.style.unityFont =
+        baselinePRPSA_Label.style.unityFont =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
@@ -239,7 +246,7 @@ public class MenuTabsAndPages : MonoBehaviour
         #endregion
 
         #region PRPSA_Label
-        PRPSA_Label.style.fontSize =
+        baselinePRPSA_Label.style.fontSize =
             LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
@@ -271,7 +278,7 @@ public class MenuTabsAndPages : MonoBehaviour
     {
         //Blur Tab
         demographics_Label.UnregisterCallback<ClickEvent>(OnDemographicsTabSelected);
-        PRPSA_Label.UnregisterCallback<ClickEvent>(OnPRPSATabSelected);
+        baselinePRPSA_Label.UnregisterCallback<ClickEvent>(OnPRPSATabSelected);
         startPlaying_Label.UnregisterCallback<ClickEvent>(OnStartPlayingTabSelected);
     }
     #endregion
@@ -284,13 +291,13 @@ public class MenuTabsAndPages : MonoBehaviour
             await Awaitable.WaitForSecondsAsync(0.1f);
         }
         //UnBlur Tab
-        PRPSA_Label.RegisterCallback<ClickEvent>(OnPRPSATabSelected);
+        baselinePRPSA_Label.RegisterCallback<ClickEvent>(OnPRPSATabSelected);
     }
 
     private void OnChangeDemographics()
     {
         //Blur Tab
-        PRPSA_Label.UnregisterCallback<ClickEvent>(OnPRPSATabSelected);
+        baselinePRPSA_Label.UnregisterCallback<ClickEvent>(OnPRPSATabSelected);
     }
     #endregion
 
@@ -318,10 +325,11 @@ public class MenuTabsAndPages : MonoBehaviour
     public void SetTabActive(VisualElement visualElement)
     {
         currentTabSelected.RemoveFromClassList("TabSelected");
+        currentTabSelected.AddToClassList("TabNotSelected");
 
         accountPage_VisualElement.style.display = DisplayStyle.None;
         demographicsPage_VisualElement.style.display = DisplayStyle.None;
-        PRPSAPage_VisualElement.style.display = DisplayStyle.None;
+        baselinePRPSAPage_VisualElement.style.display = DisplayStyle.None;
         startPlayingPage_VisualElement.style.display = DisplayStyle.None;
         settingsPage_VisualElement.style.display = DisplayStyle.None;
 

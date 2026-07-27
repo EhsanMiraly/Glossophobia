@@ -4,16 +4,9 @@ using UnityEngine.UIElements;
 
 public class LanguageTextsData
 {
-    #region Fonts
+    public static List<Font> fonts;
 
-    public static List<Font> fonts = new List<Font>()
-    {
-        Resources.Load<Font>("Fonts/English/Roboto-Medium"),
-        Resources.Load<Font>("Fonts/Farsi/Parastoo-Bold")
-        //,Resources.Load<Font>("Fonts/Clock/Clock_Font")
-    };
-
-    #endregion
+    public static List<Language> languages;
 
 
     #region LoadingPage_PopUp
@@ -65,7 +58,7 @@ public class LanguageTextsData
     #region Tabs
     public static List<string> account = new List<string> { "Account", "حساب کاربری" };
     public static List<string> demographics = new List<string> { "Demographics", "اطلاعات جمعیت‌شناختی" };
-    public static List<string> PRPSA = new List<string> { "PRPSA", "پرسشنامه خودارزیابی" };
+    public static List<string> baselinePRPSA = new List<string> { "Baseline PRPSA", "پرسشنامه خودارزیابی پایه" };
     public static List<string> personalReportOfPublicSpeakingAnxiety =
         new List<string> { "Personal report of public speaking anxiety", "گزارش شخصی اضطراب سخنرانی در جمع" };
     public static List<string> startPlaying = new List<string> { "Start playing", "شروع بازی" };
@@ -225,7 +218,7 @@ public class LanguageTextsData
         "لطفاً هر جمله‌ای را که پس از زدن دکمه «شروع» می‌بینید با دقت بخوانید و مشخص کنید تا چه حد با آن موافق یا مخالف هستید.\nهیچ پاسخ درست یا غلطی وجود ندارد؛ فقط نظر و احساس واقعی خودتان مهم است.\nلطفاً به همهٔ سؤالات پاسخ دهید و همان گزینه‌ای را انتخاب کنید که ابتدا به ذهنتان می‌رسد. نیازی به فکر کردن زیاد نیست."
     };
 
-    public static List<TwoStrings> questions = new List<TwoStrings>()
+    public static List<TwoStrings> baselinePRPSAQuestions = new List<TwoStrings>()
     {
         new TwoStrings("My heart rate increases when I am about to speak in front of an audience.",
             "وقتی قرار است در جمع صحبت کنم، ضربان قلبم بالا می‌رود."),
@@ -305,11 +298,7 @@ public class LanguageTextsData
 
     #region SettingsPage
 
-    public static List<Language> languages = new List<Language>
-    {
-        new Language("Language: English", LanguageDirection.LTR, fonts[0]),
-        new Language("زبان: فارسی", LanguageDirection.RTL,fonts[1])
-    };
+
 
     public static List<TwoStrings> fontSize_Text = new List<TwoStrings>
     {

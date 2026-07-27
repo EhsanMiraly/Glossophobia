@@ -4,6 +4,8 @@ public class FireStoreNames
 {
     public const string players_Collection = "Players";
     public const string demographics_Map = "Demographics";
+    public const string baselinePRPSA_Map = "BaselinePRPSA";
+
 
     #region Demographics
 
@@ -19,6 +21,12 @@ public class FireStoreNames
     public const string takingMedicationIndex = "takingMedicationIndex";
     public const string games3DIndex = "games3DIndex";
     public const string simulationGamesIndex = "simulationGamesIndex";
+    #endregion
+
+    #region BaselinePRPSA
+
+    public const string baselinePRPSAIndexes = "baselinePRPSAIndexes";
+
     #endregion
 
 }

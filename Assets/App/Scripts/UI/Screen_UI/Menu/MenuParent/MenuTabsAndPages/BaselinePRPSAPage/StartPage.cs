@@ -6,7 +6,7 @@ public class StartPage : MonoBehaviour
 {
     PanelRenderer panelRenderer;
 
-    PRPSAPage PRPSAPage;
+    BaselinePRPSAPage baselinePRPSAPage;
 
     VisualElement startPage_VisualElement;
 
@@ -20,12 +20,17 @@ public class StartPage : MonoBehaviour
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
-        PRPSAPage = GetComponent<PRPSAPage>();
+        baselinePRPSAPage = GetComponent<BaselinePRPSAPage>();
+
+        ConnectEvents();
     }
 
     private void OnDisable()
     {
+        DisconnectEvents();
+
         RemoveFunctionality();
+
         panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
     }
 
@@ -55,22 +60,16 @@ public class StartPage : MonoBehaviour
     private void AddFunctionality()
     {
         startButton_TemplateContainer.RegisterCallback<ClickEvent>(OnStartButtonSelected);
-
-        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
     }
 
     private void RemoveFunctionality()
     {
-        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
-
         startButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnStartButtonSelected);
     }
 
     private void OnStartButtonSelected(ClickEvent clickEvent)
     {
-        PRPSAPage.SetPageActive(PRPSAPage.questionsPage_VisualElement);
+        baselinePRPSAPage.SetPageActive(baselinePRPSAPage.questionsPage_VisualElement);
     }
 
     #endregion
@@ -79,6 +78,18 @@ public class StartPage : MonoBehaviour
 
 
     #region Events Manager
+
+    private void ConnectEvents()
+    {
+        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
+    }
+
+    private void DisconnectEvents()
+    {
+        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
+    }
 
     private void OnLanguageChanged()
     {

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Firebase.Auth;
+using Firebase.Firestore;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,7 +9,7 @@ public class QuestionsPage : MonoBehaviour
 {
     PanelRenderer panelRenderer;
 
-    PRPSAPage PRPSAPage;
+    BaselinePRPSAPage baselinePRPSAPage;
 
     VisualElement questionsPage_VisualElement;
 
@@ -34,19 +36,18 @@ public class QuestionsPage : MonoBehaviour
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
-        PRPSAPage = GetComponent<PRPSAPage>();
+        baselinePRPSAPage = GetComponent<BaselinePRPSAPage>();
 
-        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
+        ConnectEvents();
     }
 
     private void OnDisable()
     {
-        RemoveFunctionality();
-        panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
+        DisconnectEvents();
 
-        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
+        RemoveFunctionality();
+
+        panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
     }
 
 
@@ -132,7 +133,8 @@ public class QuestionsPage : MonoBehaviour
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
         visualElement.Q<VisualElement>("Foreground_VisualElement")
             .style.display = DisplayStyle.Flex;
-        PRPSA_BeforeData.currentAnswers[currentQuestionIndex] = int.Parse(visualElement.name);
+        baselinePRPSAPage.baselinePRPSA.baselinePRPSAIndexes[currentQuestionIndex] =
+            int.Parse(visualElement.name);
     }
 
     private void OnLastQuestionButtonSelected(ClickEvent clickEvent)
@@ -142,7 +144,7 @@ public class QuestionsPage : MonoBehaviour
         {
             currentQuestionIndex = 0;
         }
-        question_Label.text = LanguageTextsData.questions[currentQuestionIndex].
+        question_Label.text = LanguageTextsData.baselinePRPSAQuestions[currentQuestionIndex].
                                 ListString[SettingsData.currentLanguageIndex];
         nextQuestionButton_Label.text = LanguageTextsData.next[SettingsData.currentLanguageIndex];
         for (int i = 0; i < singleSelection_OptionsCheckMarks.Count; i++)
@@ -150,36 +152,105 @@ public class QuestionsPage : MonoBehaviour
             singleSelection_OptionsCheckMarks[i].Q<VisualElement>("Foreground_VisualElement")
                 .style.display = DisplayStyle.None;
         }
-        if (PRPSA_BeforeData.currentAnswers[currentQuestionIndex] != -1)
+        if (baselinePRPSAPage.baselinePRPSA.baselinePRPSAIndexes[currentQuestionIndex] != -1)
         {
-            singleSelection_OptionsCheckMarks[PRPSA_BeforeData.currentAnswers[currentQuestionIndex]].
+            singleSelection_OptionsCheckMarks[baselinePRPSAPage.baselinePRPSA.baselinePRPSAIndexes[currentQuestionIndex]].
                     Q<VisualElement>("Foreground_VisualElement").style.display = DisplayStyle.Flex;
         }
 
     }
 
-    private void OnNextQuestionButtonSelected(ClickEvent clickEvent)
+    private async void OnNextQuestionButtonSelected(ClickEvent clickEvent)
     {
-        if (PRPSA_BeforeData.currentAnswers[currentQuestionIndex] == -1)
+        if (baselinePRPSAPage.baselinePRPSA.baselinePRPSAIndexes[currentQuestionIndex] == -1)
         {
             return;
         }
 
         currentQuestionIndex++;
-        if (currentQuestionIndex == LanguageTextsData.questions.Count - 1)
+        if (currentQuestionIndex == LanguageTextsData.baselinePRPSAQuestions.Count - 1)
         {
             nextQuestionButton_Label.text = LanguageTextsData.finish[SettingsData.currentLanguageIndex];
         }
 
-        if (currentQuestionIndex > LanguageTextsData.questions.Count - 1)
+        if (currentQuestionIndex > LanguageTextsData.baselinePRPSAQuestions.Count - 1)
         {
-            currentQuestionIndex = LanguageTextsData.questions.Count - 1;
-            EventsManager.InvokeOnSetPRPSA_Before();
-            PRPSAPage.SetPageActive(PRPSAPage.changePage_VisualElement);
-            PRPSA_Before_SaveSystem.Save_PRPSA_Before();
+            currentQuestionIndex = LanguageTextsData.baselinePRPSAQuestions.Count - 1;
+
+            nextQuestionButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnNextQuestionButtonSelected);
+
+            if (baselinePRPSAPage.baselinePRPSA.IsEveryThingSet())
+            {
+                try
+                {
+                    if (FirebaseAuth.DefaultInstance.CurrentUser == null)
+                    {
+                        new MessageWindow_PopUp(new GameObject(),
+                            LanguageTextsData.thereIsSomethingWrongWithYourAccount[SettingsData.currentLanguageIndex]);
+                        nextQuestionButton_TemplateContainer.RegisterCallback<ClickEvent>(OnNextQuestionButtonSelected);
+                        return;
+                    }
+
+                    DocumentReference playerDocument =
+                        FirebaseFirestore.DefaultInstance.Collection(FireStoreNames.players_Collection).
+                            Document(FirebaseAuth.DefaultInstance.CurrentUser.UserId);
+
+                    Dictionary<string, object> baselinePRPSA_Dictionary = new Dictionary<string, object>()
+                    {
+                        {
+                            FireStoreNames.baselinePRPSAIndexes,
+                            new List<int>(baselinePRPSAPage.baselinePRPSA.baselinePRPSAIndexes)
+                        }
+                    };
+
+                    Dictionary<string, object> update = new Dictionary<string, object>()
+                    {
+                        { FireStoreNames.baselinePRPSA_Map, baselinePRPSA_Dictionary }
+                    };
+
+                    await playerDocument.SetAsync(update, SetOptions.MergeAll);
+
+                    baselinePRPSAPage.SetPageActive(baselinePRPSAPage.changePage_VisualElement);
+                    EventsManager.InvokeOnSetPRPSA_Before();
+                }
+                catch (FirestoreException firestoreException)
+                {
+                    switch (firestoreException.ErrorCode)
+                    {
+                        case FirestoreError.Unavailable:
+                            new MessageWindow_PopUp(new GameObject(),
+                                LanguageTextsData.unavailable[SettingsData.currentLanguageIndex]);
+                            break;
+                        case FirestoreError.DeadlineExceeded:
+                            new MessageWindow_PopUp(new GameObject(),
+                                LanguageTextsData.deadlineExceeded[SettingsData.currentLanguageIndex]);
+                            break;
+                        case FirestoreError.Unauthenticated:
+                            new MessageWindow_PopUp(new GameObject(),
+                                LanguageTextsData.unauthenticated[SettingsData.currentLanguageIndex]);
+                            break;
+                        default:
+                            new MessageWindow_PopUp(new GameObject(),
+                                LanguageTextsData.thereIsSomethingWrong[SettingsData.currentLanguageIndex]);
+                            break;
+                    }
+                }
+                catch
+                {
+                    new MessageWindow_PopUp(new GameObject(),
+                        LanguageTextsData.thereIsSomethingWrong[SettingsData.currentLanguageIndex]);
+                }
+            }
+            else
+            {
+                new MessageWindow_PopUp(new GameObject(),
+                    LanguageTextsData.answerEveryThing[SettingsData.currentLanguageIndex]);
+            }
+
+            nextQuestionButton_TemplateContainer.RegisterCallback<ClickEvent>(OnNextQuestionButtonSelected);
         }
 
-        question_Label.text = LanguageTextsData.questions[currentQuestionIndex].
+        question_Label.text = LanguageTextsData.baselinePRPSAQuestions[currentQuestionIndex].
                         ListString[SettingsData.currentLanguageIndex];
         for (int i = 0; i < singleSelection_OptionsCheckMarks.Count; i++)
         {
@@ -187,9 +258,9 @@ public class QuestionsPage : MonoBehaviour
                 .style.display = DisplayStyle.None;
         }
 
-        if (PRPSA_BeforeData.currentAnswers[currentQuestionIndex] != -1)
+        if (baselinePRPSAPage.baselinePRPSA.baselinePRPSAIndexes[currentQuestionIndex] != -1)
         {
-            singleSelection_OptionsCheckMarks[PRPSA_BeforeData.currentAnswers[currentQuestionIndex]].
+            singleSelection_OptionsCheckMarks[baselinePRPSAPage.baselinePRPSA.baselinePRPSAIndexes[currentQuestionIndex]].
                 Q<VisualElement>("Foreground_VisualElement").style.display = DisplayStyle.Flex;
         }
 
@@ -202,10 +273,22 @@ public class QuestionsPage : MonoBehaviour
 
     #region Events Manager
 
+    private void ConnectEvents()
+    {
+        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
+    }
+
+    private void DisconnectEvents()
+    {
+        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
+    }
+
     private void OnLanguageChanged()
     {
         #region question_Label
-        question_Label.text = LanguageTextsData.questions[currentQuestionIndex].
+        question_Label.text = LanguageTextsData.baselinePRPSAQuestions[currentQuestionIndex].
                                 ListString[SettingsData.currentLanguageIndex];
         question_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
