@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 
-[RequireComponent(typeof(StartPage), typeof(QuestionsPage), typeof(ChangePage))]
+[RequireComponent(typeof(StartBaselinePRPSAPage), typeof(QuestionsBaselinePRPSAPage), typeof(ChangeBaselinePRPSAPage))]
 public class BaselinePRPSAPage : MonoBehaviour
 {
     public BaselinePRPSA baselinePRPSA = new BaselinePRPSA();

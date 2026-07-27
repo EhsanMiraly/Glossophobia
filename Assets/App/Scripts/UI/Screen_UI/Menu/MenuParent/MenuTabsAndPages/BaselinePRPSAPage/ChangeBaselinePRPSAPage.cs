@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ChangePage : MonoBehaviour
+public class ChangeBaselinePRPSAPage : MonoBehaviour
 {
     PanelRenderer panelRenderer;
 

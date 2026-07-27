@@ -10,7 +10,7 @@ public class ScenesManager : MonoBehaviour
         EventsManager.OnSimulationStarted_Event += OnSimulationStarted;
         EventsManager.OnSimulationPaused_Event += OnSimulationPaused;
         EventsManager.OnSimulationResumed_Event += OnSimulationResumed;
-        EventsManager.OnSimulationEnded_Event += OnSimulationEnded;
+        EventsManager.OnFinishedSimulation_Event += OnSimulationEnded;
     }
 
     private void OnDisable()
@@ -18,7 +18,7 @@ public class ScenesManager : MonoBehaviour
         EventsManager.OnSimulationStarted_Event -= OnSimulationStarted;
         EventsManager.OnSimulationPaused_Event -= OnSimulationPaused;
         EventsManager.OnSimulationResumed_Event -= OnSimulationResumed;
-        EventsManager.OnSimulationEnded_Event -= OnSimulationEnded;
+        EventsManager.OnFinishedSimulation_Event -= OnSimulationEnded;
     }
 
     private async void OnSimulationStarted()

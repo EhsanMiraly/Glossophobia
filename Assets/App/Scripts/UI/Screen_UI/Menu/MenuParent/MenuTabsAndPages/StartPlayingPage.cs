@@ -44,9 +44,11 @@ public class StartPlayingPage : MonoBehaviour
     Label minute_Label;
     VisualElement minute_PlusButton_TemplateContainer;
 
+    VisualElement startEndSimulationButton_TemplateContainer;
+    Label startEndSimulationButton_Label;
 
-    VisualElement startPlayingButton_TemplateContainer;
-    Label startPlayingButton_Label;
+    VisualElement exitButton_TemplateContainer;
+    Label exitButton_Label;
     #endregion
 
 
@@ -106,9 +108,13 @@ public class StartPlayingPage : MonoBehaviour
         minute_PlusButton_TemplateContainer =
             timer_TemplateContainer.Q<VisualElement>("Minute_PlusButton_TemplateContainer");
 
-        startPlayingButton_TemplateContainer =
-            playing_VisualElement.Q<VisualElement>("StartPlayingButton_TemplateContainer");
-        startPlayingButton_Label = startPlayingButton_TemplateContainer.Q<Label>();
+        startEndSimulationButton_TemplateContainer =
+            playing_VisualElement.Q<VisualElement>("StartEndSimulationButton_TemplateContainer");
+        startEndSimulationButton_Label = startEndSimulationButton_TemplateContainer.Q<Label>();
+
+        exitButton_TemplateContainer =
+            playing_VisualElement.Q<VisualElement>("ExitButton_TemplateContainer");
+        exitButton_Label = exitButton_TemplateContainer.Q<Label>();
 
         #endregion
 
@@ -187,7 +193,9 @@ public class StartPlayingPage : MonoBehaviour
         minute_MinusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnMinute_MinusButtonSelected);
         minute_PlusButton_TemplateContainer.RegisterCallback<ClickEvent>(OnMinute_PlusButtonSelected);
 
-        startPlayingButton_TemplateContainer.RegisterCallback<ClickEvent>(OnStartPlayingButtonSelected);
+        startEndSimulationButton_TemplateContainer.RegisterCallback<ClickEvent>(OnStartEndSimulationButtonSelected);
+
+        exitButton_TemplateContainer.RegisterCallback<ClickEvent>(OnExitButtonSelected);
     }
 
     private void RemoveFunctionality()
@@ -201,9 +209,10 @@ public class StartPlayingPage : MonoBehaviour
         minute_MinusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnMinute_MinusButtonSelected);
         minute_PlusButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnMinute_PlusButtonSelected);
 
-        startPlayingButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnStartPlayingButtonSelected);
-    }
+        startEndSimulationButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnStartEndSimulationButtonSelected);
 
+        exitButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnExitButtonSelected);
+    }
 
     private void OnDeletePDFButtonSelected(ClickEvent clickEvent)
     {
@@ -266,8 +275,9 @@ public class StartPlayingPage : MonoBehaviour
     }
 
 
-    private async void OnStartPlayingButtonSelected(ClickEvent clickEvent)
+    private async void OnStartEndSimulationButtonSelected(ClickEvent evt)
     {
+        ////////////////////////////////////////////Change
         if (currentPDF_Label != null) // And Scene not Loaded And Not Playing
         {
             using (LoadingWindow_PopUp loadingWindow_PopUp = new LoadingWindow_PopUp(new GameObject()))
@@ -290,11 +300,20 @@ public class StartPlayingPage : MonoBehaviour
                 menuParent.SetPageActive(menuParent.nothingPage_VisualElement);
                 loadingWindow_PopUp.SetProgress(60);
 
-                await Awaitable.WaitForSecondsAsync(2f);//Remove Later after Fixing Door Animation
-                loadingWindow_PopUp.SetProgress(100);//Remove Later after Fixing Door Animation
+                loadingWindow_PopUp.SetProgress(100);
             }
         }
     }
+
+    private void OnExitButtonSelected(ClickEvent evt)
+    {
+        Application.Quit();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
+
 
 
     private void OnPDFSelected(ClickEvent clickEvent)
@@ -339,11 +358,19 @@ public class StartPlayingPage : MonoBehaviour
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
-        #region startPlayingButton_Label
-        startPlayingButton_Label.text = LanguageTextsData.startPlaying[SettingsData.currentLanguageIndex];
-        startPlayingButton_Label.languageDirection =
+        #region startEndSimulationButton_Label
+        startEndSimulationButton_Label.text = LanguageTextsData.startSimulation[SettingsData.currentLanguageIndex];
+        startEndSimulationButton_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
-        startPlayingButton_Label.style.unityFont =
+        startEndSimulationButton_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region exitButton_Label
+        exitButton_Label.text = LanguageTextsData.exit[SettingsData.currentLanguageIndex];
+        exitButton_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        exitButton_Label.style.unityFont =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
@@ -388,8 +415,13 @@ public class StartPlayingPage : MonoBehaviour
             LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
-        #region startPlayingButton_Label
-        startPlayingButton_Label.style.fontSize =
+        #region startEndSimulationButton_Label
+        startEndSimulationButton_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+        #endregion
+
+        #region exitButton_Label
+        exitButton_Label.style.fontSize =
             LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 

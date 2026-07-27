@@ -126,7 +126,7 @@ public class Laptop : MonoBehaviour
         SetSlideInScreens(slideIndex);
 
         SetPageActive(controllerPage_VisualElement);
-        EventsManager.InvokeOnGameStarted();
+        EventsManager.InvokeOnClockStarted();
     }
 
     private void OnChevronLeftSelected(ClickEvent clickEvent)
@@ -169,7 +169,7 @@ public class Laptop : MonoBehaviour
     private void OnEndLabelSelected(ClickEvent clickEvent)
     {
         endPage_VisualElement.style.display = DisplayStyle.None;
-        EventsManager.InvokeOnGameEnded();
+        EventsManager.InvokeOnClockEnded();
     }
 
     #endregion

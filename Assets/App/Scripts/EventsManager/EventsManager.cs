@@ -74,6 +74,12 @@ public class EventsManager
     {
         OnChangePRPSA_Before_Event?.Invoke();
     }
+
+    public static event OnNotify OnFinishedPostTestPRPSA_Event;
+    public static void InvokeOnFinishedPostTestPRPSA()
+    {
+        OnFinishedPostTestPRPSA_Event?.Invoke();
+    }
     #endregion
 
 
@@ -97,10 +103,10 @@ public class EventsManager
         OnSimulationResumed_Event?.Invoke();
     }
 
-    public static event OnNotify OnSimulationEnded_Event;
+    public static event OnNotify OnFinishedSimulation_Event;
     public static void InvokeOnSimulationEnded()
     {
-        OnSimulationEnded_Event?.Invoke();
+        OnFinishedSimulation_Event?.Invoke();
     }
 
     public static event OnNotify OnDoorOpen_Event;
@@ -115,16 +121,16 @@ public class EventsManager
         OnDoorClose_Event?.Invoke();
     }
 
-    public static event OnNotify OnGameStarted_Event;
-    public static void InvokeOnGameStarted()
+    public static event OnNotify OnClockStarted_Event;
+    public static void InvokeOnClockStarted()
     {
-        OnGameStarted_Event?.Invoke();
+        OnClockStarted_Event?.Invoke();
     }
 
-    public static event OnNotify OnGameEnded_Event;
-    public static void InvokeOnGameEnded()
+    public static event OnNotify OnClockEnded_Event;
+    public static void InvokeOnClockEnded()
     {
-        OnGameEnded_Event?.Invoke();
+        OnClockEnded_Event?.Invoke();
     }
 
     #endregion

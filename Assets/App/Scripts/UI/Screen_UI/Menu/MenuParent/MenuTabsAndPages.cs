@@ -1,11 +1,12 @@
 using System;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 
 [RequireComponent(typeof(AccountPage), typeof(DemographicsPage), typeof(BaselinePRPSAPage))]
-[RequireComponent(typeof(StartPlayingPage), typeof(SettingsPage))]
+[RequireComponent(typeof(SettingsPage), typeof(StartPlayingPage), typeof(PostTestPRPSAPage))]
 public class MenuTabsAndPages : MonoBehaviour
 {
     PanelRenderer panelRenderer;
@@ -22,6 +23,7 @@ public class MenuTabsAndPages : MonoBehaviour
     Label baselinePRPSA_Label;
     Label startPlaying_Label;
     Label settings_Label;
+    Label postTestPRPSA_Label;
 
     Label currentTabSelected;
     #endregion
@@ -33,9 +35,11 @@ public class MenuTabsAndPages : MonoBehaviour
     [System.NonSerialized] public VisualElement baselinePRPSAPage_VisualElement;
     [System.NonSerialized] public VisualElement startPlayingPage_VisualElement;
     [System.NonSerialized] public VisualElement settingsPage_VisualElement;
+    [System.NonSerialized] public VisualElement postTestPRPSAPage_VisualElement;
     #endregion
 
     private bool isUIReady = false;
+
 
     private void OnEnable()
     {
@@ -44,12 +48,15 @@ public class MenuTabsAndPages : MonoBehaviour
 
         menuParent = GetComponent<MenuParent>();
 
-        AddFunctionality();
+        ConnectEvents();
     }
 
     private void OnDisable()
     {
+        DisconnectEvents();
+
         RemoveFunctionality();
+
         panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
     }
 
@@ -65,6 +72,7 @@ public class MenuTabsAndPages : MonoBehaviour
         baselinePRPSA_Label = tabsHolder_VisualElement.Q<Label>("BaselinePRPSA_Label");
         startPlaying_Label = tabsHolder_VisualElement.Q<Label>("StartPlaying_Label");
         settings_Label = tabsHolder_VisualElement.Q<Label>("Settings_Label");
+        postTestPRPSA_Label = tabsHolder_VisualElement.Q<Label>("PostTestPRPSA_Label");
         #endregion
 
         #region Pages
@@ -76,19 +84,20 @@ public class MenuTabsAndPages : MonoBehaviour
         startPlayingPage_VisualElement =
             pagesHolder_VisualElement.Q<VisualElement>("StartPlayingPage_VisualElement");
         settingsPage_VisualElement = pagesHolder_VisualElement.Q<VisualElement>("SettingsPage_VisualElement");
+        postTestPRPSAPage_VisualElement =
+            pagesHolder_VisualElement.Q<VisualElement>("PostTestPRPSAPage_VisualElement");
         #endregion
 
-        account_Label.RegisterCallback<ClickEvent>(OnAccountTabSelected);
-
-        settings_Label.RegisterCallback<ClickEvent>(OnSettingsTabSelected);
-
         isUIReady = true;
+
 
         InitializeUI();
     }
 
     private void InitializeUI()
     {
+        AddFunctionality();
+
         OnLanguageChanged();
         OnFontSizeChanged();
 
@@ -104,21 +113,9 @@ public class MenuTabsAndPages : MonoBehaviour
 
     private void AddFunctionality()
     {
-        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
+        account_Label.RegisterCallback<ClickEvent>(OnAccountTabSelected);
 
-        EventsManager.OnLoggedIn_Event += OnLoggedIn;
-        EventsManager.OnLoggedOut_Event += OnLoggedOut;
-
-        EventsManager.OnSetDemographics_Event += OnSetDemographics;
-        EventsManager.OnChangeDemographics_Event += OnChangeDemographics;
-
-        EventsManager.OnSetPRPSA_Before_Event += OnSetPRPSA_Before;
-        EventsManager.OnChangePRPSA_Before_Event += OnChangePRPSA_Before;
-
-        //This Two Deleted Because they are null in OnEnable
-        //account_Label.RegisterCallback<ClickEvent>(OnAccountTabSelected);
-        //settings_Label.RegisterCallback<ClickEvent>(OnSettingsTabSelected);
+        settings_Label.RegisterCallback<ClickEvent>(OnSettingsTabSelected);
     }
 
     private void RemoveFunctionality()
@@ -126,18 +123,6 @@ public class MenuTabsAndPages : MonoBehaviour
         account_Label.UnregisterCallback<ClickEvent>(OnAccountTabSelected);
 
         settings_Label.UnregisterCallback<ClickEvent>(OnSettingsTabSelected);
-
-        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
-        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
-
-        EventsManager.OnLoggedIn_Event -= OnLoggedIn;
-        EventsManager.OnLoggedOut_Event -= OnLoggedOut;
-
-        EventsManager.OnSetDemographics_Event -= OnSetDemographics;
-        EventsManager.OnChangeDemographics_Event -= OnChangeDemographics;
-
-        EventsManager.OnSetPRPSA_Before_Event -= OnSetPRPSA_Before;
-        EventsManager.OnChangePRPSA_Before_Event -= OnChangePRPSA_Before;
     }
 
 
@@ -157,22 +142,13 @@ public class MenuTabsAndPages : MonoBehaviour
         currentTabSelected = demographics_Label;
     }
 
-    private void OnPRPSATabSelected(ClickEvent clickEvent)
+    private void OnBaselinePRPSATabSelected(ClickEvent clickEvent)
     {
         SetTabActive(baselinePRPSAPage_VisualElement);
         baselinePRPSA_Label.RemoveFromClassList("TabNotSelected");
         baselinePRPSA_Label.AddToClassList("TabSelected");
         currentTabSelected = baselinePRPSA_Label;
     }
-
-    private void OnStartPlayingTabSelected(ClickEvent clickEvent)
-    {
-        SetTabActive(startPlayingPage_VisualElement);
-        startPlaying_Label.RemoveFromClassList("TabNotSelected");
-        startPlaying_Label.AddToClassList("TabSelected");
-        currentTabSelected = startPlaying_Label;
-    }
-
 
     private void OnSettingsTabSelected(ClickEvent clickEvent)
     {
@@ -183,10 +159,65 @@ public class MenuTabsAndPages : MonoBehaviour
 
     }
 
+    private void OnStartPlayingTabSelected(ClickEvent clickEvent)
+    {
+        SetTabActive(startPlayingPage_VisualElement);
+        startPlaying_Label.RemoveFromClassList("TabNotSelected");
+        startPlaying_Label.AddToClassList("TabSelected");
+        currentTabSelected = startPlaying_Label;
+    }
+
+    private void OnPostTestPRPSATabSelected(ClickEvent clickEvent)
+    {
+        SetTabActive(postTestPRPSAPage_VisualElement);
+        postTestPRPSA_Label.RemoveFromClassList("TabNotSelected");
+        postTestPRPSA_Label.AddToClassList("TabSelected");
+        currentTabSelected = postTestPRPSA_Label;
+    }
+
     #endregion
 
 
     #region Events Manager
+
+    private void ConnectEvents()
+    {
+        EventsManager.OnLanguageChanged_Event += OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event += OnFontSizeChanged;
+
+        EventsManager.OnLoggedIn_Event += OnLoggedIn;
+        EventsManager.OnLoggedOut_Event += OnLoggedOut;
+
+        EventsManager.OnSetDemographics_Event += OnSetDemographics;
+        EventsManager.OnChangeDemographics_Event += OnChangedDemographics;
+
+        EventsManager.OnSetPRPSA_Before_Event += OnSetBaselinePRPSA;
+        EventsManager.OnChangePRPSA_Before_Event += OnChangedBaselinePRPSA;
+
+        EventsManager.OnFinishedSimulation_Event += OnFinishedSimulation;
+
+        EventsManager.OnFinishedPostTestPRPSA_Event += OnFinishedPostTestPRPSA;
+    }
+
+    private void DisconnectEvents()
+    {
+        EventsManager.OnLanguageChanged_Event -= OnLanguageChanged;
+        EventsManager.OnFontSizeChanged_Event -= OnFontSizeChanged;
+
+        EventsManager.OnLoggedIn_Event -= OnLoggedIn;
+        EventsManager.OnLoggedOut_Event -= OnLoggedOut;
+
+        EventsManager.OnSetDemographics_Event -= OnSetDemographics;
+        EventsManager.OnChangeDemographics_Event -= OnChangedDemographics;
+
+        EventsManager.OnSetPRPSA_Before_Event -= OnSetBaselinePRPSA;
+        EventsManager.OnChangePRPSA_Before_Event -= OnChangedBaselinePRPSA;
+
+        EventsManager.OnFinishedSimulation_Event -= OnFinishedSimulation;
+
+        EventsManager.OnFinishedPostTestPRPSA_Event -= OnFinishedPostTestPRPSA;
+    }
+
 
     private void OnLanguageChanged()
     {
@@ -219,6 +250,14 @@ public class MenuTabsAndPages : MonoBehaviour
         startPlaying_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
         startPlaying_Label.style.unityFont =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
+        #endregion
+
+        #region postTestPRPSA_Label
+        postTestPRPSA_Label.text = LanguageTextsData.postTestPRPSA[SettingsData.currentLanguageIndex];
+        postTestPRPSA_Label.languageDirection =
+            LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
+        postTestPRPSA_Label.style.unityFont =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
@@ -255,6 +294,11 @@ public class MenuTabsAndPages : MonoBehaviour
             LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
 
+        #region postTestPRPSA_Label
+        postTestPRPSA_Label.style.fontSize =
+            LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
+        #endregion
+
         #region Settings_Label
         settings_Label.style.fontSize =
             LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
@@ -263,61 +307,96 @@ public class MenuTabsAndPages : MonoBehaviour
 
     }
 
+
     #region LogIn/LogOut
     private async void OnLoggedIn()
     {
         while (!isUIReady)
         {
-            await Awaitable.WaitForSecondsAsync(0.1f);
+            await Awaitable.EndOfFrameAsync();
         }
-        //UnBlur Tab
+
         demographics_Label.RegisterCallback<ClickEvent>(OnDemographicsTabSelected);
     }
 
     private void OnLoggedOut()
     {
-        //Blur Tab
         demographics_Label.UnregisterCallback<ClickEvent>(OnDemographicsTabSelected);
-        baselinePRPSA_Label.UnregisterCallback<ClickEvent>(OnPRPSATabSelected);
+        baselinePRPSA_Label.UnregisterCallback<ClickEvent>(OnBaselinePRPSATabSelected);
         startPlaying_Label.UnregisterCallback<ClickEvent>(OnStartPlayingTabSelected);
+        postTestPRPSA_Label.UnregisterCallback<ClickEvent>(OnPostTestPRPSATabSelected);
     }
     #endregion
 
-    #region SetDemographics/ChangeDemographics
+
+    #region Demographics
     private async void OnSetDemographics()
     {
         while (!isUIReady)
         {
-            await Awaitable.WaitForSecondsAsync(0.1f);
+            await Awaitable.EndOfFrameAsync();
         }
-        //UnBlur Tab
-        baselinePRPSA_Label.RegisterCallback<ClickEvent>(OnPRPSATabSelected);
+
+        baselinePRPSA_Label.RegisterCallback<ClickEvent>(OnBaselinePRPSATabSelected);
     }
 
-    private void OnChangeDemographics()
+    private void OnChangedDemographics()
     {
-        //Blur Tab
-        baselinePRPSA_Label.UnregisterCallback<ClickEvent>(OnPRPSATabSelected);
+        baselinePRPSA_Label.UnregisterCallback<ClickEvent>(OnBaselinePRPSATabSelected);
+        startPlaying_Label.UnregisterCallback<ClickEvent>(OnStartPlayingTabSelected);
+        postTestPRPSA_Label.UnregisterCallback<ClickEvent>(OnPostTestPRPSATabSelected);
     }
     #endregion
 
-    #region SetPRPSA_Before/ChangePRPSA_Before
-    private async void OnSetPRPSA_Before()
+
+    #region BaselinePRPSA
+    private async void OnSetBaselinePRPSA()
     {
         while (!isUIReady)
         {
-            await Awaitable.WaitForSecondsAsync(0.1f);
+            await Awaitable.EndOfFrameAsync();
         }
-        //UnBlur Tab
+
         startPlaying_Label.RegisterCallback<ClickEvent>(OnStartPlayingTabSelected);
     }
 
-    private void OnChangePRPSA_Before()
+    private void OnChangedBaselinePRPSA()
     {
-        //Blur Tab
         startPlaying_Label.UnregisterCallback<ClickEvent>(OnStartPlayingTabSelected);
+        postTestPRPSA_Label.UnregisterCallback<ClickEvent>(OnPostTestPRPSATabSelected);
     }
     #endregion
+
+
+    #region Simulation
+
+    private async void OnFinishedSimulation()
+    {
+        while (!isUIReady)
+        {
+            await Awaitable.EndOfFrameAsync();
+        }
+
+        postTestPRPSA_Label.RegisterCallback<ClickEvent>(OnPostTestPRPSATabSelected);
+    }
+
+    #endregion
+
+
+    #region PostTestPRPSA
+
+    private async void OnFinishedPostTestPRPSA()
+    {
+        while (!isUIReady)
+        {
+            await Awaitable.EndOfFrameAsync();
+        }
+
+        postTestPRPSA_Label.UnregisterCallback<ClickEvent>(OnPostTestPRPSATabSelected);
+    }
+
+    #endregion
+
 
     #endregion
 
@@ -332,6 +411,7 @@ public class MenuTabsAndPages : MonoBehaviour
         baselinePRPSAPage_VisualElement.style.display = DisplayStyle.None;
         startPlayingPage_VisualElement.style.display = DisplayStyle.None;
         settingsPage_VisualElement.style.display = DisplayStyle.None;
+        postTestPRPSAPage_VisualElement.style.display = DisplayStyle.None;
 
         visualElement.style.display = DisplayStyle.Flex;
     }

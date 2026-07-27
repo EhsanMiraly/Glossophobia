@@ -5,7 +5,7 @@ using Firebase.Firestore;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class QuestionsPage : MonoBehaviour
+public class QuestionsBaselinePRPSAPage : MonoBehaviour
 {
     PanelRenderer panelRenderer;
 

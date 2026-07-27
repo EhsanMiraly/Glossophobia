@@ -18,8 +18,8 @@ public class Clock : MonoBehaviour
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
-        EventsManager.OnGameStarted_Event += OnGameStarted;
-        EventsManager.OnGameEnded_Event += OnGameEnded;
+        EventsManager.OnClockStarted_Event += OnClockStarted;
+        EventsManager.OnClockEnded_Event += OnClockEnded;
     }
 
 
@@ -40,7 +40,7 @@ public class Clock : MonoBehaviour
 
     #region EventsManager
 
-    private void OnGameStarted()
+    private void OnClockStarted()
     {
         isPlaying = true;
         clock_Label.RemoveFromClassList("ExtraTimer");
@@ -49,7 +49,7 @@ public class Clock : MonoBehaviour
         UpdateTimer();
     }
 
-    private void OnGameEnded()
+    private void OnClockEnded()
     {
         isPlaying = false;
     }

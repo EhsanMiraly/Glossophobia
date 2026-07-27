@@ -2,8 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class StartPage : MonoBehaviour
+public class StartPostTestPRPSAPage : MonoBehaviour
 {
+    //Check And Change All
     PanelRenderer panelRenderer;
 
     BaselinePRPSAPage baselinePRPSAPage;

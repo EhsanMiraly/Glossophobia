@@ -262,6 +262,50 @@ public class LanguageTextsData
             "وقتی قرار است صحبت کنم، فکرهای منفی مزاحم تمرکزم می‌شوند.")
     };
 
+    public static List<TwoStrings> postTestPRPSAQuestions = new List<TwoStrings>()
+    {
+        new TwoStrings("My heart rate increases when I am about to speak in front of an audience.",
+            "وقتی قرار است در جمع صحبت کنم، ضربان قلبم بالا می‌رود."),
+        new TwoStrings("Before a presentation, I feel stomach discomfort or nervous butterflies.",
+            "قبل از سخنرانی، احساس دل‌درد یا دل‌شوره می‌کنم."),
+        new TwoStrings("During a presentation, I feel that my hands or voice are shaking.",
+            "هنگام ارائه، احساس می‌کنم دست‌ها یا صدایم می‌لرزد."),
+        new TwoStrings("Right before starting my speech, I experience shortness of breath or a dry mouth.",
+            "نزدیک شروع ارائه، احساس تنگی نفس یا خشکی دهان دارم."),
+        new TwoStrings("While speaking, I feel I cannot fully control my breathing.",
+            "هنگام سخنرانی، نمی‌توانم به‌طور کامل روی تنفسم کنترل داشته باشم."),
+        new TwoStrings("I worry that the audience thinks I don’t have enough knowledge.",
+            "نگرانم که مخاطبان فکر کنند من اطلاعات کافی ندارم."),
+        new TwoStrings("I am afraid I will make a mistake during the presentation and others will notice it.",
+            "می‌ترسم هنگام ارائه، اشتباه کنم و دیگران متوجه شوند."),
+        new TwoStrings("While speaking, I pay a lot of attention to the audience’s facial reactions.",
+            "هنگام صحبت کردن، توجه زیادی به واکنش چهره‌ی مخاطبان دارم."),
+        new TwoStrings("During my presentation, I constantly worry that I am not conveying the topic well.",
+            "هنگام ارائه، مدام نگرانم که موضوع را خوب انتقال ندهم."),
+        new TwoStrings("If I pause or hesitate even briefly, I immediately assume my presentation is going badly.",
+            "اگر یک مکث یا وقفه پیش بیاید، فوراً تصور می‌کنم ارائه‌ام خراب شده است."),
+        new TwoStrings("I feel I am capable of giving a good presentation.",
+            "احساس می‌کنم توانایی ارائه‌ی یک سخنرانی خوب را دارم."),
+        new TwoStrings("Once I start speaking, I gradually feel more comfortable.",
+            "وقتی شروع به صحبت می‌کنم، رفته‌رفته احساس بهتری پیدا می‌کنم."),
+        new TwoStrings("I am able to stay relatively calm during a presentation.",
+            "هنگام ارائه، می‌توانم نسبتاً آرام بمانم."),
+        new TwoStrings("I usually don’t feel bad about being observed by others.",
+            "معمولاً از اینکه در جمع دیده شوم حس بدی پیدا نمی‌کنم."),
+        new TwoStrings("If I am well-prepared, I am confident that my presentation will be successful.",
+            "اگر از قبل آماده باشم، اعتماد دارم ارائه‌ام موفق خواهد بود."),
+        new TwoStrings("If possible, I try to avoid speaking in front of an audience.",
+            "اگر امکان داشته باشد، سعی می‌کنم از سخنرانی در جمع دوری کنم."),
+        new TwoStrings("During presentations, my mind sometimes freezes or goes blank.",
+            "در حین ارائه، گاهی ذهنم قفل می‌کند."),
+        new TwoStrings("Before speaking, I constantly think about the possibility of making mistakes.",
+            "قبل از سخنرانی، مدام به احتمال اشتباه فکر می‌کنم."),
+        new TwoStrings("After a presentation, I worry a lot about what I did wrong.",
+            "بعد از ارائه، زیاد به اینکه «کجا بد بودم» فکر می‌کنم."),
+        new TwoStrings("When I am about to speak, negative thoughts interfere with my focus.",
+            "وقتی قرار است صحبت کنم، فکرهای منفی مزاحم تمرکزم می‌شوند.")
+    };
+
     public static List<string> yourChoice = new List<string> { "Your choice", "انتخاب شما" };
 
     public static List<TwoStrings> stronglyDisagreeToStronglyAgree = new List<TwoStrings>()
@@ -336,6 +380,16 @@ public class LanguageTextsData
 
 
     #endregion
+
+    public static List<string> postTestPRPSA =
+        new List<string> { "Post-test PRPSA", "پرسشنامه خودارزیابی پس‌آزمون" };
+
+    public static List<string> startSimulation = new List<string> { "Start simulation", "شروع شبیه‌ساز" };
+
+    public static List<string> endSimulation = new List<string> { "End simulation", "پایان شبیه‌ساز" };
+
+    public static List<string> exit = new List<string> { "Exit", "خروج" };
+
 
 
 
