@@ -46,12 +46,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
-        #region Remove Camera From Player
-        GameObject cameraParent = new GameObject();
-        camera.transform.parent = cameraParent.transform;
-        SceneManager.MoveGameObjectToScene(cameraParent, SceneManager.GetSceneByName("BaseScene"));
-        #endregion
-
         onFoot.Disable();
     }
 

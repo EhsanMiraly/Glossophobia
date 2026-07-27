@@ -103,10 +103,10 @@ public class EventsManager
         OnSimulationResumed_Event?.Invoke();
     }
 
-    public static event OnNotify OnFinishedSimulation_Event;
+    public static event OnNotify OnSimulationEnded_Event;
     public static void InvokeOnSimulationEnded()
     {
-        OnFinishedSimulation_Event?.Invoke();
+        OnSimulationEnded_Event?.Invoke();
     }
 
     public static event OnNotify OnDoorOpen_Event;

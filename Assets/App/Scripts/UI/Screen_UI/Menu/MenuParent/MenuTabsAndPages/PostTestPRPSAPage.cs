@@ -6,7 +6,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 
-[RequireComponent(typeof(StartPostTestPRPSAPage), typeof(QuestionsPostTestPRPSAPage), typeof(ChangePostTestPRPSAPage))]
+[RequireComponent(typeof(StartPostTestPRPSAPage), typeof(QuestionsPostTestPRPSAPage),
+                    typeof(ChangePostTestPRPSAPage))]
 public class PostTestPRPSAPage : MonoBehaviour
 {
     /*

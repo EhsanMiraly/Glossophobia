@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BaseScene_Initializer : MonoBehaviour
 {
-    [SerializeField] GameObject mainCamera_GameObject;
+    [SerializeField] GameObject mainCameraParent_GameObject;
     [SerializeField] GameObject fontLoader_GameObject;
     [SerializeField] GameObject screenUI_GameObject;
     [SerializeField] GameObject scenesManager_GameObject;
@@ -18,7 +18,7 @@ public class BaseScene_Initializer : MonoBehaviour
         {
             loadingWindow_PopUp.SetProgress(10);
 
-            mainCamera_GameObject = Instantiate(mainCamera_GameObject);
+            mainCameraParent_GameObject = Instantiate(mainCameraParent_GameObject);
 
             loadingWindow_PopUp.SetProgress(20);
 

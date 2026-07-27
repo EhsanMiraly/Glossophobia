@@ -194,7 +194,7 @@ public class MenuTabsAndPages : MonoBehaviour
         EventsManager.OnSetPRPSA_Before_Event += OnSetBaselinePRPSA;
         EventsManager.OnChangePRPSA_Before_Event += OnChangedBaselinePRPSA;
 
-        EventsManager.OnFinishedSimulation_Event += OnFinishedSimulation;
+        EventsManager.OnSimulationEnded_Event += OnSimulationEnded;
 
         EventsManager.OnFinishedPostTestPRPSA_Event += OnFinishedPostTestPRPSA;
     }
@@ -213,7 +213,7 @@ public class MenuTabsAndPages : MonoBehaviour
         EventsManager.OnSetPRPSA_Before_Event -= OnSetBaselinePRPSA;
         EventsManager.OnChangePRPSA_Before_Event -= OnChangedBaselinePRPSA;
 
-        EventsManager.OnFinishedSimulation_Event -= OnFinishedSimulation;
+        EventsManager.OnSimulationEnded_Event -= OnSimulationEnded;
 
         EventsManager.OnFinishedPostTestPRPSA_Event -= OnFinishedPostTestPRPSA;
     }
@@ -370,7 +370,7 @@ public class MenuTabsAndPages : MonoBehaviour
 
     #region Simulation
 
-    private async void OnFinishedSimulation()
+    private async void OnSimulationEnded()
     {
         while (!isUIReady)
         {
@@ -378,6 +378,7 @@ public class MenuTabsAndPages : MonoBehaviour
         }
 
         postTestPRPSA_Label.RegisterCallback<ClickEvent>(OnPostTestPRPSATabSelected);
+        OnPostTestPRPSATabSelected(new ClickEvent());
     }
 
     #endregion

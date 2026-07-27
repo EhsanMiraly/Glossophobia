@@ -275,13 +275,16 @@ public class StartPlayingPage : MonoBehaviour
     }
 
 
-    private async void OnStartEndSimulationButtonSelected(ClickEvent evt)
+    private async void OnStartEndSimulationButtonSelected(ClickEvent clickEvent)
     {
-        ////////////////////////////////////////////Change
-        if (currentPDF_Label != null) // And Scene not Loaded And Not Playing
+        if (currentPDF_Label != null && !GameData.isSimulating)
         {
             using (LoadingWindow_PopUp loadingWindow_PopUp = new LoadingWindow_PopUp(new GameObject()))
             {
+                GameData.isSimulating = true;
+                startEndSimulationButton_Label.text =
+                    LanguageTextsData.endSimulation[SettingsData.currentLanguageIndex];
+
                 loadingWindow_PopUp.SetProgress(10);
 
                 EventsManager.InvokeOnSimulationStarted();
@@ -299,6 +302,31 @@ public class StartPlayingPage : MonoBehaviour
 
                 menuParent.SetPageActive(menuParent.nothingPage_VisualElement);
                 loadingWindow_PopUp.SetProgress(60);
+
+                loadingWindow_PopUp.SetProgress(100);
+            }
+        }
+        else
+        {
+            using (LoadingWindow_PopUp loadingWindow_PopUp = new LoadingWindow_PopUp(new GameObject()))
+            {
+                GameData.isSimulating = false;
+                startEndSimulationButton_Label.text =
+                    LanguageTextsData.startSimulation[SettingsData.currentLanguageIndex];
+
+                loadingWindow_PopUp.SetProgress(10);
+
+                GameObject mainCameraParent = GameObject.Find("MainCameraParent(Clone)");
+                Camera mainCamera = FindAnyObjectByType<Camera>();
+                mainCamera.transform.parent = mainCameraParent.transform;
+
+                loadingWindow_PopUp.SetProgress(20);
+
+                EventsManager.InvokeOnSimulationEnded();
+
+                loadingWindow_PopUp.SetProgress(30);
+
+                UI_Utilities.MouseVisible(true);
 
                 loadingWindow_PopUp.SetProgress(100);
             }
