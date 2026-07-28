@@ -8,7 +8,7 @@ public class ChangeBaselinePRPSAPage : MonoBehaviour
 
     BaselinePRPSAPage baselinePRPSAPage;
 
-    VisualElement changePage_VisualElement;
+    VisualElement changeBaselinePRPSAPage_VisualElement;
 
     VisualElement changePRPSAButton_TemplateContainer;
     Label changePRPSAButton_Label;
@@ -35,10 +35,10 @@ public class ChangeBaselinePRPSAPage : MonoBehaviour
 
     private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
     {
-        changePage_VisualElement = root.Q<VisualElement>("ChangePage_VisualElement");
+        changeBaselinePRPSAPage_VisualElement = root.Q<VisualElement>("ChangeBaselinePRPSAPage_VisualElement");
 
         changePRPSAButton_TemplateContainer =
-            changePage_VisualElement.Q<VisualElement>("ChangePRPSAButton_TemplateContainer");
+            changeBaselinePRPSAPage_VisualElement.Q<VisualElement>("ChangePRPSAButton_TemplateContainer");
         changePRPSAButton_Label = changePRPSAButton_TemplateContainer.Q<Label>("Text_Label");
 
         InitializeUI();
@@ -70,7 +70,7 @@ public class ChangeBaselinePRPSAPage : MonoBehaviour
     private void OnchangePRPSAButtonSelected(ClickEvent clickEvent)
     {
         EventsManager.InvokeOnChangePRPSA_Before();
-        baselinePRPSAPage.SetPageActive(baselinePRPSAPage.startPage_VisualElement);
+        baselinePRPSAPage.SetPageActive(baselinePRPSAPage.startBaselinePRPSAPage_VisualElement);
     }
 
     #endregion

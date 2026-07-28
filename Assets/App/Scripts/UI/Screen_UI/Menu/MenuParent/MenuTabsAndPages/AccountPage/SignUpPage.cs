@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
+using Firebase.Firestore;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -159,6 +161,57 @@ public class SignUpPage : MonoBehaviour
 
             EventsManager.InvokeOnLoggedIn();
             accountPage.SetPageActive(accountPage.logOutPage_VisualElement);
+
+            #region Initial Setup -----------------------------------------------------------
+            try
+            {
+                if (FirebaseAuth.DefaultInstance.CurrentUser == null)
+                {
+                    new MessageWindow_PopUp(new GameObject(),
+                        LanguageTextsData.thereIsSomethingWrongWithYourAccount[SettingsData.currentLanguageIndex]);
+                    return;
+                }
+
+                DocumentReference playerDocument =
+                    FirebaseFirestore.DefaultInstance.Collection(FireStoreNames.players_Collection)
+                    .Document(FirebaseAuth.DefaultInstance.CurrentUser.UserId);
+
+
+                Dictionary<string, object> numberOfGameSessions = new Dictionary<string, object>()
+                {
+                    { FireStoreNames.numberOfGameSessions, 0 }
+                };
+
+                await playerDocument.SetAsync(numberOfGameSessions, SetOptions.MergeAll);
+            }
+            catch (FirestoreException firestoreException)
+            {
+                switch (firestoreException.ErrorCode)
+                {
+                    case FirestoreError.Unavailable:
+                        new MessageWindow_PopUp(new GameObject(),
+                            LanguageTextsData.unavailable[SettingsData.currentLanguageIndex]);
+                        break;
+                    case FirestoreError.DeadlineExceeded:
+                        new MessageWindow_PopUp(new GameObject(),
+                            LanguageTextsData.deadlineExceeded[SettingsData.currentLanguageIndex]);
+                        break;
+                    case FirestoreError.Unauthenticated:
+                        new MessageWindow_PopUp(new GameObject(),
+                            LanguageTextsData.unauthenticated[SettingsData.currentLanguageIndex]);
+                        break;
+                    default:
+                        new MessageWindow_PopUp(new GameObject(),
+                            LanguageTextsData.thereIsSomethingWrong[SettingsData.currentLanguageIndex]);
+                        break;
+                }
+            }
+            catch
+            {
+                new MessageWindow_PopUp(new GameObject(),
+                    LanguageTextsData.thereIsSomethingWrong[SettingsData.currentLanguageIndex]);
+            }
+            #endregion
         }
         catch (Exception ex)
         {

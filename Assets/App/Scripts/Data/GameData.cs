@@ -16,8 +16,10 @@ public class GameData
 
 
     //GameState
-    public static bool isClockTicking = false;
+    public static GameSession gameSession;
     public static bool isSimulating = false;
+    public static bool isClockTicking = false;
+
 
 
 

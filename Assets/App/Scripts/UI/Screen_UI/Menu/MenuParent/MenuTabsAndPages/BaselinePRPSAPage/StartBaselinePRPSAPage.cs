@@ -8,7 +8,7 @@ public class StartBaselinePRPSAPage : MonoBehaviour
 
     BaselinePRPSAPage baselinePRPSAPage;
 
-    VisualElement startPage_VisualElement;
+    VisualElement startBaselinePRPSAPage_VisualElement;
 
     Label explain_Label;
     VisualElement startButton_TemplateContainer;
@@ -37,10 +37,10 @@ public class StartBaselinePRPSAPage : MonoBehaviour
 
     private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
     {
-        startPage_VisualElement = root.Q<VisualElement>("StartPage_VisualElement");
+        startBaselinePRPSAPage_VisualElement = root.Q<VisualElement>("StartBaselinePRPSAPage_VisualElement");
 
-        explain_Label = startPage_VisualElement.Q<Label>("Explain_Label");
-        startButton_TemplateContainer = startPage_VisualElement.Q<VisualElement>("StartButton_TemplateContainer");
+        explain_Label = startBaselinePRPSAPage_VisualElement.Q<Label>("Explain_Label");
+        startButton_TemplateContainer = startBaselinePRPSAPage_VisualElement.Q<VisualElement>("StartButton_TemplateContainer");
         startButton_Label = startButton_TemplateContainer.Q<Label>("Text_Label");
 
         InitializeUI();
@@ -69,7 +69,7 @@ public class StartBaselinePRPSAPage : MonoBehaviour
 
     private void OnStartButtonSelected(ClickEvent clickEvent)
     {
-        baselinePRPSAPage.SetPageActive(baselinePRPSAPage.questionsPage_VisualElement);
+        baselinePRPSAPage.SetPageActive(baselinePRPSAPage.questionsBaselinePRPSAPage_VisualElement);
     }
 
     #endregion

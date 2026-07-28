@@ -72,7 +72,7 @@ public class ChangePostTestPRPSAPage : MonoBehaviour
     private void OnchangePRPSAButtonSelected(ClickEvent clickEvent)
     {
         EventsManager.InvokeOnChangePRPSA_Before();
-        baselinePRPSAPage.SetPageActive(baselinePRPSAPage.startPage_VisualElement);
+        baselinePRPSAPage.SetPageActive(baselinePRPSAPage.startBaselinePRPSAPage_VisualElement);
     }
 
     #endregion

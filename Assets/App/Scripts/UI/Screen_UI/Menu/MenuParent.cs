@@ -41,6 +41,11 @@ public class MenuParent : MonoBehaviour
 
     private void OnEscapeSelected()
     {
+        if (!GameData.isSimulating)
+        {
+            return;
+        }
+
         if (currentActivePage == nothingPage_VisualElement)
         {
             SetPageActive(menuTabsAndPages_VisualElement);

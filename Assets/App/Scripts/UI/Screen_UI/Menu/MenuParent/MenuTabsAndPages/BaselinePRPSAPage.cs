@@ -17,9 +17,9 @@ public class BaselinePRPSAPage : MonoBehaviour
 
 
     #region Pages
-    [System.NonSerialized] public VisualElement startPage_VisualElement;
-    [System.NonSerialized] public VisualElement questionsPage_VisualElement;
-    [System.NonSerialized] public VisualElement changePage_VisualElement;
+    [System.NonSerialized] public VisualElement startBaselinePRPSAPage_VisualElement;
+    [System.NonSerialized] public VisualElement questionsBaselinePRPSAPage_VisualElement;
+    [System.NonSerialized] public VisualElement changeBaselinePRPSAPage_VisualElement;
     #endregion
 
 
@@ -45,9 +45,12 @@ public class BaselinePRPSAPage : MonoBehaviour
     {
         baselinePRPSAPage_VisualElement = root.Q<VisualElement>("BaselinePRPSAPage_VisualElement");
 
-        startPage_VisualElement = baselinePRPSAPage_VisualElement.Q<VisualElement>("StartPage_VisualElement");
-        questionsPage_VisualElement = baselinePRPSAPage_VisualElement.Q<VisualElement>("QuestionsPage_VisualElement");
-        changePage_VisualElement = baselinePRPSAPage_VisualElement.Q<VisualElement>("ChangePage_VisualElement");
+        startBaselinePRPSAPage_VisualElement =
+            baselinePRPSAPage_VisualElement.Q<VisualElement>("StartBaselinePRPSAPage_VisualElement");
+        questionsBaselinePRPSAPage_VisualElement =
+            baselinePRPSAPage_VisualElement.Q<VisualElement>("QuestionsBaselinePRPSAPage_VisualElement");
+        changeBaselinePRPSAPage_VisualElement =
+            baselinePRPSAPage_VisualElement.Q<VisualElement>("ChangeBaselinePRPSAPage_VisualElement");
 
         isUIReady = true;
     }
@@ -68,9 +71,9 @@ public class BaselinePRPSAPage : MonoBehaviour
 
     public void SetPageActive(VisualElement page)
     {
-        startPage_VisualElement.style.display = DisplayStyle.None;
-        questionsPage_VisualElement.style.display = DisplayStyle.None;
-        changePage_VisualElement.style.display = DisplayStyle.None;
+        startBaselinePRPSAPage_VisualElement.style.display = DisplayStyle.None;
+        questionsBaselinePRPSAPage_VisualElement.style.display = DisplayStyle.None;
+        changeBaselinePRPSAPage_VisualElement.style.display = DisplayStyle.None;
 
         page.style.display = DisplayStyle.Flex;
     }
@@ -190,12 +193,12 @@ public class BaselinePRPSAPage : MonoBehaviour
     {
         if (baselinePRPSA.IsEveryThingSet())
         {
-            SetPageActive(changePage_VisualElement);
+            SetPageActive(changeBaselinePRPSAPage_VisualElement);
             EventsManager.InvokeOnSetPRPSA_Before();
         }
         else
         {
-            SetPageActive(startPage_VisualElement);
+            SetPageActive(startBaselinePRPSAPage_VisualElement);
         }
     }
 

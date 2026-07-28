@@ -6,6 +6,10 @@ public class FireStoreNames
     public const string demographics_Map = "Demographics";
     public const string baselinePRPSA_Map = "BaselinePRPSA";
 
+    #region InitialSetup
+    public const string numberOfGameSessions = "numberOfGameSessions";
+    #endregion
+
 
     #region Demographics
 

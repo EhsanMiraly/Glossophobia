@@ -10,72 +10,86 @@ using UnityEngine.UIElements;
                     typeof(ChangePostTestPRPSAPage))]
 public class PostTestPRPSAPage : MonoBehaviour
 {
+    PanelRenderer panelRenderer;
+
+    VisualElement postTestPRPSAPage_VisualElement;
+
+    #region Pages
+    [System.NonSerialized] public VisualElement startPostTestPage_VisualElement;
+    [System.NonSerialized] public VisualElement questionsPostTestPage_VisualElement;
+    [System.NonSerialized] public VisualElement changePostTestPage_VisualElement;
+    #endregion
+
+    private bool isUIReady = false;
+
+
+    private void OnEnable()
+    {
+        panelRenderer = GetComponent<PanelRenderer>();
+        panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
+
+        AddFunctionality();
+    }
+
+    private void OnDisable()
+    {
+        RemoveFunctionality();
+
+        panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
+    }
+
+    private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
+    {
+        postTestPRPSAPage_VisualElement = root.Q<VisualElement>("PostTestPRPSAPage_VisualElement");
+
+        startPostTestPage_VisualElement =
+            postTestPRPSAPage_VisualElement.Q<VisualElement>("StartPostTestPage_VisualElement");
+        questionsPostTestPage_VisualElement =
+            postTestPRPSAPage_VisualElement.Q<VisualElement>("QuestionsPostTestPage_VisualElement");
+        changePostTestPage_VisualElement =
+            postTestPRPSAPage_VisualElement.Q<VisualElement>("ChangePostTestPage_VisualElement");
+
+
+        isUIReady = true;
+
+        InitializeUI();
+    }
+
+
+    private void InitializeUI()
+    {
+        SetPageActive(startPostTestPage_VisualElement);
+    }
+
+
+
+    #region Functionality
+    private void AddFunctionality()
+    {
+
+    }
+
+    private void RemoveFunctionality()
+    {
+
+    }
+    #endregion
+
+
+    public void SetPageActive(VisualElement page)
+    {
+        startPostTestPage_VisualElement.style.display = DisplayStyle.None;
+        questionsPostTestPage_VisualElement.style.display = DisplayStyle.None;
+        changePostTestPage_VisualElement.style.display = DisplayStyle.None;
+
+        page.style.display = DisplayStyle.Flex;
+    }
+
+
+
     /*
-    public BaselinePRPSA baselinePRPSA = new BaselinePRPSA();
-
-        PanelRenderer panelRenderer;
-
-        VisualElement baselinePRPSAPage_VisualElement;
 
 
-        #region Pages
-        [System.NonSerialized] public VisualElement startPage_VisualElement;
-        [System.NonSerialized] public VisualElement questionsPage_VisualElement;
-        [System.NonSerialized] public VisualElement changePage_VisualElement;
-        #endregion
-
-
-        private bool isUIReady = false;
-
-
-        private void OnEnable()
-        {
-            panelRenderer = GetComponent<PanelRenderer>();
-            panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
-
-            AddFunctionality();
-        }
-
-        private void OnDisable()
-        {
-            RemoveFunctionality();
-
-            panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
-        }
-
-        private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
-        {
-            baselinePRPSAPage_VisualElement = root.Q<VisualElement>("BaselinePRPSAPage_VisualElement");
-
-            startPage_VisualElement = baselinePRPSAPage_VisualElement.Q<VisualElement>("StartPage_VisualElement");
-            questionsPage_VisualElement = baselinePRPSAPage_VisualElement.Q<VisualElement>("QuestionsPage_VisualElement");
-            changePage_VisualElement = baselinePRPSAPage_VisualElement.Q<VisualElement>("ChangePage_VisualElement");
-
-            isUIReady = true;
-        }
-
-
-        #region Functionality
-        private void AddFunctionality()
-        {
-            EventsManager.OnLoggedIn_Event += OnLoggedIn;
-        }
-
-        private void RemoveFunctionality()
-        {
-            EventsManager.OnLoggedIn_Event -= OnLoggedIn;
-        }
-        #endregion
-
-
-        public void SetPageActive(VisualElement page)
-        {
-            startPage_VisualElement.style.display = DisplayStyle.None;
-            questionsPage_VisualElement.style.display = DisplayStyle.None;
-            changePage_VisualElement.style.display = DisplayStyle.None;
-
-            page.style.display = DisplayStyle.Flex;
-        }
 
 
         #region Events Manager

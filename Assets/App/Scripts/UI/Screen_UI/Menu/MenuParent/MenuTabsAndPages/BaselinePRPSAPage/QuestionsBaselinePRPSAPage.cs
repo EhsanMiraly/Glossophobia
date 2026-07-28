@@ -11,7 +11,7 @@ public class QuestionsBaselinePRPSAPage : MonoBehaviour
 
     BaselinePRPSAPage baselinePRPSAPage;
 
-    VisualElement questionsPage_VisualElement;
+    VisualElement questionsBaselinePRPSAPage_VisualElement;
 
 
     Label question_Label;
@@ -53,11 +53,11 @@ public class QuestionsBaselinePRPSAPage : MonoBehaviour
 
     private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
     {
-        questionsPage_VisualElement = root.Q<VisualElement>("QuestionsPage_VisualElement");
+        questionsBaselinePRPSAPage_VisualElement = root.Q<VisualElement>("QuestionsBaselinePRPSAPage_VisualElement");
 
-        question_Label = questionsPage_VisualElement.Q<Label>("Question_Label");
+        question_Label = questionsBaselinePRPSAPage_VisualElement.Q<Label>("Question_Label");
         singleSelection_TemplateContainer =
-            questionsPage_VisualElement.Q<VisualElement>("SingleSelection_TemplateContainer");
+            questionsBaselinePRPSAPage_VisualElement.Q<VisualElement>("SingleSelection_TemplateContainer");
         singleSelection_WhatAmI_Label = singleSelection_TemplateContainer.Q<Label>("WhatAmI_Label");
 
         singleSelection_OptionsLabels = new List<VisualElement>();
@@ -70,10 +70,10 @@ public class QuestionsBaselinePRPSAPage : MonoBehaviour
                 singleSelection_OptionsCheckMarks);
 
         lastQuestionButton_TemplateContainer =
-            questionsPage_VisualElement.Q<VisualElement>("LastQuestionButton_TemplateContainer");
+            questionsBaselinePRPSAPage_VisualElement.Q<VisualElement>("LastQuestionButton_TemplateContainer");
         lastQuestionButton_Label = lastQuestionButton_TemplateContainer.Q<Label>("Text_Label");
         nextQuestionButton_TemplateContainer =
-            questionsPage_VisualElement.Q<VisualElement>("NextQuestionButton_TemplateContainer");
+            questionsBaselinePRPSAPage_VisualElement.Q<VisualElement>("NextQuestionButton_TemplateContainer");
         nextQuestionButton_Label = nextQuestionButton_TemplateContainer.Q<Label>("Text_Label");
 
 
@@ -210,7 +210,7 @@ public class QuestionsBaselinePRPSAPage : MonoBehaviour
 
                     await playerDocument.SetAsync(update, SetOptions.MergeAll);
 
-                    baselinePRPSAPage.SetPageActive(baselinePRPSAPage.changePage_VisualElement);
+                    baselinePRPSAPage.SetPageActive(baselinePRPSAPage.changeBaselinePRPSAPage_VisualElement);
                     EventsManager.InvokeOnSetPRPSA_Before();
                 }
                 catch (FirestoreException firestoreException)

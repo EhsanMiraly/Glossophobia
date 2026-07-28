@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using Firebase.Auth;
+using Firebase.Firestore;
 using UnityEngine;
 
 public class GameSessionManager : MonoBehaviour
@@ -7,6 +10,8 @@ public class GameSessionManager : MonoBehaviour
     private void OnEnable()
     {
         ConnectEvents();
+
+        GameData.gameSession = new GameSession();
     }
 
     private void OnDisable()
@@ -37,11 +42,70 @@ public class GameSessionManager : MonoBehaviour
     }
 
 
-    private void OnSimulationStarted()
+    private async void OnSimulationStarted()
     {
-        //if internet problem unload scene
-        //simulation started
-        //find game session number - 
+        GameData.gameSession = new GameSession();
+
+        try
+        {
+            if (FirebaseAuth.DefaultInstance.CurrentUser == null)
+            {
+                new MessageWindow_PopUp(new GameObject(),
+                    LanguageTextsData.thereIsSomethingWrongWithYourAccount[SettingsData.currentLanguageIndex]);
+                return;
+            }
+
+            DocumentReference playerDocument =
+                FirebaseFirestore.DefaultInstance.Collection(FireStoreNames.players_Collection).
+                    Document(FirebaseAuth.DefaultInstance.CurrentUser.UserId);
+
+            DocumentSnapshot snapshot = await playerDocument.GetSnapshotAsync();
+
+            if (!snapshot.Exists)
+            {
+                GameData.gameSession.numberOfCurrentGameSession = 1;
+                return;
+            }
+
+            if (!snapshot.ContainsField(FireStoreNames.numberOfGameSessions))
+            {
+                Debug.Log("numberOfCurrentGameSession Should Exist");
+                GameData.gameSession.numberOfCurrentGameSession = 1;
+                return;
+            }
+
+            int numberOfGameSessions = snapshot.GetValue<int>(FireStoreNames.numberOfGameSessions);
+            GameData.gameSession.numberOfCurrentGameSession = numberOfGameSessions + 1;
+        }
+        catch (FirestoreException firestoreException)
+        {
+            switch (firestoreException.ErrorCode)
+            {
+                case FirestoreError.Unavailable:
+                    new MessageWindow_PopUp(new GameObject(),
+                        LanguageTextsData.unavailable[SettingsData.currentLanguageIndex]);
+                    break;
+                case FirestoreError.DeadlineExceeded:
+                    new MessageWindow_PopUp(new GameObject(),
+                        LanguageTextsData.deadlineExceeded[SettingsData.currentLanguageIndex]);
+                    break;
+                case FirestoreError.Unauthenticated:
+                    new MessageWindow_PopUp(new GameObject(),
+                        LanguageTextsData.unauthenticated[SettingsData.currentLanguageIndex]);
+                    break;
+                default:
+                    new MessageWindow_PopUp(new GameObject(),
+                        LanguageTextsData.thereIsSomethingWrong[SettingsData.currentLanguageIndex]);
+                    break;
+            }
+        }
+        catch
+        {
+            new MessageWindow_PopUp(new GameObject(),
+                LanguageTextsData.thereIsSomethingWrong[SettingsData.currentLanguageIndex]);
+        }
+
+        Debug.Log("NumberOfCurrentGameSession: " + GameData.gameSession.numberOfCurrentGameSession);
     }
 
 
@@ -71,6 +135,9 @@ public class GameSessionManager : MonoBehaviour
     {
         //postEnded
         //save postPRPSA data in game session
+
+
+        //await playerDocument.UpdateAsync("numberOfGameSessions", FieldValue.Increment(1));
     }
 
     #endregion

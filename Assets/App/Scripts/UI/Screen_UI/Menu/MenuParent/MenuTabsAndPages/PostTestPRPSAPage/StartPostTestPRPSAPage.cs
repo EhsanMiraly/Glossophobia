@@ -70,7 +70,7 @@ public class StartPostTestPRPSAPage : MonoBehaviour
 
     private void OnStartButtonSelected(ClickEvent clickEvent)
     {
-        baselinePRPSAPage.SetPageActive(baselinePRPSAPage.questionsPage_VisualElement);
+        baselinePRPSAPage.SetPageActive(baselinePRPSAPage.questionsBaselinePRPSAPage_VisualElement);
     }
 
     #endregion

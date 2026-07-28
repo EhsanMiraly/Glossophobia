@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 
 public class QuestionsPostTestPRPSAPage : MonoBehaviour
 {
+    //GameData.gameSession.postTestPRPSAIndexes[0] = -1;
     //Check And Change All
     PanelRenderer panelRenderer;
 
@@ -211,7 +212,7 @@ public class QuestionsPostTestPRPSAPage : MonoBehaviour
 
                     await playerDocument.SetAsync(update, SetOptions.MergeAll);
 
-                    baselinePRPSAPage.SetPageActive(baselinePRPSAPage.changePage_VisualElement);
+                    baselinePRPSAPage.SetPageActive(baselinePRPSAPage.changeBaselinePRPSAPage_VisualElement);
                     EventsManager.InvokeOnSetPRPSA_Before();
                 }
                 catch (FirestoreException firestoreException)
