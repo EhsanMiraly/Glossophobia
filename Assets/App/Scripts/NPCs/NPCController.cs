@@ -86,12 +86,12 @@ public class NPCController : MonoBehaviour, IObjectInPool
         Points = new Vector3[]
         {
             new Vector3(0,0,0),
-            new Vector3(9,0,0),
-            new Vector3(9,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2),
-            new Vector3(9,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2) +
-                                new Vector3(((int)chairLocation.y + 1) + 0.35f, 0, 0),
-            new Vector3(9,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2) +
-                                new Vector3(((int)chairLocation.y + 1) + 0.35f, 0, 0) +
+            new Vector3(11,0,0),
+            new Vector3(11,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2.5f),
+            new Vector3(11,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2.5f) +
+                                new Vector3(((int)chairLocation.y * 1.3f) + 2.1f, 0, 0),
+            new Vector3(11,0,0)+new Vector3(0, 0, (int)chairLocation.x * -2.5f) +
+                                new Vector3(((int)chairLocation.y * 1.3f) + 2.1f, 0, 0) +
                                 new Vector3(0,0,0.5f)
         };
 
@@ -252,7 +252,7 @@ public class NPCController : MonoBehaviour, IObjectInPool
     {
         if (!animator.GetBool(isWalking_Hash))
         {
-            duration = Vector3.Distance(start, end) / 2f;
+            duration = Vector3.Distance(start, end) / 3f;
             SetAnimation(isWalking_Hash);
         }
 
