@@ -4,11 +4,11 @@ using UnityEngine.UIElements;
 
 public class StartPostTestPRPSAPage : MonoBehaviour
 {
-    //Check And Change All
     PanelRenderer panelRenderer;
 
-    BaselinePRPSAPage baselinePRPSAPage;
+    PostTestPRPSAPage postTestPRPSAPage;
 
+    VisualElement postTestPRPSAPage_VisualElement;
     VisualElement startPage_VisualElement;
 
     Label explain_Label;
@@ -16,12 +16,15 @@ public class StartPostTestPRPSAPage : MonoBehaviour
     Label startButton_Label;
 
 
+    bool isUIReady = false;
+
+
     private void OnEnable()
     {
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
-        baselinePRPSAPage = GetComponent<BaselinePRPSAPage>();
+        postTestPRPSAPage = GetComponent<PostTestPRPSAPage>();
 
         ConnectEvents();
     }
@@ -38,18 +41,16 @@ public class StartPostTestPRPSAPage : MonoBehaviour
 
     private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
     {
-        startPage_VisualElement = root.Q<VisualElement>("StartPage_VisualElement");
+        postTestPRPSAPage_VisualElement = root.Q<VisualElement>("PostTestPRPSAPage_VisualElement");
+        startPage_VisualElement = postTestPRPSAPage_VisualElement.Q<VisualElement>("StartPage_VisualElement");
 
         explain_Label = startPage_VisualElement.Q<Label>("Explain_Label");
         startButton_TemplateContainer = startPage_VisualElement.Q<VisualElement>("StartButton_TemplateContainer");
         startButton_Label = startButton_TemplateContainer.Q<Label>("Text_Label");
 
-        InitializeUI();
-    }
-
-    private void InitializeUI()
-    {
         AddFunctionality();
+
+        isUIReady = true;
 
         OnLanguageChanged();
         OnFontSizeChanged();
@@ -70,7 +71,7 @@ public class StartPostTestPRPSAPage : MonoBehaviour
 
     private void OnStartButtonSelected(ClickEvent clickEvent)
     {
-        baselinePRPSAPage.SetPageActive(baselinePRPSAPage.questionsBaselinePRPSAPage_VisualElement);
+        postTestPRPSAPage.SetPageActive(postTestPRPSAPage.questionsPostTestPage_VisualElement);
     }
 
     #endregion

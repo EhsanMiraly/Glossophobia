@@ -4,16 +4,16 @@ using UnityEngine.UIElements;
 
 public class ChangePostTestPRPSAPage : MonoBehaviour
 {
-    //Check And Change All
-
     PanelRenderer panelRenderer;
 
-    BaselinePRPSAPage baselinePRPSAPage;
+    PostTestPRPSAPage postTestPRPSAPage;
 
+    VisualElement changePostTestPRPSAPage_VisualElement;
     VisualElement changePage_VisualElement;
 
-    VisualElement changePRPSAButton_TemplateContainer;
-    Label changePRPSAButton_Label;
+    Label thankYou_Label;
+
+    bool isUIReady = false;
 
 
     private void OnEnable()
@@ -21,7 +21,7 @@ public class ChangePostTestPRPSAPage : MonoBehaviour
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
-        baselinePRPSAPage = GetComponent<BaselinePRPSAPage>();
+        postTestPRPSAPage = GetComponent<PostTestPRPSAPage>();
 
         ConnectEvents();
     }
@@ -37,17 +37,14 @@ public class ChangePostTestPRPSAPage : MonoBehaviour
 
     private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
     {
-        changePage_VisualElement = root.Q<VisualElement>("ChangePage_VisualElement");
+        changePostTestPRPSAPage_VisualElement = root.Q<VisualElement>("ChangePostTestPRPSAPage_VisualElement");
+        changePage_VisualElement =
+            changePostTestPRPSAPage_VisualElement.Q<VisualElement>("ChangePage_VisualElement");
 
-        changePRPSAButton_TemplateContainer =
-            changePage_VisualElement.Q<VisualElement>("ChangePRPSAButton_TemplateContainer");
-        changePRPSAButton_Label = changePRPSAButton_TemplateContainer.Q<Label>("Text_Label");
+        thankYou_Label = changePage_VisualElement.Q<Label>("ThankYou_Label");
 
-        InitializeUI();
-    }
+        isUIReady = true;
 
-    private void InitializeUI()
-    {
         AddFunctionality();
 
         OnLanguageChanged();
@@ -59,20 +56,12 @@ public class ChangePostTestPRPSAPage : MonoBehaviour
 
     private void AddFunctionality()
     {
-        //changePRPSAButton_TemplateContainer
-        changePRPSAButton_TemplateContainer.RegisterCallback<ClickEvent>(OnchangePRPSAButtonSelected);
+
     }
 
     private void RemoveFunctionality()
     {
-        //changePRPSAButton_TemplateContainer
-        changePRPSAButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnchangePRPSAButtonSelected);
-    }
 
-    private void OnchangePRPSAButtonSelected(ClickEvent clickEvent)
-    {
-        EventsManager.InvokeOnChangePRPSA_Before();
-        baselinePRPSAPage.SetPageActive(baselinePRPSAPage.startBaselinePRPSAPage_VisualElement);
     }
 
     #endregion
@@ -96,12 +85,12 @@ public class ChangePostTestPRPSAPage : MonoBehaviour
 
     private void OnLanguageChanged()
     {
-        #region changePRPSAButton_Label
-        changePRPSAButton_Label.text =
-            LanguageTextsData.changePRPSA[SettingsData.currentLanguageIndex];
-        changePRPSAButton_Label.languageDirection =
+        #region thankYou_Label
+        thankYou_Label.text =
+            LanguageTextsData.thankYou[SettingsData.currentLanguageIndex];
+        thankYou_Label.languageDirection =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].languageDirection;
-        changePRPSAButton_Label.style.unityFont =
+        thankYou_Label.style.unityFont =
             LanguageTextsData.languages[SettingsData.currentLanguageIndex].font;
         #endregion
 
@@ -109,8 +98,8 @@ public class ChangePostTestPRPSAPage : MonoBehaviour
 
     private void OnFontSizeChanged()
     {
-        #region changePRPSAButton_Label
-        changePRPSAButton_Label.style.fontSize =
+        #region thankYou_Label
+        thankYou_Label.style.fontSize =
             LanguageTextsData.fontSize_CategoryAverage[SettingsData.currentFontSizeIndex];
         #endregion
     }

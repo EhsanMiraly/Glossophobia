@@ -8,11 +8,11 @@ using UnityEngine.UIElements;
 public class QuestionsPostTestPRPSAPage : MonoBehaviour
 {
     //GameData.gameSession.postTestPRPSAIndexes[0] = -1;
-    //Check And Change All
     PanelRenderer panelRenderer;
 
-    BaselinePRPSAPage baselinePRPSAPage;
+    PostTestPRPSAPage postTestPRPSAPage;
 
+    VisualElement questionsPostTestPRPSAPage_VisualElement;
     VisualElement questionsPage_VisualElement;
 
 
@@ -31,6 +31,8 @@ public class QuestionsPostTestPRPSAPage : MonoBehaviour
 
     int currentQuestionIndex;
 
+    bool isUIReady = false;
+
 
 
     private void OnEnable()
@@ -38,16 +40,16 @@ public class QuestionsPostTestPRPSAPage : MonoBehaviour
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
 
-        baselinePRPSAPage = GetComponent<BaselinePRPSAPage>();
+        postTestPRPSAPage = GetComponent<PostTestPRPSAPage>();
 
         ConnectEvents();
     }
 
     private void OnDisable()
     {
-        DisconnectEvents();
-
         RemoveFunctionality();
+
+        DisconnectEvents();
 
         panelRenderer.UnregisterUIReloadCallback(OnUIReloadCallback);
     }
@@ -55,7 +57,10 @@ public class QuestionsPostTestPRPSAPage : MonoBehaviour
 
     private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root)
     {
-        questionsPage_VisualElement = root.Q<VisualElement>("QuestionsPage_VisualElement");
+        questionsPostTestPRPSAPage_VisualElement =
+            root.Q<VisualElement>("QuestionsPostTestPRPSAPage_VisualElement");
+        questionsPage_VisualElement =
+            questionsPostTestPRPSAPage_VisualElement.Q<VisualElement>("QuestionsPage_VisualElement");
 
         question_Label = questionsPage_VisualElement.Q<Label>("Question_Label");
         singleSelection_TemplateContainer =
@@ -78,12 +83,8 @@ public class QuestionsPostTestPRPSAPage : MonoBehaviour
             questionsPage_VisualElement.Q<VisualElement>("NextQuestionButton_TemplateContainer");
         nextQuestionButton_Label = nextQuestionButton_TemplateContainer.Q<Label>("Text_Label");
 
+        isUIReady = true;
 
-        InitializeUI();
-    }
-
-    private void InitializeUI()
-    {
         currentQuestionIndex = 0;
 
         AddFunctionality();
@@ -91,6 +92,7 @@ public class QuestionsPostTestPRPSAPage : MonoBehaviour
         OnLanguageChanged();
         OnFontSizeChanged();
     }
+
 
 
     #region Functionality
@@ -135,8 +137,7 @@ public class QuestionsPostTestPRPSAPage : MonoBehaviour
         VisualElement visualElement = clickEvent.currentTarget as VisualElement;
         visualElement.Q<VisualElement>("Foreground_VisualElement")
             .style.display = DisplayStyle.Flex;
-        baselinePRPSAPage.baselinePRPSA.baselinePRPSAIndexes[currentQuestionIndex] =
-            int.Parse(visualElement.name);
+        GameData.gameSession.postTestPRPSAIndexes[currentQuestionIndex] = int.Parse(visualElement.name);
     }
 
     private void OnLastQuestionButtonSelected(ClickEvent clickEvent)
@@ -154,9 +155,9 @@ public class QuestionsPostTestPRPSAPage : MonoBehaviour
             singleSelection_OptionsCheckMarks[i].Q<VisualElement>("Foreground_VisualElement")
                 .style.display = DisplayStyle.None;
         }
-        if (baselinePRPSAPage.baselinePRPSA.baselinePRPSAIndexes[currentQuestionIndex] != -1)
+        if (GameData.gameSession.postTestPRPSAIndexes[currentQuestionIndex] != -1)
         {
-            singleSelection_OptionsCheckMarks[baselinePRPSAPage.baselinePRPSA.baselinePRPSAIndexes[currentQuestionIndex]].
+            singleSelection_OptionsCheckMarks[GameData.gameSession.postTestPRPSAIndexes[currentQuestionIndex]].
                     Q<VisualElement>("Foreground_VisualElement").style.display = DisplayStyle.Flex;
         }
 
@@ -164,7 +165,7 @@ public class QuestionsPostTestPRPSAPage : MonoBehaviour
 
     private async void OnNextQuestionButtonSelected(ClickEvent clickEvent)
     {
-        if (baselinePRPSAPage.baselinePRPSA.baselinePRPSAIndexes[currentQuestionIndex] == -1)
+        if (GameData.gameSession.postTestPRPSAIndexes[currentQuestionIndex] == -1)
         {
             return;
         }
@@ -181,8 +182,9 @@ public class QuestionsPostTestPRPSAPage : MonoBehaviour
 
             nextQuestionButton_TemplateContainer.UnregisterCallback<ClickEvent>(OnNextQuestionButtonSelected);
 
-            if (baselinePRPSAPage.baselinePRPSA.IsEveryThingSet())
+            if (GameData.gameSession.IsEveryThingSet())
             {
+                /*
                 try
                 {
                     if (FirebaseAuth.DefaultInstance.CurrentUser == null)
@@ -193,6 +195,7 @@ public class QuestionsPostTestPRPSAPage : MonoBehaviour
                         return;
                     }
 
+                    //this should come from game sesstion
                     DocumentReference playerDocument =
                         FirebaseFirestore.DefaultInstance.Collection(FireStoreNames.players_Collection).
                             Document(FirebaseAuth.DefaultInstance.CurrentUser.UserId);
@@ -242,6 +245,7 @@ public class QuestionsPostTestPRPSAPage : MonoBehaviour
                     new MessageWindow_PopUp(new GameObject(),
                         LanguageTextsData.thereIsSomethingWrong[SettingsData.currentLanguageIndex]);
                 }
+                */
             }
             else
             {
@@ -260,9 +264,9 @@ public class QuestionsPostTestPRPSAPage : MonoBehaviour
                 .style.display = DisplayStyle.None;
         }
 
-        if (baselinePRPSAPage.baselinePRPSA.baselinePRPSAIndexes[currentQuestionIndex] != -1)
+        if (GameData.gameSession.postTestPRPSAIndexes[currentQuestionIndex] != -1)
         {
-            singleSelection_OptionsCheckMarks[baselinePRPSAPage.baselinePRPSA.baselinePRPSAIndexes[currentQuestionIndex]].
+            singleSelection_OptionsCheckMarks[GameData.gameSession.postTestPRPSAIndexes[currentQuestionIndex]].
                 Q<VisualElement>("Foreground_VisualElement").style.display = DisplayStyle.Flex;
         }
 

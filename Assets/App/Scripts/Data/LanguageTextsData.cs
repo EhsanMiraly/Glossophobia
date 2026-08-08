@@ -391,6 +391,9 @@ public class LanguageTextsData
     public static List<string> exit = new List<string> { "Exit", "خروج" };
 
 
+    public static List<string> thankYou = new List<string> { "Thank you", "ممنون" };
+
+
 
 
 
